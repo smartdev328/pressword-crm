@@ -1,7 +1,10 @@
 <template>
-  <SignInView />
+  <RouterView></RouterView>
 </template>
 
 <script setup>
-import SignInView from "@/views/SignInView.vue";
+import {RouterView} from 'vue-router'
 </script>
+
+<style scoped>
+</style>
