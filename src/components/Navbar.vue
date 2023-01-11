@@ -1,3 +1,12 @@
+<script setup>
+import { storeToRefs } from 'pinia';
+
+import { useUsersStore } from '@/stores';
+
+const userStore = useUsersStore();
+const { users, user } = storeToRefs(userStore);
+
+</script>
 <template>
   <div class="navbar-header">
     <div class="d-flex">
@@ -144,7 +153,7 @@
             <span class="text-start ms-xl-2">
               <span
                 class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"
-                >Anna Adame</span
+                >{{ user.first_name }}</span
               >
               <span
                 class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text"
@@ -155,7 +164,7 @@
         </button>
         <div class="dropdown-menu dropdown-menu-end">
           <!-- item-->
-          <h6 class="dropdown-header">Welcome Anna!</h6>
+          <h6 class="dropdown-header">Welcome {{ user.first_name }}!</h6>
           <a class="dropdown-item" href="#"
             ><i
               class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"

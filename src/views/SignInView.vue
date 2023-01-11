@@ -121,9 +121,14 @@ export default {
       const authStore = useAuthStore();
       if(!this.otp){
         authStore.getOTP(this.mobile).then((res)=>{
-          if('detail' in res){ //response from server has a property "detail" that contains "We texted you a login code"
-            console.log("detail");console.log(res);
-            this.otpSent = true
+          if('detail' in res){ //response from server has a property "detail" that contains "We texted you a login code" or  "Unable to send you a login code. Try again later."
+            if(res.detail.includes("unable") || res.detail.includes("try") ){
+              this.phoneError = res.detail;
+            }
+            else{
+              this.otpSent = true
+            }
+
           }else if('mobile' in res ){ //response from server says something is wrong with mobile number
             this.phoneError = res['mobile'][0];
           }else{
