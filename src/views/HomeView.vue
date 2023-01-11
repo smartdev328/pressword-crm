@@ -7,15 +7,17 @@
           <div
             class="page-title-box d-sm-flex align-items-center justify-content-between"
           >
-            <h4 class="mb-sm-0">PressOne</h4>
-
+            <h5 class="mb-sm-0">Home</h5>
+            <!--
             <div class="page-title-right">
-              <ol class="breadcrumb m-0">
-                <li class="breadcrumb-item active">
-                  <a href="javascript: void(0);">Home</a>
-                </li>
-              </ol>
-            </div>
+            <ol class="breadcrumb m-0">
+              <li class="breadcrumb-item">
+                <a href="javascript: void(0);">Dashboards</a>
+              </li>
+              <li class="breadcrumb-item active">CRM</li>
+            </ol>
+          </div>
+          -->
           </div>
         </div>
       </div>
@@ -122,15 +124,27 @@
                 <table class="table align-middle mb-0">
                   <thead class="table-light">
                     <tr>
-                      <th scope="col">Name</th>
+                      <th scope="col" style="width: 5px"> </th> <!--Direction of call-->
                       <th scope="col">Phone</th>
-                      <th scope="col">Email</th>
-                      <th scope="col">Date Added</th>
+                      <th scope="col">Duration</th>
+                      <th scope="col">Agent</th>
+                      <th scope="col">Time</th>
                       <th scope="col">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
+                      <td style="width: 5px">
+                        <i class="mdi mdi-call-received"></i>
+                      </td>
+                      <td>
+                        <a href="tel:+2348183948394" class="fw-semibold">
+                          +2348183948394
+                        </a>
+                      </td>
+                      <td>
+                        3:24
+                      </td>
                       <td>
                         <div class="d-flex gap-2 align-items-center">
                           <div class="flex-shrink-0">
@@ -143,29 +157,32 @@
                           <div class="flex-grow-1">Jordan Kennedy</div>
                         </div>
                       </td>
-                      <td>
-                        <a href="tel:+2348183948394" class="fw-semibold">
-                          +2348183948394
-                        </a>
-                      </td>
-                      <td>
-                        <a href="mailto:client@testing.com">
-                          client@testing.com
-                        </a>
-                      </td>
                       <td>10 Oct, 14:47</td>
                       <td>
-                        <a href="#">
-                          <i class="ri-edit-line fs-17 align-middle"></i>
-                        </a>
-                        <a href="#">
-                          <i
-                            class="ri-delete-bin-line fs-17 align-middle text-danger"
-                          ></i>
-                        </a>
+                        <ul class="list-inline hstack gap-2 mb-0">
+                          <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Call">
+                            <a href="javascript:void(0);" class="text-muted d-inline-block">
+                              <i class="ri-phone-line fs-16"></i>
+                            </a>
+                          </li>
+                          <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
+                            <a class="edit-item-btn" href="#showModal" data-bs-toggle="modal"><i class="ri-pencil-fill align-bottom text-muted"></i></a>
+                          </li>
+                        </ul>
                       </td>
                     </tr>
                     <tr>
+                      <td style="width: 5px">
+                        <i class="mdi mdi-call-made"></i>
+                      </td>
+                      <td>
+                        <a href="tel:+2348183948394" class="fw-semibold">
+                          +2348183948394
+                        </a>
+                      </td>
+                      <td>
+                        3:24
+                      </td>
                       <td>
                         <div class="d-flex gap-2 align-items-center">
                           <div class="flex-shrink-0">
@@ -178,29 +195,32 @@
                           <div class="flex-grow-1">Jordan Kennedy</div>
                         </div>
                       </td>
-                      <td>
-                        <a href="tel:+2348183948394" class="fw-semibold">
-                          +2348183948394
-                        </a>
-                      </td>
-                      <td>
-                        <a href="mailto:client@testing.com">
-                          client@testing.com
-                        </a>
-                      </td>
                       <td>10 Oct, 14:47</td>
                       <td>
-                        <a href="#">
-                          <i class="ri-edit-line fs-17 align-middle"></i>
-                        </a>
-                        <a href="#">
-                          <i
-                            class="ri-delete-bin-line fs-17 align-middle text-danger"
-                          ></i>
-                        </a>
+                        <ul class="list-inline hstack gap-2 mb-0">
+                          <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Call">
+                            <a href="javascript:void(0);" class="text-muted d-inline-block">
+                              <i class="ri-phone-line fs-16"></i>
+                            </a>
+                          </li>
+                          <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
+                            <a class="edit-item-btn" href="#showModal" data-bs-toggle="modal"><i class="ri-pencil-fill align-bottom text-muted"></i></a>
+                          </li>
+                        </ul>
                       </td>
                     </tr>
                     <tr>
+                      <td style="width: 5px">
+                        <i class="mdi mdi-call-received"></i>
+                      </td>
+                      <td>
+                        <a href="tel:+2348183948394" class="fw-semibold">
+                          +2348183948394
+                        </a>
+                      </td>
+                      <td>
+                        3:24
+                      </td>
                       <td>
                         <div class="d-flex gap-2 align-items-center">
                           <div class="flex-shrink-0">
@@ -213,26 +233,18 @@
                           <div class="flex-grow-1">Jordan Kennedy</div>
                         </div>
                       </td>
-                      <td>
-                        <a href="tel:+2348183948394" class="fw-semibold">
-                          +2348183948394
-                        </a>
-                      </td>
-                      <td>
-                        <a href="mailto:client@testing.com">
-                          client@testing.com
-                        </a>
-                      </td>
                       <td>10 Oct, 14:47</td>
                       <td>
-                        <a href="#">
-                          <i class="ri-edit-line fs-17 align-middle"></i>
-                        </a>
-                        <a href="#">
-                          <i
-                            class="ri-delete-bin-line fs-17 align-middle text-danger"
-                          ></i>
-                        </a>
+                        <ul class="list-inline hstack gap-2 mb-0">
+                          <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Call">
+                            <a href="javascript:void(0);" class="text-muted d-inline-block">
+                              <i class="ri-phone-line fs-16"></i>
+                            </a>
+                          </li>
+                          <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
+                            <a class="edit-item-btn" href="#showModal" data-bs-toggle="modal"><i class="ri-pencil-fill align-bottom text-muted"></i></a>
+                          </li>
+                        </ul>
                       </td>
                     </tr>
                   </tbody>
