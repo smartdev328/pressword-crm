@@ -6,7 +6,7 @@
       <div class="row">
         <div class="col-12">
           <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0">PressOne CRM</h4>
+            <h4 class="mb-sm-0">PressOne</h4>
 
             <div class="page-title-right">
               <ol class="breadcrumb m-0">
@@ -414,8 +414,17 @@
 </template>
 
 <script>
+
 export default {
-  name: "HomeView"
+  name: "HomeView",
+  mounted() {
+    const appJs = document.createElement("script");
+    appJs.setAttribute(
+      "src",
+      "src/assets/js/app.js"
+    );
+    document.head.appendChild(appJs);
+  }
 };
 </script>
 
