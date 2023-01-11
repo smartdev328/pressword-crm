@@ -19,7 +19,9 @@ export const useAuthStore = defineStore({
             if(mobile_phone.substring(0,1) !== "+"){
                 if(mobile_phone.substring(0,3) === "234") //if input is "234803444555", then just add a +
                     mobile_phone = "+"+mobile_phone;
-                else //else add a +234
+                else if(mobile_phone.substring(0,1) === "0") //else add a +234
+                    mobile_phone = "+234"+mobile_phone.substring(1,);
+                else
                     mobile_phone = "+234"+mobile_phone;
             }
             return mobile_phone;
