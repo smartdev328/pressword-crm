@@ -45,7 +45,7 @@
 
                         <div class="mb-3" v-show="otpSent">
                             <label class="form-label" for="password-input">OTP</label>
-                            <input type="text" class="form-control pe-5 password-input" v-model="otp" placeholder="Enter OTP" id="password-input">
+                            <input type="text" class="form-control" v-model="otp" placeholder="Enter OTP" id="password-input">
                         </div>
 
 
@@ -119,9 +119,10 @@ export default {
     async onSubmit() {
       this.phoneError = "";
       const authStore = useAuthStore();
-      if(!this.otp || this.otp.isEmpty()){
+      if(!this.otp){
         authStore.getOTP(this.mobile).then((res)=>{
-          if('detail' in res && res['detail'].contains("code")){ //response from server is "We texted you a login code"
+          if('detail' in res){ //response from server has a property "detail" that contains "We texted you a login code"
+            console.log("detail");console.log(res);
             this.otpSent = true
           }else if('mobile' in res ){ //response from server says something is wrong with mobile number
             this.phoneError = res['mobile'][0];

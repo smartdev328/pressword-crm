@@ -4,7 +4,7 @@ import { fetchWrapper } from '@/helpers';
 import { router } from '@/router';
 import { useAlertStore } from '@/stores';
 
-const baseUrl = `https://api.pressone.co/`;
+const baseUrl = `https://api.pressone.co`;
 
 export const useAuthStore = defineStore({
     id: 'auth',
