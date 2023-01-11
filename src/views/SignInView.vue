@@ -55,7 +55,7 @@
                         </div>
 
                         <div class="mt-4">
-                          <button class="btn btn-success w-100" type="submit">Sign In</button>
+                          <button class="btn btn-success w-100" type="submit">{{buttonLabel}}</button>
                         </div>
 
                       </form>
@@ -110,6 +110,7 @@ export default {
     return {
       mobile: "", // This is binds to mobile phone input
       otp: "",  //this is binds to otp input
+      buttonLabel: "Sign In",
       otpSent: false,
       phoneError:""
     }
@@ -131,7 +132,14 @@ export default {
         }).catch((err)=>{ // fetch-wrapper already extracted err as text
           this.phoneError = err
         });
+      }else{  //otp was entered
+        await authStore.login(this.mobile, this.otp);
       }
+    }
+  },
+  watch : {
+    otpSent(oldValue, newValue){
+      if(newValue === true)this.buttonLabel = "Submit OTP";
     }
   }
 };

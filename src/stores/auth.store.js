@@ -4,7 +4,7 @@ import { fetchWrapper } from '@/helpers';
 import { router } from '@/router';
 import { useAlertStore } from '@/stores';
 
-const baseUrl = `https://api.pressone.co/api`;
+const baseUrl = `https://api.pressone.co/`;
 
 export const useAuthStore = defineStore({
     id: 'auth',
@@ -26,18 +26,18 @@ export const useAuthStore = defineStore({
         },
         async getOTP(mobile_phone) {
             mobile_phone = this.validateMobile(mobile_phone);
-            return fetchWrapper.post(`${baseUrl}/login/`, { 'mobile':mobile_phone }); // we intentionally did not catch error
+            return fetchWrapper.post(`${baseUrl}/api/login/`, { 'mobile':mobile_phone }); // we intentionally did not catch error
         },
-        async login(username, password) {
+        async login(mobile_phone, otp) {
+            mobile_phone = this.validateMobile(mobile_phone);
             try {
-                const user = await fetchWrapper.post(`${baseUrl}/authenticate`, { username, password });    
-
+                const user = await fetchWrapper.post(`${baseUrl}/auth/token/`, { 'mobile':mobile_phone ,'token': otp });
                 // update pinia state
                 this.user = user;
-
+                console.log("We received a user");
+                console.log(user);
                 // store user details and jwt in local storage to keep user logged in between page refreshes
                 localStorage.setItem('user', JSON.stringify(user));
-
                 // redirect to previous url or default to home page
                 router.push(this.returnUrl || '/');
             } catch (error) {
