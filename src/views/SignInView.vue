@@ -40,6 +40,7 @@
                           </div>
                           <label for="username" class="form-label">Mobile Phone</label>
                           <input type="tel" class="form-control" id="username" v-model="mobile" placeholder="Enter Phone Number">
+                          <div class="text-danger" v-show="phoneError">{{ phoneError }}</div>
                         </div>
 
                         <div class="mb-3" v-show="otpSent">
@@ -107,16 +108,29 @@ export default {
   name: "SignInView",
   data(){
     return {
-      mobile: "", // This is the mobile phone number
-      otp: "",  //this is the OTP
-      otpSent: false
+      mobile: "", // This is binds to mobile phone input
+      otp: "",  //this is binds to otp input
+      otpSent: false,
+      phoneError:""
     }
   },
   methods: {
     async onSubmit() {
+      this.phoneError = "";
       const authStore = useAuthStore();
       if(!this.otp || this.otp.isEmpty()){
-        this.otpSent = authStore.getOTP(this.mobile);
+        authStore.getOTP(this.mobile).then((res)=>{
+          if('detail' in res && res['detail'].contains("code")){ //response from server is "We texted you a login code"
+            this.otpSent = true
+          }else if('mobile' in res ){ //response from server says something is wrong with mobile number
+            this.phoneError = res['mobile'][0];
+          }else{
+            //something weird went wrong
+            this.phoneError = res;
+          }
+        }).catch((err)=>{ // fetch-wrapper already extracted err as text
+          this.phoneError = err
+        });
       }
     }
   }

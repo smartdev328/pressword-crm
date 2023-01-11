@@ -14,14 +14,19 @@ export const useAuthStore = defineStore({
         returnUrl: null
     }),
     actions: {
-        async getOTP(mobile_phone) {
-            try {
-                await fetchWrapper.post(`${baseUrl}/login`, { 'mobile':mobile_phone });
-                return true;
-            } catch (error) {
-                const alertStore = useAlertStore();
-                alertStore.error(error);
+        validateMobile(mobile_phone){
+            //check phone number to make sure it starts with +234
+            if(mobile_phone.substring(0,1) !== "+"){
+                if(mobile_phone.substring(0,3) === "234") //if input is "234803444555", then just add a +
+                    mobile_phone = "+"+mobile_phone;
+                else //else add a +234
+                    mobile_phone = "+234"+mobile_phone;
             }
+            return mobile_phone;
+        },
+        async getOTP(mobile_phone) {
+            mobile_phone = this.validateMobile(mobile_phone);
+            return fetchWrapper.post(`${baseUrl}/login/`, { 'mobile':mobile_phone }); // we intentionally did not catch error
         },
         async login(username, password) {
             try {
@@ -43,7 +48,7 @@ export const useAuthStore = defineStore({
         logout() {
             this.user = null;
             localStorage.removeItem('user');
-            router.push('/account/login');
+            router.push('/sign-in');
         }
     }
 });
