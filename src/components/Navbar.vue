@@ -167,7 +167,7 @@
             <span class="align-middle">Help</span></a
           >
           <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#"
+          <a class="dropdown-item" href="#" @click.prevent="logout"
             ><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
             <span class="align-middle" data-key="t-logout">Logout</span></a
           >
@@ -178,8 +178,15 @@
 </template>
 
 <script>
+import { useAuthStore } from "@/stores";
 export default {
   name: "Navbar",
+  methods:{
+    logout(){
+      const authStore = useAuthStore();
+      authStore.logout();
+    }
+  }
 };
 </script>
 

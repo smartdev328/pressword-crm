@@ -32,12 +32,15 @@ export const useAuthStore = defineStore({
             mobile_phone = this.validateMobile(mobile_phone);
             try {
                 const user = await fetchWrapper.post(`${baseUrl}/auth/token/`, { 'mobile':mobile_phone ,'token': otp });
-                // update pinia state
+                // user here is just the token. The users.store will get the actual user.
+                // This way only the token is saved in local storage. Everything else about user is fetched in next page.
+                user.mobile = mobile_phone;
                 this.user = user;
                 console.log("We received a user");
                 console.log(user);
                 // store user details and jwt in local storage to keep user logged in between page refreshes
                 localStorage.setItem('user', JSON.stringify(user));
+                localStorage.setItem('mobile', JSON.stringify(mobile_phone));
                 // redirect to previous url or default to home page
                 router.push(this.returnUrl || '/');
             } catch (error) {

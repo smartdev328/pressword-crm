@@ -139,8 +139,11 @@ export default {
     }
   },
   watch : {
-    otpSent(oldValue, newValue){
-      if(newValue === true)this.buttonLabel = "Submit OTP";
+    otpSent: {
+      handler (sent) {
+        this.buttonLabel = sent ? "Submit OTP" : "Sign In";
+      },
+      immediate: true
     }
   }
 };
