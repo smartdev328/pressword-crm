@@ -11,10 +11,9 @@
 
             <div class="page-title-right">
               <ol class="breadcrumb m-0">
-                <li class="breadcrumb-item">
-                  <a href="javascript: void(0);">Dashboards</a>
+                <li class="breadcrumb-item active">
+                  <a href="javascript: void(0);">Home</a>
                 </li>
-                <li class="breadcrumb-item active">CRM</li>
               </ol>
             </div>
           </div>
@@ -56,7 +55,7 @@
                 <div class="col">
                   <div class="mt-3 mt-md-0 py-4 px-3">
                     <h5 class="text-muted text-uppercase fs-13">
-                      Contacts
+                       Total Calls (last 7 days)
                       <i
                         class="ri-arrow-up-circle-line text-success fs-18 float-end align-middle"
                       ></i>
@@ -81,7 +80,7 @@
                 <div class="col">
                   <div class="mt-3 mt-md-0 py-4 px-3">
                     <h5 class="text-muted text-uppercase fs-13">
-                      Team Members
+                      Avg Calls Per User (last 7 days)
                       <i
                         class="ri-arrow-down-circle-line text-danger fs-18 float-end align-middle"
                       ></i>
@@ -114,7 +113,7 @@
         <div class="col-xl-7">
           <div class="card">
             <div class="card-header align-items-center d-flex">
-              <h4 class="card-title mb-0 flex-grow-1">Recent Contacts</h4>
+              <h4 class="card-title mb-0 flex-grow-1">Recent Calls</h4>
             </div>
             <!-- end card header -->
 
@@ -251,25 +250,7 @@
         <div class="col-xxl-5">
           <div class="card">
             <div class="card-header align-items-center d-flex">
-              <h4 class="card-title mb-0 flex-grow-1">Upcoming Reminders</h4>
-              <div class="flex-shrink-0">
-                <div class="dropdown card-header-dropdown">
-                  <a
-                    class="text-reset dropdown-btn"
-                    href="#"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    <span class="text-muted fs-18"
-                      ><i class="mdi mdi-dots-vertical"></i
-                    ></span>
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-end">
-                    <a class="dropdown-item" href="#">New Reminder</a>
-                  </div>
-                </div>
-              </div>
+              <h4 class="card-title mb-0 flex-grow-1">Recent Notes</h4>
             </div>
             <!-- end card header -->
             <div class="card-body pt-0">
@@ -287,7 +268,30 @@
                       </div>
                     </div>
                     <div class="col">
-                      <h5 class="text-muted mt-0 mb-1 fs-13">12:00am</h5>
+                      <h5 class="text-muted mt-0 mb-1 fs-13">11:30am - Call with 0803419983215</h5>
+                      <a href="#" class="text-reset fs-14 mb-0"
+                        >Customer yet to receive their order</a
+                      >
+                    </div>
+                    <div class="col-sm-auto"></div>
+                  </div>
+                  <!-- end row -->
+                </li>
+                <!-- end -->
+                <li class="list-group-item ps-0">
+                  <div class="row align-items-center g-3">
+                    <div class="col-auto">
+                      <div
+                        class="avatar-sm p-1 py-2 h-auto bg-light rounded-3 shadow"
+                      >
+                        <div class="text-center">
+                          <h5 class="mb-0">01</h5>
+                          <div class="text-muted">Fri</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <h5 class="text-muted mt-0 mb-1 fs-13">3:33pm - Call with 0802711689094</h5>
                       <a href="#" class="text-reset fs-14 mb-0"
                         >Meeting for campaign with sales team</a
                       >
@@ -310,32 +314,9 @@
                       </div>
                     </div>
                     <div class="col">
-                      <h5 class="text-muted mt-0 mb-1 fs-13">12:00am</h5>
+                      <h5 class="text-muted mt-0 mb-1 fs-13">1:48pm - Call with 0802711689094</h5>
                       <a href="#" class="text-reset fs-14 mb-0"
-                        >Meeting for campaign with sales team</a
-                      >
-                    </div>
-                    <div class="col-sm-auto"></div>
-                  </div>
-                  <!-- end row -->
-                </li>
-                <!-- end -->
-                <li class="list-group-item ps-0">
-                  <div class="row align-items-center g-3">
-                    <div class="col-auto">
-                      <div
-                        class="avatar-sm p-1 py-2 h-auto bg-light rounded-3 shadow"
-                      >
-                        <div class="text-center">
-                          <h5 class="mb-0">25</h5>
-                          <div class="text-muted">Tue</div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col">
-                      <h5 class="text-muted mt-0 mb-1 fs-13">12:00am</h5>
-                      <a href="#" class="text-reset fs-14 mb-0"
-                        >Meeting for campaign with sales team</a
+                        >Please send a refund immediately</a
                       >
                     </div>
                     <div class="col-sm-auto"></div>

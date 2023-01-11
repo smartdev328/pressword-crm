@@ -43,6 +43,13 @@
 
           <li class="nav-item">
             <a class="nav-link menu-link" href="#">
+              <i class="mdi mdi-call-received"></i>
+              <span data-key="t-contacts"> Calls </span>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link menu-link" href="#">
               <i class="mdi mdi-contacts-outline"></i>
               <span data-key="t-contacts"> Contacts </span>
             </a>
