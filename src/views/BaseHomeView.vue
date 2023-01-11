@@ -31,6 +31,15 @@
   </button>
 </template>
 
+<script setup>
+import { storeToRefs } from 'pinia';
+
+import { useAuthStore } from '@/stores';
+
+const authStore = useAuthStore();
+const { user } = storeToRefs(authStore);
+</script>
+
 <script>
 import Navbar from "@/components/Navbar.vue";
 import SideMenu from "@/components/SideMenu.vue";
