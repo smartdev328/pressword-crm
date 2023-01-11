@@ -33,7 +33,8 @@
                     <h5 class="text-muted text-uppercase fs-13">
                       Available Balance
                       <i
-                        class="ri-arrow-up-circle-line text-success fs-18 float-end align-middle"
+                        class="ri-information-fill fs-18 float-end align-middle"
+                        title="This is your call credit balance. You may top-up your balance at anytime."
                       ></i>
                     </h5>
                     <div class="d-flex align-items-center">
@@ -59,7 +60,8 @@
                     <h5 class="text-muted text-uppercase fs-13">
                        Total Calls (last 7 days)
                       <i
-                        class="ri-arrow-up-circle-line text-success fs-18 float-end align-middle"
+                        class="ri-information-fill fs-18 float-end align-middle"
+                        title="Total number of calls dialed and received in the last 7 days. Does not include missed calls."
                       ></i>
                     </h5>
                     <div class="d-flex align-items-center">
@@ -84,7 +86,8 @@
                     <h5 class="text-muted text-uppercase fs-13">
                       Avg Calls Per User (last 7 days)
                       <i
-                        class="ri-arrow-down-circle-line text-danger fs-18 float-end align-middle"
+                        class="ri-information-fill fs-18 float-end align-middle"
+                        title="Average number of calls per agent or employee"
                       ></i>
                     </h5>
                     <div class="d-flex align-items-center">

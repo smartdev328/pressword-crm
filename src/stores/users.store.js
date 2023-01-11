@@ -23,7 +23,7 @@ export const useUsersStore = defineStore({
         async getByMobile(mobile, token) {
             this.user = { loading: true };
             try {
-                this.user = await fetchWrapper.get(`${baseUrl}/api/users/by_mobile/?mobile=${mobile}`,null);
+                this.user = await fetchWrapper.get(`${baseUrl}/api/users/by_mobile/?mobile=${mobile}`,"");
                 //this.user contains all user properties. E.g. this.user.first_name
             } catch (error) {
                 this.user = { error };
