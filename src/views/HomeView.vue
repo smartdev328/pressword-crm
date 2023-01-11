@@ -418,6 +418,7 @@
 export default {
   name: "HomeView",
   mounted() {
+    //app.js
     const appJs = document.createElement("script");
     appJs.setAttribute(
       "src",

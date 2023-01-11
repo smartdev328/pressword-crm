@@ -398,7 +398,6 @@
     }),
       window.addEventListener("resize", S),
       S(),
-      Waves.init(),
       document.addEventListener("scroll", function () {
         var e;
         (e = document.getElementById("page-topbar")) &&
