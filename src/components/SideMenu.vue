@@ -8,16 +8,16 @@
           <img src="@/assets/images/pressone-logo.png" alt="" height="22" />
         </span>
         <span class="logo-lg">
-          <img src="@/assets/images/pressone-logo.png" alt="" height="17" />
+          <img src="@/assets/images/pressone-full-text-logo.png" alt="" height="22" />
         </span>
       </a>
       <!-- Light Logo-->
       <a href="#" class="logo logo-light">
         <span class="logo-sm">
-          <img src="@/assets/images/pressone-full-whitetext-logo.png" alt="" height="22" />
+          <img src="@/assets/images/pressone-logo.png" alt="" height="22" />
         </span>
         <span class="logo-lg">
-          <img src="@/assets/images/pressone-full-whitetext-logo.png" alt="" height="17" />
+          <img src="@/assets/images/pressone-full-whitetext-logo.png" alt="" height="22" />
         </span>
       </a>
       <button
