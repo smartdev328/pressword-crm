@@ -14,6 +14,15 @@ export const useAuthStore = defineStore({
         returnUrl: null
     }),
     actions: {
+        async getOTP(mobile_phone) {
+            try {
+                await fetchWrapper.post(`${baseUrl}/login`, { 'mobile':mobile_phone });
+                return true;
+            } catch (error) {
+                const alertStore = useAlertStore();
+                alertStore.error(error);
+            }
+        },
         async login(username, password) {
             try {
                 const user = await fetchWrapper.post(`${baseUrl}/authenticate`, { username, password });    

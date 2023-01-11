@@ -32,24 +32,21 @@
                     </div>
 
                     <div class="mt-4">
-                      <form action="#">
+                      <form @submit.prevent="onSubmit">
 
                         <div class="mb-3">
                           <div class="float-end">
                             <span class="text-muted text-sm-end">(An OTP will be sent to your Phone)</span>
                           </div>
                           <label for="username" class="form-label">Mobile Phone</label>
-                          <input type="tel" class="form-control" id="username" placeholder="Enter Phone Number">
+                          <input type="tel" class="form-control" id="username" v-model="mobile" placeholder="Enter Phone Number">
                         </div>
-                        <!--
-                        <div class="mb-3">
-                            <label class="form-label" for="password-input">Password</label>
-                            <div class="position-relative auth-pass-inputgroup mb-3">
-                                <input type="password" class="form-control pe-5 password-input" placeholder="Enter password" id="password-input">
-                                <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
-                            </div>
+
+                        <div class="mb-3" v-show="otpSent">
+                            <label class="form-label" for="password-input">OTP</label>
+                            <input type="text" class="form-control pe-5 password-input" v-model="otp" placeholder="Enter OTP" id="password-input">
                         </div>
-                        -->
+
 
                         <div class="form-check">
                           <input class="form-check-input" type="checkbox" value="" id="auth-remember-check">
@@ -104,8 +101,25 @@
 
 
 <script>
+import { useAuthStore } from "@/stores";
+
 export default {
-  name: "SignInView"
+  name: "SignInView",
+  data(){
+    return {
+      mobile: "", // This is the mobile phone number
+      otp: "",  //this is the OTP
+      otpSent: false
+    }
+  },
+  methods: {
+    async onSubmit() {
+      const authStore = useAuthStore();
+      if(!this.otp || this.otp.isEmpty()){
+        this.otpSent = authStore.getOTP(this.mobile);
+      }
+    }
+  }
 };
 </script>
 

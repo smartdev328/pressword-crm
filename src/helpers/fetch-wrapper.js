@@ -29,7 +29,7 @@ function authHeader(url) {
     const isLoggedIn = !!user?.token;
     const isApiUrl = url.startsWith(import.meta.env.VITE_API_URL);
     if (isLoggedIn && isApiUrl) {
-        return { Authorization: `Bearer ${user.token}` };
+        return { Authorization: `Token ${user.token}` };
     } else {
         return {};
     }
