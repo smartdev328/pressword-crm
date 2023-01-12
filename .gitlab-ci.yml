@@ -28,8 +28,8 @@ deploy_prod:
       && cd /var/www/
       && (git clone \"https://gitlab-ci-token:$GITLAB_CI_USER@gitlab.com/pressone-software/pressone-crm.git\" html || true)
       && cd html
-      && git checkout main
-      && git pull origin main
+      && git checkout master
+      && git pull origin master
       && docker-compose up -d --build
       && exit"
   tags:
