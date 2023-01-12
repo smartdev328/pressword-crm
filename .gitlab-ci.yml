@@ -35,4 +35,4 @@ deploy_prod:
   tags:
     - pressone-shared
   only:
-    - main
+    - master
