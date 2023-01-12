@@ -26,7 +26,7 @@ deploy_prod:
       && curl -L "https://github.com/docker/compose/releases/download/v2.14.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
       && chmod +x /usr/local/bin/docker-compose
       && cd /var/www/
-      && (git clone \"https://gitlab-ci-token:$GITLAB_CI_USER@gitlab.com/pressone-software/crm-v2.git\" html || true)
+      && (git clone \"https://gitlab-ci-token:$GITLAB_CI_USER@gitlab.com/pressone-software/pressone-crm.git\" html || true)
       && cd html
       && git checkout main
       && git pull origin main
