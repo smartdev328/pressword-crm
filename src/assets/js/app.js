@@ -1304,7 +1304,7 @@
       (d.addEventListener("focus", function () {
         0 < d.value.length
           ? (s.classList.add("show"), o.classList.remove("d-none"))
-          : (s.classList.remove("show"), o.classList.add("d-none"));
+          : (s && s.classList.remove("show"), o && o.classList.add("d-none"));
       }),
       d.addEventListener("keyup", function (e) {
         var n, t;
@@ -1339,7 +1339,7 @@
       }),
       document.body.addEventListener("click", function (e) {
         "search-options" !== e.target.getAttribute("id") &&
-          (s.classList.remove("show"), o.classList.add("d-none"));
+          (s && s.classList.remove("show"), o && o.classList.add("d-none"));
       })),
     (t = document.getElementById("search-close-options")),
     (n = document.getElementById("search-dropdown-reponsive")),

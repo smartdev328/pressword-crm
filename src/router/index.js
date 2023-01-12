@@ -4,6 +4,8 @@ import HomeView from "@/views/HomeView.vue";
 import BaseHomeView from "@/views/BaseHomeView.vue";
 
 import { useAuthStore, useAlertStore } from '@/stores';
+import ContactsView from "@/views/ContactsView.vue";
+import CallsView from "@/views/CallsView.vue";
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,6 +19,14 @@ export const router = createRouter({
         {
           path: '/',
           component: HomeView
+        },
+        {
+          path: '/contacts',
+          component: ContactsView
+        },
+        {
+          path: '/calls',
+          component: CallsView
         }
       ]
     },
@@ -40,7 +50,7 @@ router.beforeEach(async (to) => {
   const authRequired = !publicPages.includes(to.path);
   const authStore = useAuthStore();
 
-  if (authRequired && !authStore.user) {
+  if (authRequired && !authStore.isAuthenticated()) {
     authStore.returnUrl = to.fullPath;
     return '/sign-in';
   }

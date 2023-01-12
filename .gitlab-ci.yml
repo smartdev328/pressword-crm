@@ -1,0 +1,38 @@
+image: ubuntu:20.04
+
+stages:
+  - deploy_prod
+
+before_script:
+  - apt-get update -y
+  - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$RUNNER_PRIVATE_KEY")
+  - mkdir -p ~/.ssh
+  - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+deploy_prod:
+  stage: deploy_prod
+  environment:
+    name: production
+    url: crmapp.pressone.co
+  script:
+    - ssh root@$DEPLOYMENT_SERVER_ADDRESS
+      "mkdir -p /var/www/html
+      && apt-get update -y
+      && apt-get install -y curl
+      && curl -fsSL https://get.docker.com -o get-docker.sh
+      && DRY_RUN=1 sudo sh ./get-docker.sh
+      && curl -L "https://github.com/docker/compose/releases/download/v2.14.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+      && chmod +x /usr/local/bin/docker-compose
+      && cd /var/www/
+      && (git clone \"https://gitlab-ci-token:$GITLAB_CI_USER@gitlab.com/pressone-software/crm-v2.git\" html || true)
+      && cd html
+      && git checkout main
+      && git pull origin main
+      && docker-compose up -d --build
+      && exit"
+  tags:
+    - pressone-shared
+  only:
+    - main

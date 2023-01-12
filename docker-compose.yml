@@ -1,0 +1,22 @@
+version: "3.7"
+
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - build-dir:/var/www/html
+    depends_on:
+      - web
+
+  web:
+    build: .
+    volumes:
+      - build-dir:/app/dist
+
+volumes:
+  build-dir:

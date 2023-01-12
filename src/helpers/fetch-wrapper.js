@@ -1,10 +1,12 @@
 import { useAuthStore } from '@/stores';
+import {AUTH_EXCLUDE_LIST, BASE_API} from "@/helpers/constants";
 
 export const fetchWrapper = {
     get: request('GET'),
     post: request('POST'),
     put: request('PUT'),
-    delete: request('DELETE')
+    delete: request('DELETE'),
+    patch: request('PATCH')
 };
 
 function request(method) {
@@ -25,11 +27,11 @@ function request(method) {
 
 function authHeader(url) {
     // return auth header with jwt if user is logged in and request is to the api url
-    const { user } = useAuthStore();
-    const isLoggedIn = !!user?.token;
-    const isApiUrl = url.includes("api");
-    if (isLoggedIn && isApiUrl) {
-        return { Authorization: `Bearer ${user.token}` };
+    const { token } = useAuthStore();
+    const needsAuth = !AUTH_EXCLUDE_LIST.includes((new URL(url)).pathname)
+    if (needsAuth) {
+        // if it's not authenticated also (i.e. token is null), a 401 is fine
+        return { Authorization: `Bearer ${token}` };
     } else {
         return {};
     }
@@ -41,14 +43,14 @@ async function handleResponse(response) {
 
     // check for error response
     if (!response.ok) {
-        const { user, logout } = useAuthStore();
-        if ([401, 403].includes(response.status) && user) {
+        const { isAuthenticated, logout } = useAuthStore();
+        if ([401, 403].includes(response.status) && isAuthenticated()) {
             // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
             logout();
         }
 
         // get error message from body or default to response status
-        const error = (data && data.message) || response.status;
+        const error = data ? (data.message ? data.message : JSON.stringify(data)) : response.status;
         return Promise.reject(error);
     }
 

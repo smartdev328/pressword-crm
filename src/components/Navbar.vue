@@ -1,12 +1,3 @@
-<script setup>
-import { storeToRefs } from 'pinia';
-
-import { useUsersStore } from '@/stores';
-
-const userStore = useUsersStore();
-const { users, user } = storeToRefs(userStore);
-
-</script>
 <template>
   <div class="navbar-header">
     <div class="d-flex">
@@ -55,13 +46,13 @@ const { users, user } = storeToRefs(userStore);
           <span class="d-flex align-items-center">
             <img
               class="rounded-circle header-profile-user"
-              src="@/assets/images/users/avatar-1.jpg"
+              src="@/assets/images/anonymous.png"
               alt="Header Avatar"
             />
             <span class="text-start ms-xl-2">
               <span
                 class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"
-                >{{ user.first_name }}</span
+                >{{ currentUser.first_name }}</span
               >
               <span
                 class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text"
@@ -72,7 +63,7 @@ const { users, user } = storeToRefs(userStore);
         </button>
         <div class="dropdown-menu dropdown-menu-end">
           <!-- item-->
-          <h6 class="dropdown-header">Welcome {{ user.first_name }}!</h6>
+          <h6 class="dropdown-header">Welcome {{ currentUser.first_name }}!</h6>
           <a class="dropdown-item" href="#"
             ><i
               class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"
@@ -93,15 +84,26 @@ const { users, user } = storeToRefs(userStore);
     </div>
   </div>
 </template>
-
 <script>
 import { useAuthStore } from "@/stores";
+import {mapState} from "pinia";
 export default {
   name: "Navbar",
+  computed: {
+    currentUser() {
+      return this.authStore.currentUser
+    }
+  },
   methods:{
     logout(){
       const authStore = useAuthStore();
       authStore.logout();
+    }
+  },
+  setup() {
+    const authStore = useAuthStore()
+    return {
+      authStore
     }
   }
 };
