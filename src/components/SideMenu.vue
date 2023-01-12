@@ -35,24 +35,24 @@
         <ul class="navbar-nav" id="navbar-nav">
           <li class="menu-title"><span data-key="t-menu">Menu</span></li>
           <li class="nav-item">
-            <a class="nav-link menu-link" href="#">
+            <router-link class="nav-link menu-link" to="/">
               <i class="mdi mdi-home"></i>
               <span data-key="t-home"> Home </span>
-            </a>
+            </router-link>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link menu-link" href="#">
+            <router-link class="nav-link menu-link" to="/calls">
               <i class="mdi mdi-call-received"></i>
               <span data-key="t-contacts"> Calls </span>
-            </a>
+            </router-link>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link menu-link" href="#">
+            <router-link class="nav-link menu-link" to="/contacts">
               <i class="mdi mdi-contacts-outline"></i>
               <span data-key="t-contacts"> Contacts </span>
-            </a>
+            </router-link>
           </li>
 
           <li class="nav-item">
@@ -78,9 +78,16 @@
 </template>
 
 <script>
+// import 'https://code.jquery.com/jquery-3.6.0.min.js';
+
 export default {
   name: "SideMenu",
+  mounted() {
+    // $(".active-phone-selector").select2()
+  }
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+/*@import "https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css";*/
+</style>

@@ -15,5 +15,5 @@ export const useAlertStore = defineStore({
         clear() {
             this.alert = null;
         }
-    }
+    },
 });

@@ -43,10 +43,6 @@ export default {
     SideMenu
   },
   mounted() {
-    const userStore = useUsersStore();
-    const authStore = useAuthStore();
-    const user  = authStore.user;
-    userStore.getByMobile(user.mobile, user.token)
   }
 };
 </script>

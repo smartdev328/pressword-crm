@@ -1,17 +1,17 @@
 import { defineStore } from 'pinia';
 
-import { fetchWrapper } from '@/helpers';
+import {getUserDetailsByPhone, requestLoginOTP, verifyLoginToken} from '@/helpers';
 import { router } from '@/router';
 import { useAlertStore } from '@/stores';
-
-const baseUrl = `https://api.pressone.co`;
 
 export const useAuthStore = defineStore({
     id: 'auth',
     state: () => ({
         // initialize state from local storage to enable user to stay logged in
-        user: JSON.parse(localStorage.getItem('user')),
-        returnUrl: null
+        mobile_number: null,
+        token: null,
+        returnUrl: null,
+        currentUser: null
     }),
     actions: {
         validateMobile(mobile_phone){
@@ -28,32 +28,32 @@ export const useAuthStore = defineStore({
         },
         async getOTP(mobile_phone) {
             mobile_phone = this.validateMobile(mobile_phone);
-            return fetchWrapper.post(`${baseUrl}/api/login/`, { 'mobile':mobile_phone }); // we intentionally did not catch error
+            return requestLoginOTP(mobile_phone); // we intentionally did not catch error
         },
         async login(mobile_phone, otp) {
             mobile_phone = this.validateMobile(mobile_phone);
             try {
-                const user = await fetchWrapper.post(`${baseUrl}/auth/token/`, { 'mobile':mobile_phone ,'token': otp });
-                // user here is just the token. The users.store will get the actual user.
-                // This way only the token is saved in local storage. Everything else about user is fetched in next page.
-                user.mobile = mobile_phone;
-                this.user = user;
-                console.log("We received a user");
-                console.log(user);
-                // store user details and jwt in local storage to keep user logged in between page refreshes
-                localStorage.setItem('user', JSON.stringify(user));
-                localStorage.setItem('mobile', JSON.stringify(mobile_phone));
+                const {token} = await verifyLoginToken(mobile_phone, otp);
+                this.token = token;
+                this.mobile_number = mobile_phone;
+                this.currentUser = await getUserDetailsByPhone(mobile_phone)
+                // this.currentUser contains all user properties. E.g. this.currentUser.first_name
+
                 // redirect to previous url or default to home page
                 router.push(this.returnUrl || '/');
             } catch (error) {
                 const alertStore = useAlertStore();
-                alertStore.error(error);                
+                alertStore.error(error);
             }
         },
+        isAuthenticated() {
+            return !!this.token
+        },
         logout() {
-            this.user = null;
-            localStorage.removeItem('user');
+            this.token = null;
+            this.mobile_number = null;
             router.push('/sign-in');
         }
-    }
+    },
+    persist: true
 });
