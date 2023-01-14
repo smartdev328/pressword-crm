@@ -1,5 +1,10 @@
 <template>
-  <div class="card card-height-100 mb-0">
+  <NoResultsFound
+    v-if="numberStore.hasNoNumber()"
+    title="You don't have an active number"
+    description="Purchase a number to setup your team."
+  />
+  <div v-else class="card card-height-100 mb-0">
     <div class="card-body p-4">
       <form action="javascript:void(0);" @submit="submitTeamMember">
         <div class="alert alert-danger shadow" role="alert" v-if="errorMessage">
@@ -109,9 +114,11 @@
 <script>
 import {useNumbersStore} from "@/stores";
 import {addNewTeamMember, updateTeamMember} from "@/helpers";
+import NoResultsFound from "@/components/Shared/NoResultsFound.vue";
 
 export default {
   name: "TeamMemberForm",
+  components: { NoResultsFound },
   props: {
     teamMemberBeingUpdated: Object
   },

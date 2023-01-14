@@ -24,6 +24,10 @@ export const useNumbersStore = defineStore({
                 this.activeNumber = this.numbers[0]
             }
         },
+        // returns true if the user does NOT have an active number. It is expected to be called after getUserPhones()
+        hasNoNumber(){
+            return !this.activeNumber;
+        }
     },
     persist: true
 });
