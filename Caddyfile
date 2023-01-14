@@ -1,6 +1,13 @@
-crm-app.pressone.co, web.pressone.africa {
-        root * /var/www/html/dist
-        encode gzip
-        try_files {path} {file} /index.html
-        file_server
+crm-app.pressone.co {
+    root * /var/www/html/dist
+    encode gzip
+    try_files {path} {file} /index.html
+    file_server
+}
+
+web.pressone.africa {
+    root * /var/www/html/dist
+    encode gzip
+    try_files {path} {file} /index.html
+    file_server
 }
