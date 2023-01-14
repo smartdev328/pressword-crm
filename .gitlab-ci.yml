@@ -29,6 +29,7 @@ deploy_prod:
       && (git clone \"https://gitlab-ci-token:$GITLAB_CI_USER@gitlab.com/pressone-software/pressone-crm.git\" html || true)
       && cd html
       && curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+      && export NVM_DIR="$HOME/.nvm"
       && source ~/.bashrc
       && nvm install 18.12.1
       && npm install
