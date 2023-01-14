@@ -30,7 +30,7 @@ deploy_prod:
       && cd html
       && curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
       && export NVM_DIR="$HOME/.nvm"
-      && source ~/.bashrc
+      && source ~/.nvm/nvm.sh
       && nvm install 18.12.1
       && npm install
       && npm run build
