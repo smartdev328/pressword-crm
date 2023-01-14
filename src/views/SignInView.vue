@@ -1,7 +1,7 @@
 <template>
   <!-- auth-page wrapper -->
   <div class="auth-page-wrapper auth-bg-cover py-5 d-flex justify-content-center align-items-center min-vh-100">
-    <div class="bg-overlay" style="background-image: url('@/assets/images/cover-pattern.png')"></div>
+    <div class="bg-overlay" :style="{backgroundImage: `url(${patternBg})`}"></div>
     <!-- auth-page content -->
     <div class="auth-page-content overflow-hidden pt-lg-5">
       <div class="container">
@@ -10,7 +10,7 @@
             <div class="card overflow-hidden">
               <div class="row g-0">
                 <div class="col-lg-6">
-                  <div class="p-lg-5 p-4 auth-one-bg h-100" style="background-image: url('@/assets/images/team-kelvin.jpg')">
+                  <div class="p-lg-5 p-4 auth-one-bg h-100" :style="{backgroundImage: `url(${kelvinTeamBg})`}">
                     <div class="bg-overlay"></div>
                     <div class="position-relative h-100 d-flex flex-column">
                       <div class="mb-4">
@@ -103,6 +103,8 @@
 
 <script>
 import { useAuthStore } from "@/stores";
+import kelvinTeamBg from "@/assets/images/team-kelvin.jpg"
+import patternBg from "@/assets/images/cover-pattern.png"
 
 export default {
   name: "SignInView",
@@ -112,7 +114,9 @@ export default {
       otp: "",  //this is binds to otp input
       buttonLabel: "Sign In",
       otpSent: false,
-      phoneError:""
+      phoneError:"",
+      kelvinTeamBg,
+      patternBg
     }
   },
   methods: {
