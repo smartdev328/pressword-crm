@@ -35,6 +35,8 @@
 <script>
 import Navbar from "@/components/Navbar.vue";
 import SideMenu from "@/components/SideMenu.vue";
+import InitTemplateSetup from "@/assets/js/app";
+
 export default {
   name: "BaseHomeView",
   components : {
@@ -43,9 +45,7 @@ export default {
   },
   mounted() {
     //app.js
-    const appJs = document.createElement("script");
-    appJs.setAttribute("src", "src/assets/js/app.js");
-    document.head.appendChild(appJs);
+    InitTemplateSetup()
   }
 };
 </script>
