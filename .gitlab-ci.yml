@@ -28,14 +28,14 @@ deploy_prod:
       && cd /var/www/
       && (git clone \"https://gitlab-ci-token:$GITLAB_CI_USER@gitlab.com/pressone-software/pressone-crm.git\" html || true)
       && cd html
+      && git checkout master
+      && git pull origin master
       && curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
       && export NVM_DIR="$HOME/.nvm"
       && source ~/.nvm/nvm.sh
       && nvm install 18.12.1
       && npm install
       && npm run build
-      && git checkout master
-      && git pull origin master
       && docker-compose up caddy -d --build
       && exit"
   tags:
