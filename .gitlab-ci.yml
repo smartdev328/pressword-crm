@@ -28,9 +28,14 @@ deploy_prod:
       && cd /var/www/
       && (git clone \"https://gitlab-ci-token:$GITLAB_CI_USER@gitlab.com/pressone-software/pressone-crm.git\" html || true)
       && cd html
+      && curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+      && source ~/.bashrc
+      && nvm install 18.12.1
+      && npm install
+      && npm run build
       && git checkout master
       && git pull origin master
-      && docker-compose up -d --build
+      && docker-compose up caddy -d --build
       && exit"
   tags:
     - pressone-shared

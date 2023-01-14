@@ -9,14 +9,14 @@ services:
       - "443:443"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
-      - build-dir:/var/www/html
+      - ./dist:/var/www/html
     depends_on:
       - web
 
   web:
     build: .
     volumes:
-      - build-dir:/app/dist
+      - ./dist:/app/dist
 
 volumes:
   build-dir:
