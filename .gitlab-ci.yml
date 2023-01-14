@@ -15,7 +15,7 @@ deploy_prod:
   stage: deploy_prod
   environment:
     name: production
-    url: crmapp.pressone.co
+    url: crm-app.pressone.co
   script:
     - ssh root@$DEPLOYMENT_SERVER_ADDRESS
       "mkdir -p /var/www/html

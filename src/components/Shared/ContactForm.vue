@@ -98,7 +98,6 @@ import {useAuthStore} from "@/stores";
 export default {
   name: "ContactForm",
   props: {
-    title: String,
     contactToUpdate: Object
   },
   data() {

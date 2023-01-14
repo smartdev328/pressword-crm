@@ -122,7 +122,7 @@ export default {
       if(!this.otp){
         authStore.getOTP(this.mobile).then((res)=>{
           if('detail' in res){ //response from server has a property "detail" that contains "We texted you a login code" or  "Unable to send you a login code. Try again later."
-            if(res.detail.includes("unable") || res.detail.includes("try") ){
+            if(res.detail.toLowerCase().includes("unable") || res.detail.toLowerCase().includes("try") ){
               this.phoneError = res.detail;
             }
             else{

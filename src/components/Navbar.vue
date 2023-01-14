@@ -34,6 +34,11 @@
     </div>
 
     <div class="d-flex align-items-center">
+      <select class="form-select">
+        <option v-for="(number, i) in numbers" :key="i" :value="number" :selected="numberStore.activeNumber?.id === number.id">
+          {{number.phone_number}}
+        </option>
+      </select>
       <div class="dropdown ms-sm-3 header-item topbar-user">
         <button
           type="button"
@@ -86,12 +91,16 @@
 </template>
 <script>
 import { useAuthStore } from "@/stores";
-import {mapState} from "pinia";
+import {useNumbersStore} from "@/stores";
+
 export default {
   name: "Navbar",
   computed: {
     currentUser() {
       return this.authStore.currentUser
+    },
+    numbers() {
+      return this.numberStore.numbers
     }
   },
   methods:{
@@ -102,9 +111,14 @@ export default {
   },
   setup() {
     const authStore = useAuthStore()
+    const numberStore = useNumbersStore()
     return {
-      authStore
+      authStore,
+      numberStore
     }
+  },
+  async mounted() {
+    await this.numberStore.getUserPhones()
   }
 };
 </script>

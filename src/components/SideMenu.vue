@@ -56,10 +56,10 @@
           </li>
 
           <li class="nav-item">
-            <a class="nav-link menu-link" href="#">
+            <router-link class="nav-link menu-link" to="/team">
               <i class="mdi mdi-account-supervisor-outline"></i>
               <span data-key="t-team"> Team </span>
-            </a>
+            </router-link>
           </li>
 
           <li class="nav-item">

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import {fetchWrapper, BASE_API, getUserDetailsByPhone} from '@/helpers';
+import {fetchWrapper, BASE_API} from '@/helpers';
 
 
 export const useUsersStore = defineStore({

@@ -97,7 +97,7 @@
             <!-- end card header -->
             <div class="card-body pt-0">
               <Notes
-                :notes="notes"
+                :notes="notes.results"
                 v-if="notes?.results?.length"
               />
               <NoResultsFound
@@ -134,8 +134,9 @@ import {useAuthStore} from "@/stores";
 import ContactForm from "@/components/Shared/ContactForm.vue";
 import Notes from "@/components/Home/Notes.vue";
 import UserProfile from "@/components/Home/UserProfile.vue";
-import {fetchCallNotes, fetchUserCalls} from "@/helpers";
+import {fetchCallNotes, fetchTeamMembers, fetchUserCalls} from "@/helpers";
 import NoResultsFound from "@/components/Shared/NoResultsFound.vue";
+import {useNumbersStore} from "@/stores/numbers.store";
 
 export default {
   name: "HomeView",
@@ -164,12 +165,15 @@ export default {
   setup() {
     const authStore = useAuthStore()
     return {
-      authStore
+      authStore,
     }
   },
   async mounted() {
     this.calls = await fetchUserCalls()
     this.notes = await fetchCallNotes()
+
+    const team = await fetchTeamMembers()
+    console.log(team)
     //app.js
     const appJs = document.createElement("script");
     appJs.setAttribute("src", "src/assets/js/app.js");

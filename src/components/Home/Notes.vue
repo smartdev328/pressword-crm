@@ -1,14 +1,9 @@
 <template>
   <ul class="list-group list-group-flush border-dashed">
     <NoteItem
-        v-for="(note, i) in notes?.results"
+        v-for="(note, i) in notes"
         :note="note"
-        v-if="notes?.results"
         :key="i"
-    />
-    <NoResultsFound
-      v-else
-      description="You have not created any notes 😄."
     />
   </ul>
   <!-- end -->

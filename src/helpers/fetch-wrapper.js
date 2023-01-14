@@ -1,5 +1,5 @@
 import { useAuthStore } from '@/stores';
-import {AUTH_EXCLUDE_LIST, BASE_API} from "@/helpers/constants";
+import {AUTH_EXCLUDE_LIST} from "@/helpers/constants";
 
 export const fetchWrapper = {
     get: request('GET'),

@@ -45,17 +45,20 @@
             <div class="card-body">
               <div>
                 <div class="table-responsive table-card mb-3">
-                  <ContactsTable
-                      :contacts="contacts.results"
-                      v-if="isContactsAvailableForDisplay"
-                      @edit-contact="openEditContact"
-                      @delete-contact="openDeleteContact"
-                      @call-contact="callContact"
-                  />
-                  <NoResultsFound
-                      v-else
-                      description="You have not created any contacts. 😄"
-                  />
+                  <template v-if="!isLoading">
+                    <ContactsTable
+                        :contacts="contacts.results"
+                        v-if="isContactsAvailableForDisplay"
+                        @edit-contact="openEditContact"
+                        @delete-contact="openDeleteContact"
+                        @call-contact="callContact"
+                    />
+                    <NoResultsFound
+                        v-else
+                        description="You have not created any contacts. 😄"
+                    />
+                  </template>
+                  <Loading v-else/>
                 </div>
                 <PaginationControl
                     v-if="isContactsAvailableForDisplay"
@@ -71,7 +74,6 @@
                   {{!!contactBeingUpdated ? 'Update Contact' : 'New Contact'}}
                 </template>
                 <ContactForm
-                    title="New Contact"
                     @success="contactFormSubmitted"
                     :contact-to-update="contactBeingUpdated"
                 />
@@ -108,6 +110,7 @@ import ConfirmationModal from "@/components/Shared/ConfirmationModal.vue";
 import Modal from "@/components/Shared/Modal.vue";
 import {deleteContact, fetchUserContacts} from "@/helpers";
 import {buildWebdialerLink} from "@/helpers/utils";
+import Loading from "@/components/Shared/Loading.vue";
 
 export default {
   name: "ContactsView",
@@ -117,10 +120,12 @@ export default {
     NoResultsFound,
     ContactForm,
     ContactsTable,
-    Modal
+    Modal,
+    Loading
   },
   data () {
     return {
+      isLoading: false,
       showContactFormModal: false,
       showConfirmDeleteContact: false,
       contacts: null,
@@ -138,6 +143,9 @@ export default {
   methods: {
     async confirmDeletion() {
       await deleteContact(this.contactToDelete.id)
+      this.showConfirmDeleteContact = false
+      this.contactToDelete = null
+      await this.loadContacts(this.contacts.page)
     },
     onNextPage() {
       this.loadContacts(this.contacts.page + 1)
@@ -146,8 +154,10 @@ export default {
       this.loadContacts(this.contacts.page - 1)
     },
     async loadContacts(page = 1) {
-      this.contacts = await fetchUserContacts()
+      this.isLoading = true
+      this.contacts = await fetchUserContacts(page)
       this.contacts.page = page
+      this.isLoading = false
     },
     async searchContacts(){
 

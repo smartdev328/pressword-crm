@@ -35,7 +35,6 @@
 <script>
 import Navbar from "@/components/Navbar.vue";
 import SideMenu from "@/components/SideMenu.vue";
-import { useAuthStore, useUsersStore } from '@/stores';
 export default {
   name: "BaseHomeView",
   components : {

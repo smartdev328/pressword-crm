@@ -6,6 +6,7 @@ import BaseHomeView from "@/views/BaseHomeView.vue";
 import { useAuthStore, useAlertStore } from '@/stores';
 import ContactsView from "@/views/ContactsView.vue";
 import CallsView from "@/views/CallsView.vue";
+import TeamView from "@/views/TeamView.vue";
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +28,10 @@ export const router = createRouter({
         {
           path: '/calls',
           component: CallsView
+        },
+        {
+          path: '/team',
+          component: TeamView
         }
       ]
     },
