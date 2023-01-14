@@ -14,23 +14,26 @@
       </button>
 
       <!-- App Search-->
-<!--      <form class="app-search d-none d-md-block">-->
-<!--        <div class="position-relative">-->
-<!--          <input-->
-<!--            type="text"-->
-<!--            class="form-control"-->
-<!--            placeholder="Search..."-->
-<!--            autocomplete="off"-->
-<!--            id="search-options"-->
-<!--            value=""-->
-<!--          />-->
-<!--          <span class="mdi mdi-magnify search-widget-icon"></span>-->
+      <form class="app-search d-md-block" @submit.prevent="callNumber">
+        <div class="position-relative d-flex">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Phone Number"
+            autocomplete="off"
+            id="dialer-input"
+            v-model="dialerNumber"
+            required
+            style="border-radius: 3px 0 0 3px;"
+          />
+          <button class="mdi mdi-phone mdi-24px bg-secondary text-bg-secondary" style="appearance: none; border: none; padding: 0 12px; border-radius: 0 3px 3px 0; margin-left: -3px;"></button>
+          <!--          <span class="mdi mdi-phone search-widget-icon"></span>-->
 <!--          <span-->
-<!--            class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none"-->
+<!--            class="mdi mdi-phone search-widget-icon search-widget-icon-close d-none"-->
 <!--            id="search-close-options"-->
 <!--          ></span>-->
-<!--        </div>-->
-<!--      </form>-->
+        </div>
+      </form>
     </div>
 
     <div class="d-flex align-items-center">
@@ -100,12 +103,18 @@ import { useAuthStore } from "@/stores";
 import {useNumbersStore} from "@/stores";
 import Modal from "@/components/Shared/Modal.vue";
 import ProfileForm from "@/components/Shared/ProfileForm.vue";
+import {buildWebdialerLink} from "@/helpers/utils";
 
 export default {
   name: "Navbar",
   components: {
     ProfileForm,
     Modal
+  },
+  data() {
+      return {
+        dialerNumber: ""
+      }
   },
   computed: {
     currentUser() {
@@ -119,6 +128,9 @@ export default {
     logout(){
       const authStore = useAuthStore();
       authStore.logout();
+    },
+    callNumber() {
+      window.open(buildWebdialerLink(this.dialerNumber, "_blank"))
     }
   },
   setup() {

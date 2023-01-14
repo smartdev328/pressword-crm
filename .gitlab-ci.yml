@@ -15,29 +15,32 @@ deploy_prod:
   stage: deploy_prod
   environment:
     name: production
-    url: crm-app.pressone.co
+    url: web.pressone.africa
   script:
-    - ssh root@$DEPLOYMENT_SERVER_ADDRESS
-      "mkdir -p /var/www/html
-      && apt-get update -y
-      && apt-get install -y curl
-      && curl -fsSL https://get.docker.com -o get-docker.sh
-      && DRY_RUN=1 sudo sh ./get-docker.sh
-      && curl -L "https://github.com/docker/compose/releases/download/v2.14.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-      && chmod +x /usr/local/bin/docker-compose
-      && cd /var/www/
-      && (git clone \"https://gitlab-ci-token:$GITLAB_CI_USER@gitlab.com/pressone-software/pressone-crm.git\" html || true)
-      && cd html
-      && git checkout master
-      && git pull origin master
+    - ssh root@$DEPLOYMENT_SERVER_ADDRESS "
+      mkdir -p /var/www/html
+      && sudo apt install -y debian-keyring debian-archive-keyring apt-transport-https
+      && curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --yes --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg
+      && curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list
+      && sudo apt update
+      && sudo apt install caddy
       && curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
       && export NVM_DIR="$HOME/.nvm"
       && source ~/.nvm/nvm.sh
       && nvm install 18.12.1
+      && cd /var/www/
+      && (git clone \"https://gitlab-ci-token:$GITLAB_CI_USER@gitlab.com/pressone-software/pressone-crm.git\" html || true)
+      && cd html
+      && export NODE_OPTIONS="--max_old_space_size=4096"
+      && git fetch
+      && git checkout master
+      && git pull origin master
       && npm install
       && npm run build
-      && docker-compose up caddy -d --build
-      && exit"
+      && (caddy start || true)
+      && caddy reload
+      && exit
+      "
   tags:
     - pressone-shared
   only:
