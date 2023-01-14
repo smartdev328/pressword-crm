@@ -12,5 +12,10 @@ export const validateMobile = (mobile_phone) => {
 }
 export const buildWebdialerLink = (mobile_number) => {
     const formattedPhone = validateMobile(mobile_number);
-    return `https://webdialer.pressone.co/?s=ec.${formattedPhone.substring(1,)}`
+    const currentHost = window.location.hostname
+    let webdialerHost = "https://webdialer.pressone.co"
+    if (currentHost.includes("pressone.africa")) {
+        webdialerHost = "https://dialer.pressone.africa"
+    }
+    return `${webdialerHost}/?s=ec.${formattedPhone.substring(1,)}`
 }
