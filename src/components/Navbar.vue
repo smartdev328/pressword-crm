@@ -14,31 +14,37 @@
       </button>
 
       <!-- App Search-->
-      <form class="app-search d-none d-md-block">
-        <div class="position-relative">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Search..."
-            autocomplete="off"
-            id="search-options"
-            value=""
-          />
-          <span class="mdi mdi-magnify search-widget-icon"></span>
-          <span
-            class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none"
-            id="search-close-options"
-          ></span>
-        </div>
-      </form>
+<!--      <form class="app-search d-none d-md-block">-->
+<!--        <div class="position-relative">-->
+<!--          <input-->
+<!--            type="text"-->
+<!--            class="form-control"-->
+<!--            placeholder="Search..."-->
+<!--            autocomplete="off"-->
+<!--            id="search-options"-->
+<!--            value=""-->
+<!--          />-->
+<!--          <span class="mdi mdi-magnify search-widget-icon"></span>-->
+<!--          <span-->
+<!--            class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none"-->
+<!--            id="search-close-options"-->
+<!--          ></span>-->
+<!--        </div>-->
+<!--      </form>-->
     </div>
 
     <div class="d-flex align-items-center">
-      <select class="form-select">
-        <option v-for="(number, i) in numbers" :key="i" :value="number" :selected="numberStore.activeNumber?.id === number.id">
-          {{number.phone_number}}
-        </option>
-      </select>
+      <Modal v-model="authStore.showEditProfile">
+        <template v-slot:title>
+          Update Profile
+        </template>
+        <div class="card card-height-100 mb-0">
+          <div class="card-body p-4">
+            <ProfileForm/>
+          </div>
+        </div>
+      </Modal>
+
       <div class="dropdown ms-sm-3 header-item topbar-user">
         <button
           type="button"
@@ -61,7 +67,7 @@
               >
               <span
                 class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text"
-                >Founder</span
+                >{{currentUser.mobile}}</span
               >
             </span>
           </span>
@@ -69,7 +75,7 @@
         <div class="dropdown-menu dropdown-menu-end">
           <!-- item-->
           <h6 class="dropdown-header">Welcome {{ currentUser.first_name }}!</h6>
-          <a class="dropdown-item" href="#"
+          <a class="dropdown-item" href="#" @click.prevent="authStore.showEditProfile = true"
             ><i
               class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"
             ></i>
@@ -92,9 +98,15 @@
 <script>
 import { useAuthStore } from "@/stores";
 import {useNumbersStore} from "@/stores";
+import Modal from "@/components/Shared/Modal.vue";
+import ProfileForm from "@/components/Shared/ProfileForm.vue";
 
 export default {
   name: "Navbar",
+  components: {
+    ProfileForm,
+    Modal
+  },
   computed: {
     currentUser() {
       return this.authStore.currentUser

@@ -42,6 +42,10 @@ export default {
     SideMenu
   },
   mounted() {
+    //app.js
+    const appJs = document.createElement("script");
+    appJs.setAttribute("src", "src/assets/js/app.js");
+    document.head.appendChild(appJs);
   }
 };
 </script>

@@ -6,76 +6,95 @@
           <strong> Error! </strong> {{ errorMessage }}
         </div>
 
-        <div class="row" v-if="!isUpdate">
-          <div class="col-12">
-            <div class="mb-3">
-              <label htmlFor="name-input" class="form-label">
-                Name
-              </label>
-              <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Name"
-                  id="name-input"
-                  v-model="teamMember.user_display_name"
-              />
+        <div class="row">
+          <template v-if="!isUpdate">
+            <div class="col-12">
+              <div class="mb-3">
+                <label htmlFor="name-input" class="form-label">
+                  Name
+                </label>
+                <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Name"
+                    id="name-input"
+                    v-model="teamMember.user_display_name"
+                />
+              </div>
             </div>
-          </div>
-          <!--end col-->
-          <div class="col-6">
-            <div class="mb-3">
-              <label htmlFor="mobile-input" class="form-label">
-                Mobile Number
-              </label>
-              <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Mobile Number"
-                  id="mobile-input"
-                  v-model="teamMember.mobile"
-              />
+            <!--end col-->
+            <div class="col-6">
+              <div class="mb-3">
+                <label htmlFor="mobile-input" class="form-label">
+                  Mobile Number
+                </label>
+                <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Mobile Number"
+                    id="mobile-input"
+                    v-model="teamMember.mobile"
+                />
+              </div>
             </div>
-          </div>
-          <!--end col-->
-          <div class="col-6">
-            <div class="mb-3">
-              <label htmlFor="role-input" class="form-label">
-                Designation
-              </label>
-              <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Designation"
-                  id="role-input"
-                  v-model="teamMember.role"
-              />
+            <!--end col-->
+            <div class="col-6">
+              <div class="mb-3">
+                <label htmlFor="role-input" class="form-label">
+                  Designation
+                </label>
+                <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Designation"
+                    id="role-input"
+                    v-model="teamMember.role"
+                />
+              </div>
             </div>
-          </div>
 
-          <!--end col-->
+            <div class="col-12">
+              <div class="mb-3">
+                <label htmlFor="business-number-input" class="form-label">
+                  Invite to
+                </label>
+                <select v-model="teamMember.business_number" class="form-select">
+                  <option
+                      :value="number.id"
+                      v-for="(number, i) in numberStore.numbers"
+                      :key="i"
+                      :selected="number.id === teamMember.business_number"
+                  >
+                    {{number.phone_number}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </template>
+
+          <template v-else>
+            <!--end col-->
+            <div class="col-12">
+              <div class="mb-3">
+                <label htmlFor="name-input" class="form-label">
+                  Name
+                </label>
+                <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Name"
+                    id="name-input"
+                    v-model="teamMemberUpdatePayload.receiver_name"
+                />
+              </div>
+            </div>
+          </template>
+
           <div class="col-lg-12">
             <div class="text-end">
               <button type="submit" class="btn btn-primary">
                 Submit
               </button>
-            </div>
-          </div>
-          <!--end col-->
-        </div>
-        <!--end row-->
-        <div class="row" v-else>
-          <div class="col-12">
-            <div class="mb-3">
-              <label htmlFor="name-input" class="form-label">
-                Name
-              </label>
-              <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Name"
-                  id="name-input"
-                  v-model="teamMemberUpdatePayload.receiver_name"
-              />
             </div>
           </div>
         </div>
@@ -102,11 +121,22 @@ export default {
       teamMember: {
         mobile: "",
         user_display_name: "",
-        role: ""
+        role: "",
+        business_number: this.numberStore.numbers[0]?.id
       },
       teamMemberUpdatePayload: {
-        receiver_name: this.teamMemberBeingUpdated?.receiver_name || ""
+        receiver_name: ""
       }
+    }
+  },
+  watch: {
+    teamMemberBeingUpdated: {
+      handler(newVal) {
+        if (newVal.receiver_name) {
+          this.teamMemberUpdatePayload.receiver_name = newVal.receiver_name
+        }
+      },
+      deep: true
     }
   },
   computed: {
@@ -147,10 +177,7 @@ export default {
         if (this.isUpdate) {
           await updateTeamMember(this.teamMemberBeingUpdated.id, this.teamMemberUpdatePayload)
         } else {
-          await addNewTeamMember({
-            ...this.teamMember,
-            business_number: this.numberStore.activeNumber?.id
-          })
+          await addNewTeamMember(this.teamMember)
         }
       } catch (e) {
         this.errorMessage = String(e)

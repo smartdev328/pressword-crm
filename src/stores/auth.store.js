@@ -11,7 +11,9 @@ export const useAuthStore = defineStore({
         mobile_number: null,
         token: null,
         returnUrl: null,
-        currentUser: null
+        currentUser: null,
+
+        showEditProfile: false
     }),
     actions: {
         validateMobile(mobile_phone){
@@ -36,15 +38,17 @@ export const useAuthStore = defineStore({
                 const {token} = await verifyLoginToken(mobile_phone, otp);
                 this.token = token;
                 this.mobile_number = mobile_phone;
-                this.currentUser = await getUserDetailsByPhone(mobile_phone)
-                // this.currentUser contains all user properties. E.g. this.currentUser.first_name
-
+                await this.loadCurrentUser()
                 // redirect to previous url or default to home page
                 router.push(this.returnUrl || '/');
             } catch (error) {
                 const alertStore = useAlertStore();
                 alertStore.error(error);
             }
+        },
+        async loadCurrentUser() {
+            this.currentUser = await getUserDetailsByPhone(this.mobile_number)
+            // this.currentUser contains all user properties. E.g. this.currentUser.first_name
         },
         isAuthenticated() {
             return !!this.token

@@ -73,10 +73,14 @@
                 <template v-slot:title>
                   {{!!contactBeingUpdated ? 'Update Contact' : 'New Contact'}}
                 </template>
-                <ContactForm
-                    @success="contactFormSubmitted"
-                    :contact-to-update="contactBeingUpdated"
-                />
+                <div class="card card-height-100 mb-0">
+                  <div class="card-body p-4">
+                    <ContactForm
+                        @success="contactFormSubmitted"
+                        :contact-to-update="contactBeingUpdated"
+                    />
+                  </div>
+                </div>
               </Modal>
               <!--end add modal-->
 
@@ -111,6 +115,7 @@ import Modal from "@/components/Shared/Modal.vue";
 import {deleteContact, fetchUserContacts} from "@/helpers";
 import {buildWebdialerLink} from "@/helpers/utils";
 import Loading from "@/components/Shared/Loading.vue";
+import {useNumbersStore} from "@/stores";
 
 export default {
   name: "ContactsView",
@@ -178,6 +183,12 @@ export default {
     },
     callContact(contact) {
       window.open(buildWebdialerLink(contact.contact_number, "_blank"))
+    }
+  },
+  setup() {
+    const numberStore = useNumbersStore()
+    return {
+      numberStore
     }
   },
   async mounted() {

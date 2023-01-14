@@ -1,94 +1,83 @@
 <template>
-  <div class="card card-height-100 mb-0">
-<!--    <div class="card-header align-items-center d-flex">-->
-<!--      <h4 class="card-title mb-0 flex-grow-1">{{title || "Quick Contact Add"}}</h4>-->
-<!--    </div>-->
-    <!-- end card header -->
-
-    <div class="card-body p-4">
-      <form action="javascript:void(0);" @submit="submitContact">
-        <div class="alert alert-danger shadow" role="alert" v-if="errorMessage">
-          <strong> Error! </strong> {{errorMessage}}
-        </div>
-
-        <div class="row">
-          <div class="col-6">
-            <div class="mb-3">
-              <label htmlFor="name-input" class="form-label">
-                Name
-              </label>
-              <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Contact Name"
-                  id="name-input"
-                  v-model="contact.contact_name"
-              />
-            </div>
-          </div>
-          <!--end col-->
-          <div class="col-6">
-            <div class="mb-3">
-              <label htmlFor="company-input" class="form-label">
-                Contact Company
-              </label>
-              <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Contact Company"
-                  id="company-input"
-                  v-model="contact.contact_company"
-              />
-            </div>
-          </div>
-          <!--end col-->
-          <div class="col-6">
-            <div class="mb-3">
-              <label htmlFor="email-input" class="form-label">
-                Contact Email
-              </label>
-              <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Contact Email"
-                  id="email-input"
-                  v-model="contact.contact_email"
-              />
-            </div>
-          </div>
-          <!--end col-->
-          <div class="col-6">
-            <div class="mb-3">
-              <label htmlFor="phone-input" class="form-label">
-                Contact Phone
-              </label>
-              <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Contact Phone"
-                  id="phone-input"
-                  v-model="contact.contact_number"
-              />
-            </div>
-          </div>
-
-          <div class="text-success mt-2 mb-2" v-if="isSuccess">Contact Saved!</div>
-          <!--end col-->
-          <div class="col-lg-12">
-            <div class="text-end">
-              <button type="submit" class="btn btn-primary">
-                Submit
-              </button>
-            </div>
-          </div>
-          <!--end col-->
-        </div>
-        <!--end row-->
-      </form>
+  <form action="javascript:void(0);" @submit="submitContact">
+    <div class="alert alert-danger shadow" role="alert" v-if="errorMessage">
+      <strong> Error! </strong> {{errorMessage}}
     </div>
-    <!-- end card body -->
-  </div>
-  <!-- end card -->
+
+    <div class="row">
+      <div class="col-6">
+        <div class="mb-3">
+          <label htmlFor="name-input" class="form-label">
+            Name
+          </label>
+          <input
+              type="text"
+              class="form-control"
+              placeholder="Contact Name"
+              id="name-input"
+              v-model="contact.contact_name"
+          />
+        </div>
+      </div>
+      <!--end col-->
+      <div class="col-6">
+        <div class="mb-3">
+          <label htmlFor="company-input" class="form-label">
+            Contact Company
+          </label>
+          <input
+              type="text"
+              class="form-control"
+              placeholder="Contact Company"
+              id="company-input"
+              v-model="contact.contact_company"
+          />
+        </div>
+      </div>
+      <!--end col-->
+      <div class="col-6">
+        <div class="mb-3">
+          <label htmlFor="email-input" class="form-label">
+            Contact Email
+          </label>
+          <input
+              type="text"
+              class="form-control"
+              placeholder="Contact Email"
+              id="email-input"
+              v-model="contact.contact_email"
+          />
+        </div>
+      </div>
+      <!--end col-->
+      <div class="col-6">
+        <div class="mb-3">
+          <label htmlFor="phone-input" class="form-label">
+            Contact Phone
+          </label>
+          <input
+              type="text"
+              class="form-control"
+              placeholder="Contact Phone"
+              id="phone-input"
+              v-model="contact.contact_number"
+          />
+        </div>
+      </div>
+
+      <div class="text-success mt-2 mb-2" v-if="isSuccess">Contact Saved!</div>
+      <!--end col-->
+      <div class="col-lg-12">
+        <div class="text-end">
+          <button type="submit" class="btn btn-primary">
+            Submit
+          </button>
+        </div>
+      </div>
+      <!--end col-->
+    </div>
+    <!--end row-->
+  </form>
 </template>
 
 <script>

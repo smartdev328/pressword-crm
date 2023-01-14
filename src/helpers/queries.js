@@ -60,3 +60,7 @@ export const deleteTeamMember = async (id) => {
 export const updateTeamMemberAsPrimary = async (id) => {
     return fetchWrapper.post(`${BASE_API}/api/set_primary_receiver/${id}/`, null)
 }
+
+export const updateUserProfile = async (id, payload) => {
+    return fetchWrapper.patch(`${BASE_API}/api/users/${id}/`, payload)
+}

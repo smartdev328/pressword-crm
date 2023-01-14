@@ -12,7 +12,10 @@
             </div>
             <div class="team-content">
               <a class="member-name" data-bs-toggle="offcanvas" href="#" @click.prevent="viewTeamMember(member)" aria-controls="member-overview">
-                <h5 class="fs-16 mb-1">{{ member.receiver_name }} <span class="ri-checkbox-circle-fill"></span></h5>
+                <h5 class="fs-16 mb-1">
+                  {{ member.receiver_name }}
+                  <span class="ri-checkbox-circle-fill" v-if="member.is_primary_receiver"></span>
+                </h5>
               </a>
               <p class="text-muted member-designation mb-0">{{ member.receiver_role }}</p>
             </div>

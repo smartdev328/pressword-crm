@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col-12">
           <div
-            class="page-title-box d-sm-flex align-items-center justify-content-between"
+              class="page-title-box d-sm-flex align-items-center justify-content-between"
           >
             <h5 class="mb-sm-0">Home</h5>
           </div>
@@ -20,12 +20,12 @@
               <div class="row row-cols-xxl-3 row-cols-md-3 row-cols-1 g-0">
                 <div class="col">
                   <StatCard
-                    card-class="py-4 px-3"
-                    title="Available Balance"
-                    value-prefix="₦"
-                    :value="parseFloat(currentUser.balance)"
-                    :animate-value="false"
-                    icon-class="ri-exchange-dollar-line"
+                      card-class="py-4 px-3"
+                      title="Available Balance"
+                      value-prefix="₦"
+                      :value="parseFloat(currentUser.balance)"
+                      :animate-value="false"
+                      icon-class="ri-exchange-dollar-line"
                   />
                 </div>
                 <!-- end col -->
@@ -89,7 +89,7 @@
         </div>
         <!-- end col -->
 
-        <div class="col-xxl-5">
+        <div class="col-xl-5">
           <div class="card">
             <div class="card-header align-items-center d-flex">
               <h4 class="card-title mb-0 flex-grow-1">Recent Notes</h4>
@@ -97,8 +97,8 @@
             <!-- end card header -->
             <div class="card-body pt-0">
               <Notes
-                :notes="notes.results"
-                v-if="notes?.results?.length"
+                  :notes="notes.results"
+                  v-if="notes?.results?.length"
               />
               <NoResultsFound
                   v-else
@@ -111,13 +111,29 @@
         </div>
         <!-- end col -->
 
-        <div class="col-xxl-7">
-          <ContactForm/>
+        <div class="col-xl-7">
+          <div class="card card-height-100 mb-0">
+            <div class="card-header align-items-center d-flex">
+              <h4 class="card-title mb-0 flex-grow-1">Quick Contact Add</h4>
+            </div>
+
+            <div class="card-body p-4">
+              <ContactForm/>
+            </div>
+          </div>
         </div>
         <!-- end col -->
 
-        <div class="col col-xxl-5">
-          <UserProfile/>
+        <div class="col col-xl-5">
+          <div class="card card-height-100 mb-0">
+            <div class="card-header align-items-center d-flex">
+              <h4 class="card-title mb-0 flex-grow-1">User Profile</h4>
+            </div>
+
+            <div class="card-body p-4">
+              <UserProfile/>
+            </div>
+          </div>
         </div>
       </div>
       <!-- end row -->
@@ -130,13 +146,12 @@
 <script>
 import StatCard from "@/components/Home/StatCard.vue";
 import CallsTable from "@/components/Shared/CallsTable.vue";
-import {useAuthStore} from "@/stores";
+import {useAuthStore, useNumbersStore} from "@/stores";
 import ContactForm from "@/components/Shared/ContactForm.vue";
-import Notes from "@/components/Home/Notes.vue";
+import Notes from "@/components/Shared/Notes.vue";
 import UserProfile from "@/components/Home/UserProfile.vue";
-import {fetchCallNotes, fetchTeamMembers, fetchUserCalls} from "@/helpers";
+import {fetchCallNotes, fetchUserCalls} from "@/helpers";
 import NoResultsFound from "@/components/Shared/NoResultsFound.vue";
-import {useNumbersStore} from "@/stores/numbers.store";
 
 export default {
   name: "HomeView",
@@ -159,25 +174,18 @@ export default {
       calls: null
     }
   },
-  methods: {
-
-  },
+  methods: {},
   setup() {
     const authStore = useAuthStore()
+    const numbersStore = useNumbersStore()
     return {
       authStore,
+      numbersStore
     }
   },
   async mounted() {
     this.calls = await fetchUserCalls()
     this.notes = await fetchCallNotes()
-
-    const team = await fetchTeamMembers()
-    console.log(team)
-    //app.js
-    const appJs = document.createElement("script");
-    appJs.setAttribute("src", "src/assets/js/app.js");
-    document.head.appendChild(appJs);
   },
 };
 </script>

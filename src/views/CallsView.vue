@@ -69,6 +69,7 @@
 import CallsTable from "@/components/Shared/CallsTable.vue";
 import NoResultsFound from "@/components/Shared/NoResultsFound.vue";
 import {fetchUserCalls} from "@/helpers";
+import {useNumbersStore} from "@/stores";
 
 export default {
   name: "CallsView",
@@ -79,6 +80,12 @@ export default {
   data() {
     return {
       calls: null
+    }
+  },
+  setup() {
+    const numbersStore = useNumbersStore()
+    return {
+      numbersStore
     }
   },
   async mounted() {

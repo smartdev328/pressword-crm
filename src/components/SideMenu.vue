@@ -61,13 +61,6 @@
               <span data-key="t-team"> Team </span>
             </router-link>
           </li>
-
-          <li class="nav-item">
-            <a class="nav-link menu-link" href="#">
-              <i class="mdi mdi-tools"></i>
-              <span data-key="t-profile-settings"> Settings </span>
-            </a>
-          </li>
         </ul>
       </div>
       <!-- Sidebar -->

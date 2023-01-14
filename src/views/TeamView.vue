@@ -37,11 +37,11 @@
             <div class="card-header">
               <div class="row g-3">
                 <div class="col-md-4">
-                  <form @submit="searchTeamMember" class="search-box">
+                  <div class="search-box">
                     <input type="text" class="form-control search" v-model="searchQuery"
-                           placeholder="Search for team member...">
+                           placeholder="Search for team member..." @keyup="searchTeamMember">
                     <i class="ri-search-line search-icon"></i>
-                  </form>
+                  </div>
                 </div>
               </div>
             </div>
@@ -79,7 +79,7 @@
 
       <Modal v-model="showTeamMemberFormModal" id="team-member-form-modal">
         <template v-slot:title>
-          {{!!teamMemberBeingUpdated ? 'Update Team Member' : 'New Team Member'}}
+          {{ !!teamMemberBeingUpdated ? 'Update Team Member' : 'New Team Member' }}
         </template>
         <TeamMemberForm
             @success="teamMemberFormSubmitted"
@@ -92,7 +92,7 @@
           id="team-member-details-modal"
       >
         <template v-slot:title>
-          <h5>{{teamMemberBeingUpdated?.receiver_name}}</h5>
+          <h5>{{ teamMemberBeingUpdated?.receiver_name }}</h5>
         </template>
         <TeamMemberDetails
             :member="teamMemberBeingUpdated"
@@ -122,6 +122,7 @@ import NoResultsFound from "@/components/Shared/NoResultsFound.vue";
 import Loading from "@/components/Shared/Loading.vue";
 import TeamMemberDetails from "@/components/Teams/TeamMemberDetails.vue";
 import ConfirmationModal from "@/components/Shared/ConfirmationModal.vue";
+import {useNumbersStore} from "@/stores";
 
 export default {
   name: "TeamView",
@@ -136,6 +137,7 @@ export default {
   },
   data() {
     return {
+      unfilteredTeamMembers: null,
       teamMembers: null,
       searchQuery: "",
       showTeamMemberFormModal: false,
@@ -146,13 +148,21 @@ export default {
       showConfirmDeleteTeamMember: false
     }
   },
+  computed: {
+    businessNumberId() {
+      return this.numbersStore.activeNumber?.id
+    }
+  },
   methods: {
     searchTeamMember() {
-
+      this.teamMembers = this.unfilteredTeamMembers?.filter(
+          member => member.receiver_name.includes(this.searchQuery.toLowerCase())
+      )
     },
     async loadTeamMembers() {
       this.isLoading = true
       this.teamMembers = await fetchTeamMembers()
+      this.unfilteredTeamMembers = [...this.teamMembers]
       this.isLoading = false
     },
     teamMemberFormSubmitted() {
@@ -185,6 +195,12 @@ export default {
   },
   async mounted() {
     await this.loadTeamMembers()
+  },
+  setup() {
+    const numbersStore = useNumbersStore()
+    return {
+      numbersStore
+    }
   }
 }
 </script>
