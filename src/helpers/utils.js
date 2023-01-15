@@ -1,4 +1,10 @@
 export const validateMobile = (mobile_phone) => {
+    //remove spaces from input
+    mobile_phone = mobile_phone.replace(/\s+/g, '');
+
+    //remove any non-numeric input, but leave +.
+    mobile_phone = mobile_phone.replace(/[^\d+]/g, '');
+
     //check phone number to make sure it starts with +234
     if(mobile_phone.substring(0,1) !== "+"){
         if(mobile_phone.substring(0,3) === "234") //if input is "234803444555", then just add a +

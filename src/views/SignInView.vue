@@ -39,7 +39,7 @@
                             <span class="text-muted text-sm-end">(An OTP will be sent to your Phone)</span>
                           </div>
                           <label for="username" class="form-label">Mobile Phone</label>
-                          <input type="tel" class="form-control" id="username" v-model="mobile" placeholder="Enter Phone Number">
+                          <input type="tel" class="form-control" id="username" v-model="mobile" placeholder="07080672831">
                           <div class="text-danger" v-show="phoneError">{{ phoneError }}</div>
                         </div>
 

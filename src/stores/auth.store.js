@@ -3,6 +3,7 @@ import { defineStore } from 'pinia';
 import {getUserDetailsByPhone, requestLoginOTP, verifyLoginToken} from '@/helpers';
 import { router } from '@/router';
 import { useAlertStore } from '@/stores';
+import { validateMobile } from "@/helpers/utils";
 
 export const useAuthStore = defineStore({
     id: 'auth',
@@ -13,27 +14,14 @@ export const useAuthStore = defineStore({
         returnUrl: null,
         currentUser: null,
 
-        showEditProfile: false
     }),
     actions: {
-        validateMobile(mobile_phone){
-            //check phone number to make sure it starts with +234
-            if(mobile_phone.substring(0,1) !== "+"){
-                if(mobile_phone.substring(0,3) === "234") //if input is "234803444555", then just add a +
-                    mobile_phone = "+"+mobile_phone;
-                else if(mobile_phone.substring(0,1) === "0") //else add a +234
-                    mobile_phone = "+234"+mobile_phone.substring(1,);
-                else
-                    mobile_phone = "+234"+mobile_phone;
-            }
-            return mobile_phone;
-        },
         async getOTP(mobile_phone) {
-            mobile_phone = this.validateMobile(mobile_phone);
+            mobile_phone = validateMobile(mobile_phone);
             return requestLoginOTP(mobile_phone); // we intentionally did not catch error
         },
         async login(mobile_phone, otp) {
-            mobile_phone = this.validateMobile(mobile_phone);
+            mobile_phone = validateMobile(mobile_phone);
             try {
                 const {token} = await verifyLoginToken(mobile_phone, otp);
                 this.token = token;
