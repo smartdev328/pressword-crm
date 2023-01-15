@@ -205,7 +205,7 @@ export default {
   methods: {
     searchTeamMember() {
       this.teamMembers = this.unfilteredTeamMembers?.filter(
-          member => member.receiver_name.toLowerCase().includes(this.searchQuery.toLowerCase())
+          member => member.receiver_name.toLowerCase().includes(this.searchQuery.toLowerCase()) || member.phone_number.toLowerCase().includes(this.searchQuery.toLowerCase())
       )
     },
     async loadTeamMembers() {
