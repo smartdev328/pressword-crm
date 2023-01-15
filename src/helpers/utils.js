@@ -17,14 +17,28 @@ export const validateMobile = (mobile_phone) => {
     return mobile_phone;
 }
 export const formatPhoneNumber = (phone_number, contact_name="") => {
-    //Check if the input is of correct
-    let match = phone_number.match(/^(0|)?(\d{3})(\d{3})(\d{4})$/);
+    //Declare possible matches
+    let matchMobile = phone_number.match(/^(0|)?(\d{3})(\d{3})(\d{4})$/); // match 08012878233 or 8012878233
+    let matchLand = phone_number.match(/^(0|)?(\d{1})(\d{3})(\d{4})$/); //match 017743211 or 17743211
+    let matchLand2 = phone_number.match(/^(\d{3})(\d{4})$/); //match 7743211
+    let matchFullMobile = phone_number.match(/^(\+|)?(\d{3})(\d{3})(\d{3})(\d{4})$/) //match +2348012878233
 
-    if (match) {
-        phone_number =  ["+234", ' ', match[2], ' ', match[3], ' ', match[4]].join('')
+    //format based on match
+    if (matchFullMobile) {
+        phone_number =  ["+", matchFullMobile[2], ' ', matchFullMobile[3], ' ', matchFullMobile[4], ' ', matchFullMobile[5]].join('')
     }
-
+    else if (matchMobile) {
+        phone_number =  ["+234", ' ', matchMobile[2], ' ', matchMobile[3], ' ', matchMobile[4]].join('')
+    }
+    else if(matchLand){
+        phone_number =  ["+234", ' ', matchLand[2], ' ', matchLand[3], ' ', matchLand[4]].join('')
+    }
+    else if(matchLand2){
+        phone_number =  ["+234 1", ' ', matchLand2[1], ' ', matchLand2[2]].join('')
+    }
+    // Add contact name if included
     if(contact_name)return "<"+contact_name+"> "+phone_number;
+
     return phone_number;
 }
 export const buildWebdialerLink = (mobile_number) => {
