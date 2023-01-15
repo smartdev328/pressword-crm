@@ -22,6 +22,7 @@ export const formatPhoneNumber = (phone_number, contact_name="") => {
     let matchLand = phone_number.match(/^(0|)?(\d{1})(\d{3})(\d{4})$/); //match 017743211 or 17743211
     let matchLand2 = phone_number.match(/^(\d{3})(\d{4})$/); //match 7743211
     let matchFullMobile = phone_number.match(/^(\+|)?(\d{3})(\d{3})(\d{3})(\d{4})$/) //match +2348012878233
+    let matchFullLand = phone_number.match(/^(\+|)?(\d{3})(\d{1})(\d{3})(\d{4})$/) //match +23417743211
 
     //format based on match
     if (matchFullMobile) {
@@ -29,6 +30,9 @@ export const formatPhoneNumber = (phone_number, contact_name="") => {
     }
     else if (matchMobile) {
         phone_number =  ["+234", ' ', matchMobile[2], ' ', matchMobile[3], ' ', matchMobile[4]].join('')
+    }
+    else if(matchFullLand){
+        phone_number =  ["+", matchFullLand[2], ' ', matchFullLand[3], ' ', matchFullLand[4], ' ', matchFullLand[5]].join('')
     }
     else if(matchLand){
         phone_number =  ["+234", ' ', matchLand[2], ' ', matchLand[3], ' ', matchLand[4]].join('')
