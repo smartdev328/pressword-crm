@@ -105,7 +105,10 @@ export default {
   },
   methods: {
     formatCallDuration(duration) {
-      return `${duration / 60}:${duration % 60}`
+      if(duration < 3600)
+        return new Date(duration * 1000).toISOString().substring(14, 19)
+      else
+        return new Date(duration * 1000).toISOString().substring(11, 16)
     },
     formatCallTimestamp(timestamp) {
       return moment(timestamp).format("ddd MMM, hh:mm a")
