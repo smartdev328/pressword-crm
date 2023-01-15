@@ -70,7 +70,7 @@
               >
               <span
                 class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text"
-                >{{currentUser.mobile}}</span
+                >{{formatPhoneNumber(activeNumber.business_number.phone_number)}}</span
               >
             </span>
           </span>
@@ -84,11 +84,27 @@
             ></i>
             <span class="align-middle">Profile</span></a
           >
-          <a class="dropdown-item" href="#"
+          <a class="dropdown-item" href="https://pressone.freshdesk.com/support/home" target="_blank"
             ><i class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i>
             <span class="align-middle">Help</span></a
           >
+          <div v-show="numbers.length > 1">
+
+            <div class="dropdown-divider"></div>
+            <h6 class="dropdown-header" title="Tap any number to view that number">Switch Account</h6>
+            <a class="dropdown-item" href="#"
+               v-for="(number, i) in numbers" :key="i"
+               @click.prevent="setActiveNumber(number, i)"
+               v-show="number.business_number.phone_number !== activeNumber.business_number.phone_number"
+            ><i
+              class="mdi mdi-swap-horizontal text-muted fs-16 align-middle me-1"></i>
+              <span class="align-middle">{{ formatPhoneNumber(number.business_number.phone_number) }}</span>
+              <p class="align-middle small text-muted"><span class="me-1" style="width: 16px;display: inline-block">&nbsp;</span>{{ number.business_number.label.substring(0,19) }} </p>
+            </a>
+
+          </div>
           <div class="dropdown-divider"></div>
+
           <a class="dropdown-item" href="#" @click.prevent="logout"
             ><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
             <span class="align-middle" data-key="t-logout">Logout</span></a
@@ -102,7 +118,7 @@
 import { useAuthStore, useUsersStore, useNumbersStore } from "@/stores";
 import Modal from "@/components/Shared/Modal.vue";
 import ProfileForm from "@/components/Shared/ProfileForm.vue";
-import {buildWebdialerLink} from "@/helpers/utils";
+import { buildWebdialerLink, formatPhoneNumber } from "@/helpers/utils";
 
 export default {
   name: "Navbar",
@@ -119,17 +135,26 @@ export default {
     currentUser() {
       return this.userStore.currentUser
     },
+    activeNumber(){
+      return this.numberStore.activeNumber
+    },
     numbers() {
       return this.numberStore.numbers
     }
   },
   methods:{
+    formatPhoneNumber,
     logout(){
       const authStore = useAuthStore();
       authStore.logout();
     },
     callNumber() {
       window.open(buildWebdialerLink(this.dialerNumber, "_blank"))
+    },
+    setActiveNumber(number, index){
+      //number is an item in user.receivers data gotten from the getuserbymobile api endpoint.
+      this.numberStore.setActiveNumber(number)
+      this.$router.go()
     }
   },
   setup() {
