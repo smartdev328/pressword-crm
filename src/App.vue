@@ -5,10 +5,10 @@
 
 <script setup>
 import {RouterView} from 'vue-router'
-import { useAuthStore } from '@/stores/auth.store';
 import Alert from "@/components/Alert.vue";
+import { useUsersStore } from "@/stores";
 
-const authStore = useAuthStore();
+const userStore = useUsersStore();
 </script>
 
 <style scoped>

@@ -17,7 +17,7 @@
           <span class="ri-checkbox-circle-line"></span>
         </span>
       </p>
-      <button class="btn btn-primary" @click="authStore.showEditProfile = true">Edit Profile</button>
+      <button class="btn btn-primary" @click="userStore.showEditProfile = true">Edit Profile</button>
     </div>
     <div class="card-body m-4">
       <div class="table-responsive table-card">
@@ -39,22 +39,22 @@
 </template>
 
 <script>
-import {useAuthStore} from "@/stores";
+import { useUsersStore } from "@/stores";
 
 export default {
   name: "UserProfile",
   computed: {
     currentUser () {
-      return this.authStore.currentUser
+      return this.userStore.currentUser
     },
     currentMobile() {
-      return this.authStore.mobile_number
+      return this.userStore.mobile_number
     }
   },
   setup () {
-    const authStore = useAuthStore()
+    const userStore = useUsersStore()
     return {
-      authStore
+      userStore
     }
   }
 }

@@ -95,8 +95,9 @@
 </template>
 
 <script>
-import {useAuthStore} from "@/stores";
+import { useUsersStore } from "@/stores";
 import {updateUserProfile} from "@/helpers";
+import { storeToRefs } from "pinia";
 
 export default {
   name: "ProfileForm",
@@ -104,34 +105,28 @@ export default {
   data() {
     return {
       errorMessage: null,
-      user: {
-        first_name: this.authStore.currentUser.first_name,
-        last_name: this.authStore.currentUser.last_name,
-        personal_email: this.authStore.currentUser.personal_email,
-        mobile: this.authStore.currentUser.mobile,
-        home_address: this.authStore.currentUser.home_address,
-      },
+      user: storeToRefs(this.userStore.currentUser),
     }
   },
   methods: {
     async submitProfile() {
       this.errorMessage = ""
       try {
-          await updateUserProfile(this.authStore.currentUser.id, this.user)
+          await updateUserProfile(this.userStore.currentUser.id, this.user)
       } catch (e) {
         this.errorMessage = String(e)
         return
       }
 
       this.$emit("success", null)
-      this.authStore.showEditProfile = false
-      await this.authStore.loadCurrentUser()
+      this.userStore.showEditProfile = false
+      await this.userStore.loadCurrentUser()
     }
   },
   setup() {
-    const authStore = useAuthStore()
+    const userStore = useUsersStore()
     return {
-      authStore
+      userStore
     }
   },
 }

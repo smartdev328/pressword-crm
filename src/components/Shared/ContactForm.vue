@@ -82,7 +82,7 @@
 
 <script>
 import {addNewContact, updateContact} from "@/helpers";
-import {useAuthStore} from "@/stores";
+import {useUsersStore} from "@/stores";
 
 export default {
   name: "ContactForm",
@@ -99,7 +99,7 @@ export default {
         contact_number: "",
         contact_company: "",
         // business_number: "", TODO: Is this required?
-        user: this.authStore.currentUser.id
+        user: this.userStore.currentUser.id
       },
       isSuccess: false
     }
@@ -161,9 +161,9 @@ export default {
     }
   },
   setup () {
-    const authStore = useAuthStore()
+    const userStore = useUsersStore()
     return {
-      authStore
+      userStore
     }
   }
 }

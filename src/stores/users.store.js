@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia';
 
-import {fetchWrapper, BASE_API} from '@/helpers';
+import { fetchWrapper, BASE_API, getUserDetailsByPhone } from "@/helpers";
 
 
 export const useUsersStore = defineStore({
     id: 'users',
     state: () => ({
         users: {},
-        user: {}
+        currentUser: null
     }),
     actions: {
         async getAll() {
@@ -17,6 +17,10 @@ export const useUsersStore = defineStore({
             } catch (error) {
                 this.users = { error };
             }
+        },
+        async loadCurrentUser(mobile_number) {
+            this.currentUser = await getUserDetailsByPhone(mobile_number)
+            // this.currentUser contains all user properties. E.g. this.currentUser.first_name
         },
     }
 });

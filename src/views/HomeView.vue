@@ -45,7 +45,7 @@
                       card-class="mt-3 mt-md-0 py-4 px-3"
                       title="Avg Calls Per User (last 7 days)"
                       value-prefix=""
-                      :value="9"
+                      :value="calls?.length || 0"
                       :animate-value="false"
                       icon-class="ri-team-line"
                   />
@@ -146,7 +146,7 @@
 <script>
 import StatCard from "@/components/Home/StatCard.vue";
 import CallsTable from "@/components/Shared/CallsTable.vue";
-import {useAuthStore, useNumbersStore} from "@/stores";
+import {useUsersStore, useNumbersStore} from "@/stores";
 import ContactForm from "@/components/Shared/ContactForm.vue";
 import Notes from "@/components/Shared/Notes.vue";
 import UserProfile from "@/components/Home/UserProfile.vue";
@@ -165,7 +165,7 @@ export default {
   },
   computed: {
     currentUser() {
-      return this.authStore.currentUser
+      return this.userStore.currentUser
     }
   },
   data() {
@@ -176,11 +176,11 @@ export default {
   },
   methods: {},
   setup() {
-    const authStore = useAuthStore()
     const numbersStore = useNumbersStore()
+    const userStore = useUsersStore()
     return {
-      authStore,
-      numbersStore
+      numbersStore,
+      userStore
     }
   },
   async mounted() {
