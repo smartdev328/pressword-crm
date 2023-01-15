@@ -21,24 +21,28 @@ export const formatPhoneNumber = (phone_number, contact_name="") => {
     let matchMobile = phone_number.match(/^(0|)?(\d{3})(\d{3})(\d{4})$/); // match 08012878233 or 8012878233
     let matchLand = phone_number.match(/^(0|)?(\d{1})(\d{3})(\d{4})$/); //match 017743211 or 17743211
     let matchLand2 = phone_number.match(/^(\d{3})(\d{4})$/); //match 7743211
-    let matchFullMobile = phone_number.match(/^(\+|)?(\d{3})(\d{3})(\d{3})(\d{4})$/) //match +2348012878233
-    let matchFullLand = phone_number.match(/^(\+|)?(\d{3})(\d{1})(\d{3})(\d{4})$/) //match +23417743211
+    let matchFullMobile = phone_number.match(/^(\+234)(\d{3})(\d{3})(\d{4})$/) //match +2348012878233
+    let matchFullLand = phone_number.match(/^(\+234)(\d{1})(\d{3})(\d{4})$/) //match +23417743211
+    let matchFullUS = phone_number.match(/^(\+1)(\d{3})(\d{3})(\d{4})$/) //match +14083326784
 
     //format based on match
     if (matchFullMobile) {
-        phone_number =  ["+", matchFullMobile[2], ' ', matchFullMobile[3], ' ', matchFullMobile[4], ' ', matchFullMobile[5]].join('')
+        phone_number =  [matchFullMobile[1], matchFullMobile[2], ' ', matchFullMobile[3], ' ', matchFullMobile[4]].join('')
     }
     else if (matchMobile) {
         phone_number =  ["+234", ' ', matchMobile[2], ' ', matchMobile[3], ' ', matchMobile[4]].join('')
     }
     else if(matchFullLand){
-        phone_number =  ["+", matchFullLand[2], ' ', matchFullLand[3], ' ', matchFullLand[4], ' ', matchFullLand[5]].join('')
+        phone_number =  [matchFullLand[1], matchFullLand[2], ' ', matchFullLand[3], ' ', matchFullLand[4]].join('')
     }
     else if(matchLand){
         phone_number =  ["+234", ' ', matchLand[2], ' ', matchLand[3], ' ', matchLand[4]].join('')
     }
     else if(matchLand2){
         phone_number =  ["+234 1", ' ', matchLand2[1], ' ', matchLand2[2]].join('')
+    }
+    else if(matchFullUS){
+        phone_number =  [matchFullUS[1], '(', matchFullUS[2], ') ', matchFullUS[3], ' ', matchFullUS[4]].join('')
     }
     // Add contact name if included
     if(contact_name)return "<"+contact_name+"> "+phone_number;
