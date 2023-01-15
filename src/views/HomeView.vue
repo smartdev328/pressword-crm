@@ -73,7 +73,7 @@
             <div class="card-body">
               <div class="table-responsive">
                 <CallsTable
-                    :calls="calls"
+                    :calls="calls" :limit="5" :hide-agent="true"
                     v-if="calls?.length"
                 />
                 <NoResultsFound

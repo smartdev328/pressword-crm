@@ -6,26 +6,26 @@
         <th scope="col" style="width: 5px"></th> <!--Direction of call-->
         <th scope="col">Phone</th>
         <th scope="col">Duration</th>
-        <th scope="col">Agent</th>
+        <th scope="col" v-show="!hideAgent">Agent</th>
         <th scope="col">Time</th>
         <th scope="col">Actions</th>
       </tr>
       </thead>
       <tbody>
-      <tr v-for="(call, i) in calls" :key="i">
+      <tr v-for="(call, i) in callList" :key="i">
         <td style="width: 5px">
-          <i class="mdi mdi-call-made" v-if="call.direction === 'outbound'"></i>
-          <i class="mdi mdi-call-received" v-else></i>
+          <i class="mdi mdi-call-made" v-if="call.direction === 'outbound'" title="Outgoing Call"></i>
+          <i class="mdi mdi-call-received" title="Incoming Call" v-else></i>
         </td>
         <td>
-          <a href="tel:+2348183948394" class="fw-semibold">
-            {{ call.recipient_number }}
+          <a href="#" @click.prevent="callNumber(call.recipient_number)" class="fw-semibold">
+            {{ formatPhoneNumber(call.recipient_number, call.recipient_name) }}
           </a>
         </td>
         <td>
           {{ formatCallDuration(call.duration_secs) }}
         </td>
-        <td>
+        <td v-show="!hideAgent">
           <div class="d-flex gap-2 align-items-center">
             <div class="flex-shrink-0">
               <img
@@ -34,7 +34,7 @@
                   class="avatar-xs rounded-circle"
               />
             </div>
-            <div class="flex-grow-1">{{ call.recipient_name || 'Unknown' }}</div>
+            <div class="flex-grow-1">{{ call.user || 'Unknown' }}</div>
           </div>
         </td>
         <td>{{ formatCallTimestamp(call.last_modified) }}</td>
@@ -81,7 +81,7 @@
 <script>
 import moment from "moment";
 import {Howl} from "howler";
-import {buildWebdialerLink} from "@/helpers/utils";
+import { buildWebdialerLink, formatPhoneNumber } from "@/helpers/utils";
 import Modal from "@/components/Shared/Modal.vue";
 import Notes from "@/components/Shared/Notes.vue";
 
@@ -92,7 +92,9 @@ export default {
     Notes
   },
   props: {
-    calls: Array
+    calls: Array,
+    limit: 0,
+    hideAgent: false
   },
   data() {
     return {
@@ -103,7 +105,14 @@ export default {
       isPlayingAudio: false
     }
   },
+  computed:{
+    // Table connects to callList. since it can be limited to any number of calls (for recent calls implementation)
+    callList(){
+      return this.limit ? this.calls.slice(0,this.limit) : this.calls;
+    }
+  },
   methods: {
+    formatPhoneNumber,
     formatCallDuration(duration) {
       if(duration < 3600)
         return new Date(duration * 1000).toISOString().substring(14, 19)

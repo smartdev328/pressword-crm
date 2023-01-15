@@ -16,6 +16,17 @@ export const validateMobile = (mobile_phone) => {
     }
     return mobile_phone;
 }
+export const formatPhoneNumber = (phone_number, contact_name="") => {
+    //Check if the input is of correct
+    let match = phone_number.match(/^(0|)?(\d{3})(\d{3})(\d{4})$/);
+
+    if (match) {
+        phone_number =  ["+234", ' ', match[2], ' ', match[3], ' ', match[4]].join('')
+    }
+
+    if(contact_name)return "<"+contact_name+"> "+phone_number;
+    return phone_number;
+}
 export const buildWebdialerLink = (mobile_number) => {
     const formattedPhone = validateMobile(mobile_number);
     const currentHost = window.location.hostname
