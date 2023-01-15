@@ -22,5 +22,6 @@ export const useUsersStore = defineStore({
             this.currentUser = await getUserDetailsByPhone(mobile_number)
             // this.currentUser contains all user properties. E.g. this.currentUser.first_name
         },
-    }
+    },
+    persist: true
 });
