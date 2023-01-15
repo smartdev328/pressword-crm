@@ -49,16 +49,71 @@
               <div>
                 <div id="teamlist">
                   <template v-if="!isLoading">
-                    <div class="team-list grid-view-filter row" id="team-member-list" v-if="teamMembers?.length">
-                      <div class="col" v-for="(member, i) in teamMembers" :key="i">
-                        <TeamMemberCard
-                            :member="member"
-                            @view-team-member="viewTeamMember"
-                            @update-team-member="openUpdateTeamMember"
-                            @delete-team-member="openDeleteTeamMember"
-                            @set-as-primary="setTeamMemberAsPrimary"
-                        />
-                      </div>
+                    <div class="table-responsive" v-if="teamMembers?.length">
+                      <table class="table table-borderless table-nowrap align-middle mb-0">
+                        <thead class="table-light">
+                        <tr>
+                          <th></th>
+                          <th scope="col">Extension</th>
+                          <th scope="col">Forwards To</th>
+                          <th scope="col">User</th>
+                          <th scope="col">Title</th>
+                          <th scope="col">Permissions</th>
+                          <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="(member, i) in teamMembers" :key="i">
+                          <td>
+                            <a href="#" @click.prevent="setTeamMemberAsPrimary(member)" class="text-warning fs-15 rounded">
+                              <i class="ri-star-fill" v-if="member.is_primary_receiver" title="This is the primary receiver for the line. Click to toggle off."></i>
+                              <i class="ri-star-line" v-else title="Not the primary receiver for the line. Click to make primary receiver."></i>
+                            </a>
+                          </td>
+                          <td>{{ member.asterisk_extension }}</td>
+                          <td>{{ member.phone_number }}</td>
+                          <td>
+                            <div class="d-flex gap-2 align-items-center">
+                              <div class="flex-shrink-0">
+                                <img src="@/assets/images/anonymous.png" alt="" class="avatar-xs rounded-circle" />
+                              </div>
+                              <div class="flex-grow-1">
+                                {{ member.receiver_name }}
+                              </div>
+                            </div>
+                          </td>
+                          <td>{{ member.receiver_role }}</td>
+                          <td class="text-success">
+                            <div class="d-flex justify-content-center">
+                              <span class="badge badge-label bg-primary" v-for="(perm, i) in memberPermissions(member)" :key="i">
+                                <i class="mdi mdi-circle-medium"></i> {{ perm }}
+                              </span>
+                            </div>
+                          </td>
+                          <td>
+                            <ul class="list-inline hstack gap-2 mb-0">
+                              <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="View">
+                                <a href="#" @click.prevent="viewTeamMember(member)" class="view-item-btn"><i class="ri-eye-fill align-bottom text-muted"></i></a>
+                              </li>
+                              <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Call">
+                                <a href="https://webdialer.pressone.co/?s=ec.{{member.phone_number}}" target="_blank" class="text-muted d-inline-block">
+                                  <i class="ri-phone-line fs-16"></i>
+                                </a>
+                              </li>
+                              <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Edit">
+                                <a class="edit-item-btn" href="#" @click.prevent="openUpdateTeamMember(member)" data-bs-toggle="modal"><i class="ri-pencil-fill align-bottom text-muted"></i></a>
+                              </li>
+                              <li class="list-inline-item" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Delete">
+                                <a class="remove-item-btn" data-bs-toggle="modal" @click.prevent="openDeleteTeamMember(member)">
+                                  <i class="ri-delete-bin-fill align-bottom text-muted"></i>
+                                </a>
+                              </li>
+                            </ul>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                      <!-- end table -->
                     </div>
                     <NoResultsFound
                         v-else
@@ -114,7 +169,6 @@
 </template>
 
 <script>
-import TeamMemberCard from "@/components/Teams/TeamMemberCard.vue";
 import TeamMemberForm from "@/components/Teams/TeamMemberForm.vue";
 import Modal from "@/components/Shared/Modal.vue";
 import {deleteTeamMember, fetchTeamMembers, updateTeamMemberAsPrimary} from "@/helpers";
@@ -123,12 +177,12 @@ import Loading from "@/components/Shared/Loading.vue";
 import TeamMemberDetails from "@/components/Teams/TeamMemberDetails.vue";
 import ConfirmationModal from "@/components/Shared/ConfirmationModal.vue";
 import {useNumbersStore} from "@/stores";
+import { parseTeamMemberPermissionsAsStringArray } from "@/helpers/teamMembers";
 
 export default {
   name: "TeamView",
   components: {
     TeamMemberForm,
-    TeamMemberCard,
     Modal,
     NoResultsFound,
     Loading,
@@ -146,11 +200,6 @@ export default {
       showViewTeamMemberModal: false,
       teamMemberBeingDeleted: null,
       showConfirmDeleteTeamMember: false
-    }
-  },
-  computed: {
-    businessNumberId() {
-      return this.numbersStore.activeNumber?.id
     }
   },
   methods: {
@@ -191,6 +240,9 @@ export default {
     async setTeamMemberAsPrimary(member) {
       await updateTeamMemberAsPrimary(member.id)
       await this.loadTeamMembers()
+    },
+    memberPermissions(member) {
+      return parseTeamMemberPermissionsAsStringArray(member)
     }
   },
   async mounted() {
