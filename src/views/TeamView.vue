@@ -96,7 +96,7 @@
                                 <a href="#" @click.prevent="viewTeamMember(member)" class="view-item-btn"><i class="ri-eye-fill align-bottom text-muted"></i></a>
                               </li>
                               <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top" title="Call">
-                                <a href="https://webdialer.pressone.co/?s=ec.{{member.phone_number}}" target="_blank" class="text-muted d-inline-block">
+                                <a href="#" @click.prevent="callTeamMember(member)" class="text-muted d-inline-block">
                                   <i class="ri-phone-line fs-16"></i>
                                 </a>
                               </li>
@@ -178,6 +178,7 @@ import TeamMemberDetails from "@/components/Teams/TeamMemberDetails.vue";
 import ConfirmationModal from "@/components/Shared/ConfirmationModal.vue";
 import {useNumbersStore} from "@/stores";
 import { parseTeamMemberPermissionsAsStringArray } from "@/helpers/teamMembers";
+import { buildWebdialerLink } from "@/helpers/utils";
 
 export default {
   name: "TeamView",
@@ -240,6 +241,9 @@ export default {
     async setTeamMemberAsPrimary(member) {
       await updateTeamMemberAsPrimary(member.id)
       await this.loadTeamMembers()
+    },
+    callTeamMember(member) {
+      window.open(buildWebdialerLink(member.phone_number, "_blank"))
     },
     memberPermissions(member) {
       return parseTeamMemberPermissionsAsStringArray(member)
