@@ -16,21 +16,22 @@ export const router = createRouter({
       path: '/',
       name: 'main',
       component: BaseHomeView,
+      redirect: '/home',
       children : [
         {
-          path: '/home',
+          path: 'home',
           component: HomeView
         },
         {
-          path: '/contacts',
+          path: 'contacts',
           component: ContactsView
         },
         {
-          path: '/calls',
+          path: 'calls',
           component: CallsView
         },
         {
-          path: '/team',
+          path: 'team',
           component: TeamView
         }
       ]
@@ -41,7 +42,7 @@ export const router = createRouter({
       component: SignInView
     },
     // catch all redirect to home page
-    { path: '/:pathMatch(.*)*', redirect: '/' }
+    { path: '/:pathMatch(.*)*', redirect: '/home' }
   ]
 })
 
