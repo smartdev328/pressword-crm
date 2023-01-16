@@ -54,3 +54,6 @@ td>a:hover{
 .auth-one-bg .bg-overlay{
     background: linear-gradient(to right, #0d3747, #0b1b23) !important;
 }
+.form-control:focus{
+    border-color:#12698c !important;
+}

@@ -12,13 +12,16 @@ export const useAuthStore = defineStore({
         mobile_number: null,
         token: null,
         returnUrl: null,
+        loading:false
     }),
     actions: {
         async getOTP(mobile_phone) {
+            this.loading = true; //it is set to false on SignInView.vue.
             mobile_phone = validateMobile(mobile_phone);
             return requestLoginOTP(mobile_phone); // we intentionally did not catch error
         },
         async login(mobile_phone, otp) {
+            this.loading = true;
             mobile_phone = validateMobile(mobile_phone);
             try {
                 const {token} = await verifyLoginToken(mobile_phone, otp);
@@ -26,9 +29,11 @@ export const useAuthStore = defineStore({
                 this.mobile_number = mobile_phone;
                 const userStore = useUsersStore();
                 await userStore.loadCurrentUser(this.mobile_number);
+                this.loading = false;
                 // redirect to previous url or default to home page
                 router.push(this.returnUrl || '/');
             } catch (error) {
+                this.loading = false;
                 const alertStore = useAlertStore();
                 alertStore.error(error);
             }

@@ -55,7 +55,10 @@
                         </div>
 
                         <div class="mt-4">
-                          <button class="btn btn-success w-100" type="submit">{{buttonLabel}}</button>
+                          <button class="btn btn-success w-100 btn-load" type="submit">
+                            <span class="spinner-grow flex-shrink-0" role="status" v-show="this.authStore.loading"></span>
+                            {{buttonLabel}}
+                          </button>
                         </div>
 
                       </form>
@@ -119,18 +122,25 @@ export default {
       patternBg
     }
   },
+  setup(){
+    const authStore = useAuthStore();
+    return {
+      authStore
+    }
+  },
   methods: {
     async onSubmit() {
       this.phoneError = "";
-      const authStore = useAuthStore();
       if(!this.otp){
-        authStore.getOTP(this.mobile).then((res)=>{
+        this.authStore.getOTP(this.mobile).then((res)=>{
+          this.authStore.loading = false
           if('detail' in res){ //response from server has a property "detail" that contains "We texted you a login code" or  "Unable to send you a login code. Try again later."
             if(res.detail.toLowerCase().includes("unable") || res.detail.toLowerCase().includes("try") ){
               this.phoneError = res.detail;
             }
             else{
               this.otpSent = true
+              document.getElementById('password-input').focus(); //move the focus to OTP input
             }
 
           }else if('mobile' in res ){ //response from server says something is wrong with mobile number
@@ -143,9 +153,9 @@ export default {
           this.phoneError = err
         });
       }else{  //otp was entered
-        await authStore.login(this.mobile, this.otp);
+        await this.authStore.login(this.mobile, this.otp);
       }
-    }
+    },
   },
   watch : {
     otpSent: {
