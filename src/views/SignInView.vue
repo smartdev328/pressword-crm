@@ -88,7 +88,7 @@
           <div class="col-lg-12">
             <div class="text-center">
               <p class="mb-0">&copy;
-                2023 PressOne Africa. Crafted with <i class="mdi mdi-coffee text-danger mdi-18px white"></i>
+                2023 PressOne Africa. Crafted with <i class="mdi mdi-coffee text-success mdi-18px white"></i>
               </p>
             </div>
           </div>

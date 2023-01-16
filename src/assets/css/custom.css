@@ -33,6 +33,9 @@ File: Custom Css File
 .navbar-menu{
     background-color: #072633 !important;
 }
+.text-primary {
+    color: #12698c !important;
+}
 .text-success, .link-success{
     color:#0E99D2 !important;
 }
@@ -44,4 +47,10 @@ td>a{
 }
 td>a:hover{
     color:#12698c;
+}
+.auth-bg-cover>.bg-overlay{
+    background-color: #12698c !important;
+}
+.auth-one-bg .bg-overlay{
+    background: linear-gradient(to right, #0d3747, #0b1b23) !important;
 }
