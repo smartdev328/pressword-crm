@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 
 import {fetchUserNumbers} from '@/helpers';
 import { useUsersStore } from "@/stores/users.store";
+import { formatPhoneNumber } from "@/helpers/utils";
 
 
 export const useNumbersStore = defineStore({
@@ -10,6 +11,9 @@ export const useNumbersStore = defineStore({
         numbers: null|[],
         activeNumber: null
     }),
+    getters: {
+        activeNumberLabel: (state) => state.activeNumber ? formatPhoneNumber(state.activeNumber.business_number.phone_number) : "PressOne"
+    },
     actions: {
         async getUserPhones() {
             const userStore = useUsersStore();
