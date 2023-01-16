@@ -19,14 +19,15 @@
           <input
             type="text"
             class="form-control"
-            placeholder="Enter Phone Number"
+            :placeholder=dialerPlaceholder
+            :disabled="!activeNumber"
             autocomplete="off"
             id="dialer-input"
             v-model="dialerNumber"
             required
             style="border-radius: 3px 0 0 3px;"
           />
-          <button class="mdi mdi-phone mdi-24px bg-secondary text-bg-secondary" style="appearance: none; border: none; padding: 0 12px; border-radius: 0 3px 3px 0; margin-left: -3px;"></button>
+          <button :disabled="!activeNumber" class="mdi mdi-phone mdi-24px bg-secondary text-bg-secondary" style="appearance: none; border: none; padding: 0 12px; border-radius: 0 3px 3px 0; margin-left: -3px;"></button>
           <!--          <span class="mdi mdi-phone search-widget-icon"></span>-->
 <!--          <span-->
 <!--            class="mdi mdi-phone search-widget-icon search-widget-icon-close d-none"-->
@@ -140,6 +141,9 @@ export default {
     },
     numbers() {
       return this.numberStore.numbers
+    },
+    dialerPlaceholder() {
+      return this.activeNumber ? "Enter Phone Number" : "Purchase a Number to Activate"
     }
   },
   methods:{
