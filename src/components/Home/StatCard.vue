@@ -5,6 +5,7 @@
       <i
         class="ri-information-fill fs-18 float-end align-middle"
         :title=explanation
+        data-bs-toggle="tooltip" data-bs-placement="bottom"
       ></i>
 
     </h5>
