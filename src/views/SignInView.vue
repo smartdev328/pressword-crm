@@ -47,7 +47,7 @@
                             <label class="form-label" for="password-input">OTP</label>
                             <input type="text" class="form-control" v-model="otp" placeholder="Enter OTP" id="password-input">
                             <div class="text-danger" v-show="this.authStore.authError">{{ this.authStore.authError }}</div>
-                            <p class="mb-0" v-show="this.authStore.authError"><a href="#" class="fw-semibold text-primary text-decoration-underline" @click.prevent="onSubmit">
+                            <p class="mb-0" v-show="this.authStore.authError"><a href="#" class="fw-semibold text-primary text-decoration-underline" @click.prevent="resendOTP">
                               Resend OTP</a> </p>
                         </div>
 
@@ -112,7 +112,6 @@
 import { useAuthStore } from "@/stores";
 import kelvinTeamBg from "@/assets/images/team-kelvin.jpg"
 import patternBg from "@/assets/images/cover-pattern.png"
-import { requestLoginOTP } from "@/helpers";
 
 export default {
   name: "SignInView",
@@ -137,7 +136,6 @@ export default {
     }
   },
   methods: {
-    requestLoginOTP,
     async onSubmit() {
       this.phoneError = "";
       if(!this.otp){
@@ -165,6 +163,12 @@ export default {
         await this.authStore.login(this.mobile, this.otp, this.rememberMe);
       }
     },
+    resendOTP(){
+      this.authStore.authError = null;
+      this.otp = "";
+      this.otpSent = false;
+      this.onSubmit();
+    }
   },
   watch : {
     phoneError: {
