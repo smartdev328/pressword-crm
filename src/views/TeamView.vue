@@ -65,7 +65,7 @@
                         <tbody>
                         <tr v-for="(member, i) in teamMembers" :key="i">
                           <td>
-                            <a href="#" @click.prevent="setTeamMemberAsPrimary(member)" class="text-warning fs-15 rounded">
+                            <a href="#" @click.prevent="setTeamMemberAsPrimary(member)" class="text-success fs-15 rounded">
                               <i class="ri-star-fill" v-if="member.is_primary_receiver" title="This is the primary receiver for the line. Click to toggle off."></i>
                               <i class="ri-star-line" v-else title="Not the primary receiver for the line. Click to make primary receiver."></i>
                             </a>

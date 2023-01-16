@@ -1,7 +1,30 @@
 /*
-Template Name: Velzon - Admin & Dashboard Template
-Author: Themesbrand
-Website: https://themesbrand.com/
-Contact: support@themesbrand.com
 File: Custom Css File
 */
+.btn-success, .btn-primary {
+    background-color: #0E99D2 !important;
+    border-color: #0E99D2 !important;
+}
+.btn-success:disabled, .btn-primary:disabled {
+    background-color: #12698c !important;
+    border-color: #12698c !important;
+}
+.btn-success:hover, .btn-primary:hover {
+    background-color: #12698c !important;
+    border-color: #12698c !important;
+}
+.bg-primary {
+    background-color: #F3BF24 !important;
+}
+.bg-secondary{
+    background-color: #12698c !important;
+}
+.navbar-menu{
+    background-color: #072633 !important;
+}
+.badge-label.bg-primary:before {
+    border-right-color: #F3BF24 !important;
+}
+.text-success, a{
+    color:#0E99D2;
+}
