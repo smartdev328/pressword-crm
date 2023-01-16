@@ -12,16 +12,20 @@ export const useAuthStore = defineStore({
         mobile_number: null,
         token: null,
         returnUrl: null,
-        loading:false
+        loading:false,
+        authError:null
     }),
     actions: {
         async getOTP(mobile_phone) {
+            this.authError = "";
             this.loading = true; //it is set to false on SignInView.vue.
+            if(mobile_phone.length < 10) throw new Error("Phone number must be atleast 10 digits")
             mobile_phone = validateMobile(mobile_phone);
             return requestLoginOTP(mobile_phone); // we intentionally did not catch error
         },
         async login(mobile_phone, otp, remember) {
             this.loading = true;
+            this.authError = "";
             mobile_phone = validateMobile(mobile_phone);
             try {
                 const {token} = await verifyLoginToken(mobile_phone, otp, remember);
@@ -33,9 +37,11 @@ export const useAuthStore = defineStore({
                 // redirect to previous url or default to home page
                 router.push(this.returnUrl || '/');
             } catch (error) {
+                error = "There was a problem validating your token, please try again"
                 this.loading = false;
                 const alertStore = useAlertStore();
                 alertStore.error(error);
+                this.authError = error;
             }
         },
         isAuthenticated() {
