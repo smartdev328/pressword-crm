@@ -16,15 +16,32 @@ File: Custom Css File
 .bg-primary {
     background-color: #F3BF24 !important;
 }
+.bg-soft-primary {
+    background-color: rgba(18, 105, 140, 0.18) !important;
+    color: #12698c !important;
+}
+.badge-label.bg-primary:before {
+    border-right-color: #F3BF24 !important;
+}
+.badge-soft-primary{
+    color: #F3BF24 !important;
+    background-color: rgba(244, 192, 37, 0.1) !important;
+}
 .bg-secondary{
     background-color: #12698c !important;
 }
 .navbar-menu{
     background-color: #072633 !important;
 }
-.badge-label.bg-primary:before {
-    border-right-color: #F3BF24 !important;
+.text-success, .link-success{
+    color:#0E99D2 !important;
 }
-.text-success, a{
+.link-success:hover{
+    color:#12698c !important;
+}
+td>a{
     color:#0E99D2;
+}
+td>a:hover{
+    color:#12698c;
 }
