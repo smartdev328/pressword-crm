@@ -14,11 +14,11 @@ export const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
+      name: 'main',
       component: BaseHomeView,
       children : [
         {
-          path: '/',
+          path: '/home',
           component: HomeView
         },
         {

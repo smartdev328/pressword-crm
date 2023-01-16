@@ -35,7 +35,7 @@
         <ul class="navbar-nav" id="navbar-nav">
           <li class="menu-title"><span data-key="t-menu">Menu</span></li>
           <li class="nav-item">
-            <router-link class="nav-link menu-link" to="/">
+            <router-link class="nav-link menu-link" to="/home">
               <i class="mdi mdi-home"></i>
               <span data-key="t-home"> Home </span>
             </router-link>
