@@ -57,3 +57,7 @@ td>a:hover{
 .form-control:focus{
     border-color:#12698c !important;
 }
+.form-check-input:checked {
+    background-color: #12698c !important;
+    border-color: #12698c !important;
+}

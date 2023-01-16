@@ -20,11 +20,11 @@ export const useAuthStore = defineStore({
             mobile_phone = validateMobile(mobile_phone);
             return requestLoginOTP(mobile_phone); // we intentionally did not catch error
         },
-        async login(mobile_phone, otp) {
+        async login(mobile_phone, otp, remember) {
             this.loading = true;
             mobile_phone = validateMobile(mobile_phone);
             try {
-                const {token} = await verifyLoginToken(mobile_phone, otp);
+                const {token} = await verifyLoginToken(mobile_phone, otp, remember);
                 this.token = token;
                 this.mobile_number = mobile_phone;
                 const userStore = useUsersStore();

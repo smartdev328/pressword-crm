@@ -28,7 +28,7 @@
                   <div class="p-lg-5 p-4">
                     <div>
                       <h5 class="text-primary">Welcome</h5>
-                      <p class="text-muted">Sign in to continue to PressOne.</p>
+                      <p class="text-muted">{{this.signUpMode ? 'To sign up on PressOne, start by entering your phone number.' : 'Sign in to continue to PressOne.'}}</p>
                     </div>
 
                     <div class="mt-4">
@@ -49,8 +49,8 @@
                         </div>
 
 
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" value="" id="auth-remember-check">
+                        <div class="form-check" v-show="!signUpMode">
+                          <input class="form-check-input" type="checkbox" v-model="this.rememberMe" id="auth-remember-check">
                           <label class="form-check-label" for="auth-remember-check">This is my device (Remember me)</label>
                         </div>
 
@@ -65,7 +65,8 @@
                     </div>
 
                     <div class="mt-5 text-center">
-                      <p class="mb-0">Don't have an account ? <a href="#" class="fw-semibold text-primary text-decoration-underline"> Signup</a> </p>
+                      <p class="mb-0">{{ signUpLabel }} <a href="#" class="fw-semibold text-primary text-decoration-underline" @click.prevent="this.signUpMode = !this.signUpMode">
+                        {{ this.signUpMode? "Sign in" : "Sign up" }}</a> </p>
                     </div>
                   </div>
                 </div>
@@ -119,7 +120,10 @@ export default {
       otpSent: false,
       phoneError:"",
       kelvinTeamBg,
-      patternBg
+      patternBg,
+      signUpMode: false,
+      signUpLabel:"Don't have an account ?",
+      rememberMe:true
     }
   },
   setup(){
@@ -153,7 +157,7 @@ export default {
           this.phoneError = err
         });
       }else{  //otp was entered
-        await this.authStore.login(this.mobile, this.otp);
+        await this.authStore.login(this.mobile, this.otp, this.rememberMe);
       }
     },
   },
@@ -161,6 +165,13 @@ export default {
     otpSent: {
       handler (sent) {
         this.buttonLabel = sent ? "Submit OTP" : "Sign In";
+      },
+      immediate: true
+    },
+    signUpMode: {
+      handler (mode){
+        this.signUpLabel = mode ? "Already have an account?" : "Don't have an account ?"
+        this.buttonLabel = mode ? "Register" : "Sign In"
       },
       immediate: true
     }
