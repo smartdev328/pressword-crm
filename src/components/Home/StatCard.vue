@@ -3,8 +3,10 @@
     <h5 class="text-muted text-uppercase fs-13">
       {{title}}
       <i
-          class="ri-arrow-up-circle-line text-success fs-18 float-end align-middle"
+        class="ri-information-fill fs-18 float-end align-middle"
+        :title=explanation
       ></i>
+
     </h5>
     <div class="d-flex align-items-center">
       <div class="flex-shrink-0">
@@ -32,7 +34,8 @@ export default {
     valuePrefix: String,
     value: Number,
     animateValue: Boolean,
-    iconClass: String
+    iconClass: String,
+    explanation: String
   }
 }
 </script>
