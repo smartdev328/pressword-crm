@@ -26,7 +26,7 @@
     </div>
   </div>
   <!--start back-to-top-->
-  <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
+  <button @click=topFunction class="btn btn-danger btn-icon" id="back-to-top">
     <i class="ri-arrow-up-line"></i>
   </button>
 </template>
@@ -43,11 +43,12 @@ export default {
     Navbar,
     SideMenu
   },
+  methods : {
+    topFunction() {
+      (document.body.scrollTop = 0); (document.documentElement.scrollTop = 0);
+    }
+  },
   mounted() {
-    //app.js
-    // const appJs = document.createElement("script");
-    // appJs.setAttribute("src", "src/assets/js/app.js");
-    // document.head.appendChild(appJs);
     InitAppJS()
   }
 };

@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="">
     <div class="card-body text-center">
       <div class="position-relative d-inline-block">
         <img src="@/assets/images/anonymous.png" alt="" class="avatar-lg rounded-circle img-thumbnail shadow">
