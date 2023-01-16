@@ -70,3 +70,6 @@ body {
 html {
     background-color: #f2f2f7 !important
 }
+.accordion-button:not(.collapsed){
+    color: #0E99D2 !important;
+}
