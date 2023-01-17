@@ -7,7 +7,7 @@
     <div class="row">
       <div class="col-6">
         <div class="mb-3">
-          <label htmlFor="first-name-input" class="form-label">
+          <label class="form-label">
             First Name
           </label>
           <input
@@ -15,13 +15,13 @@
             class="form-control"
             placeholder="First Name"
             id="first-name-input"
-            v-model="user.first_name"
+            v-model="this.user.first_name"
           />
         </div>
       </div>
       <div class="col-6">
         <div class="mb-3">
-          <label htmlFor="last-name-input" class="form-label">
+          <label class="form-label">
             Last Name
           </label>
           <input
@@ -36,7 +36,7 @@
 
       <div class="col-6">
         <div class="mb-3">
-          <label htmlFor="email-input" class="form-label">
+          <label class="form-label">
             Email
           </label>
           <input
@@ -50,7 +50,7 @@
       </div>
       <div class="col-6">
         <div class="mb-3">
-          <label htmlFor="mobile-number-input" class="form-label">
+          <label class="form-label">
             Mobile Number
           </label>
           <input
@@ -66,15 +66,15 @@
       <!--end col-->
       <div class="col-12">
         <div class="mb-3">
-          <label htmlFor="home-address-input" class="form-label">
-            Home Address
+          <label class="form-label">
+            Job Title
           </label>
           <input
             type="text"
             class="form-control"
-            placeholder="Home Address"
+            placeholder="Manager @ Company Name"
             id="home-address-input"
-            v-model="user.home_address"
+            v-model="user.job_title"
           />
         </div>
       </div>
@@ -100,7 +100,17 @@ export default {
   data() {
     return {
       errorMessage: null,
-      user: storeToRefs(this.userStore.currentUser),
+    }
+  },
+  computed: {
+    user() {
+      return {
+        first_name: this.userStore.currentUser.first_name,
+        last_name: this.userStore.currentUser.last_name,
+        mobile: this.userStore.currentUser.mobile,
+        job_title: this.userStore.currentUser.job_title,
+        personal_email: this.userStore.currentUser.personal_email,
+      };
     }
   },
   methods: {
