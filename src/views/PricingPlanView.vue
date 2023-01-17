@@ -56,7 +56,7 @@
                       </li>
                     </ul>
                     <div class="mt-4">
-                      <a href="javascript:void(0);" class="btn btn-soft-success w-100 waves-effect waves-light">Get started</a>
+                      <a :href="buildPaymentLink(currentUser,1499)" target="_blank" class="btn btn-soft-success w-100 waves-effect waves-light">Get started</a>
                     </div>
                   </div>
                   <div class="mt-4 mb-4 text-center">
@@ -74,7 +74,7 @@
                     <div class="d-flex align-items-center">
                       <div class="flex-grow-1">
                         <h5 class="mb-1 fw-semibold">Pro Business</h5>
-                        <p class="text-muted mb-0">Standard plan</p>
+                        <p class="text-muted mb-0">Professional plan</p>
                       </div>
                       <div class="avatar-sm">
                         <div class="avatar-title bg-light rounded-circle text-primary">
@@ -100,11 +100,11 @@
                       </li>
                     </ul>
                     <div class="mt-4">
-                      <a href="javascript:void(0);" class="btn btn-success w-100 waves-effect waves-light">Get started</a>
+                      <a :href="buildPaymentLink(currentUser,4999)" target="_blank" class="btn btn-success w-100 waves-effect waves-light">Get started</a>
                     </div>
                   </div>
                   <div class="mt-4 mb-4 text-center">
-                    <p class="text-muted">Enjoy all standard call management features.</p>
+                    <p class="text-muted">Enjoy all call management features.</p>
                   </div>
                 </div>
               </div>
@@ -143,7 +143,7 @@
                       </li>
                     </ul>
                     <div class="mt-4">
-                      <a href="javascript:void(0);" class="btn btn-soft-success w-100 waves-effect waves-light">Get started</a>
+                      <a :href="buildPaymentLink(currentUser,9999)" target="_blank" class="btn btn-soft-success w-100 waves-effect waves-light">Get started</a>
                     </div>
                   </div>
                   <div class="mt-4 mb-4 text-center">
@@ -175,39 +175,52 @@
               <div class="accordion-item shadow">
                 <h2 class="accordion-header" id="genques-headingOne">
                   <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseOne" aria-expanded="true" aria-controls="genques-collapseOne">
-                    What are my paying, for per month ?
+                    What are my paying for, per month ?
                   </button>
                 </h2>
                 <div id="genques-collapseOne" class="accordion-collapse collapse show" aria-labelledby="genques-headingOne" data-bs-parent="#genques-accordion">
                   <div class="accordion-body">
                     Your PressOne service is attached to one phone number. You are paying for that service monthly. Depending on the plan you choose, one phone number may allow you add more users who can make and receive calls with that number.
                     <br/><br/>
-                    Users can make or receive calls through the web or mobile app.
+                    You may purchase as many phone numbers as you want, and you pay for each monthly. Users can make or receive calls through the web or mobile app.
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-item shadow">
+                <h2 class="accordion-header" id="genques-headingOpt">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseOpt" aria-expanded="false" aria-controls="genques-collapseOpt">
+                    What payment options are support ?
+                  </button>
+                </h2>
+                <div id="genques-collapseOpt" class="accordion-collapse collapse" aria-labelledby="genques-headingOpt" data-bs-parent="#genques-accordion">
+                  <div class="accordion-body">
+                    Since this is a monthly subscription, you can only pay by debit/credit card. We process payments through Paystack, so all Nigerian debit cards are supported.
                   </div>
                 </div>
               </div>
               <div class="accordion-item shadow">
                 <h2 class="accordion-header" id="genques-headingTwo">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseTwo" aria-expanded="false" aria-controls="genques-collapseTwo">
-                    What is an Extra User?
+                    What is an extra user ?
                   </button>
                 </h2>
                 <div id="genques-collapseTwo" class="accordion-collapse collapse" aria-labelledby="genques-headingTwo" data-bs-parent="#genques-accordion">
                   <div class="accordion-body">
                     All subscriptions come with one phone number and 2 users. Which means you can share the phone number with another person without paying extra. But if you want to share with more than 2 people, you have to purchase extra users.
                     <br/><br/>Note, some plans have a maximum number of users that can be on it. For example, this means you can only purchase 1 extra user on the Starter plan.
+                    <br/><br/>If it helps, you may think of "users" as phone extensions. So a plan with a maximum of 3 users means you can only have 3 extensions on that phone number.
                   </div>
                 </div>
               </div>
               <div class="accordion-item shadow">
                 <h2 class="accordion-header" id="genques-headingThree">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseThree" aria-expanded="false" aria-controls="genques-collapseThree">
-                    What is Concurrent Call?
+                    What are concurrent calls ?
                   </button>
                 </h2>
                 <div id="genques-collapseThree" class="accordion-collapse collapse" aria-labelledby="genques-headingThree" data-bs-parent="#genques-accordion">
                   <div class="accordion-body">
-                    You can purchase as many extra users as allowed by the plan, however not all the users will be able to make or receive calls at the same. If you have 10 users on a phone number with a Standard plan, any of 3 users can make or receive calls at the same time.
+                    Concurrent calls are the number of calls that can happen at the same time on one phone number. You can purchase as many extra users as allowed by the plan, however not all users can make or receive calls simultaneously.
                     <br/><br/>If you have users who will be making calls frequently, consider purchasing separate plans for them.
                   </div>
                 </div>
@@ -215,7 +228,7 @@
               <div class="accordion-item shadow">
                 <h2 class="accordion-header" id="genques-headingFour">
                   <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseFour" aria-expanded="false" aria-controls="genques-collapseFour">
-                    Do I pay for Calls?
+                    Do I pay for calls ?
                   </button>
                 </h2>
                 <div id="genques-collapseFour" class="accordion-collapse collapse" aria-labelledby="genques-headingFour" data-bs-parent="#genques-accordion">
@@ -225,14 +238,14 @@
                 </div>
               </div>
               <div class="accordion-item shadow">
-                <h2 class="accordion-header" id="genques-headingFour">
-                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseFour" aria-expanded="false" aria-controls="genques-collapseFour">
-                    What integrations are available?
+                <h2 class="accordion-header" id="genques-headingFive">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#genques-collapseFive" aria-expanded="false" aria-controls="genques-collapseFive">
+                    What integrations are available ?
                   </button>
                 </h2>
-                <div id="genques-collapseFour" class="accordion-collapse collapse" aria-labelledby="genques-headingFour" data-bs-parent="#genques-accordion">
+                <div id="genques-collapseFive" class="accordion-collapse collapse" aria-labelledby="genques-headingFive" data-bs-parent="#genques-accordion">
                   <div class="accordion-body">
-                    At time of writing, we currently have Zoho CRM Integration. We can integrate with any third party solution you want, at no extra cost to you, as long as the solution is not an internal tool within your organisation.
+                    At time of writing, we currently have Zoho CRM Integration. We can integrate with any third party software you want, at no extra cost to you, as long as the software is not an internal tool built specifically for your business.
                   </div>
                 </div>
               </div>
@@ -248,16 +261,8 @@
 </template>
 
 <script>
-import ContactsTable from "@/components/Shared/ContactsTable.vue";
-import ContactForm from "@/components/Shared/ContactForm.vue";
-import NoResultsFound from "@/components/Shared/NoResultsFound.vue";
-import PaginationControl from "@/components/Shared/PaginationControl.vue";
-import ConfirmationModal from "@/components/Shared/ConfirmationModal.vue";
-import Modal from "@/components/Shared/Modal.vue";
-import {deleteContact, fetchUserContacts} from "@/helpers";
-import {buildWebdialerLink} from "@/helpers/utils";
-import Loading from "@/components/Shared/Loading.vue";
-import {useNumbersStore} from "@/stores";
+import { buildPaymentLink } from "@/helpers/utils";
+import {useNumbersStore, useUsersStore} from "@/stores";
 
 export default {
   name: "PricingPlanView",
@@ -348,15 +353,25 @@ export default {
    }
   },
   computed: {
-
+    currentUser() {
+      return this.userStore.currentUser
+    },
+    activeNumber(){
+      return this.numberStore.activeNumber
+    },
+    numbers() {
+      return this.numberStore.numbers
+    },
   },
   methods: {
+    buildPaymentLink
 
   },
   setup() {
     const numberStore = useNumbersStore()
+    const userStore = useUsersStore()
     return {
-      numberStore
+      numberStore, userStore
     }
   },
   mounted() {

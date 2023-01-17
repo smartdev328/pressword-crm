@@ -49,6 +49,34 @@ export const formatPhoneNumber = (phone_number, contact_name="") => {
 
     return phone_number;
 }
+export const buildPaymentLink = (currentUser, planAmount) => {
+    let payment_link = "";
+    let extra_params = "";
+
+    switch (planAmount){
+        case 1499:
+            payment_link = "https://paystack.com/pay/pressone-base-monthly"
+            break;
+        case 4999:
+            payment_link = "https://paystack.com/pay/pressone-professional-monthly"
+            break;
+        case 9999:
+            payment_link = "https://paystack.com/pay/pressone-international-monthly"
+            break;
+        default: //if no plan is specified, then this is a top up
+            payment_link = "https://paystack.com/pay/53f90o5uy-"
+    }
+    if(currentUser){
+        extra_params = [
+            "?first_name="+currentUser.first_name,
+            "last_name="+currentUser.last_name,
+            "email="+currentUser.personal_email,
+            "phone="+currentUser.mobile
+        ].join("&")
+    }
+
+    return payment_link + extra_params;
+}
 export const buildWebdialerLink = (mobile_number) => {
     const formattedPhone = validateMobile(mobile_number);
     const currentHost = window.location.hostname

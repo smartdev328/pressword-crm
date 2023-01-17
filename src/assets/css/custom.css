@@ -20,6 +20,16 @@ File: Custom Css File
     background-color: rgba(18, 105, 140, 0.18) !important;
     color: #12698c !important;
 }
+.btn-soft-success {
+    background-color: rgba(18, 105, 140, 0.18) !important;
+    color: #12698c !important;
+    border-color: transparent;
+}
+.btn-soft-success:hover {
+    background-color: rgba(18, 105, 140, 0.7) !important;
+    color: #fff !important;
+    border-color: transparent;
+}
 .badge-label.bg-primary:before {
     border-right-color: #F3BF24 !important;
 }
