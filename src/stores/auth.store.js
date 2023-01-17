@@ -31,7 +31,6 @@ export const useAuthStore = defineStore({
             try {
                 const {token} = await verifyLoginToken(mobile_phone, otp, remember);
                 this.token = token;
-                console.log(this.token);
                 this.mobile_number = mobile_phone;
                 const userStore = useUsersStore();
                 await userStore.loadCurrentUser(this.mobile_number);
