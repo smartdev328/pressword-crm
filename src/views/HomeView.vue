@@ -74,7 +74,7 @@
       <!-- end row -->
 
       <div class="row">
-        <div class="col-xxl-7">
+        <div class="col-xl-7">
           <div class="card">
             <div class="card-header align-items-center d-flex">
               <h4 class="card-title mb-0 flex-grow-1">Recent Calls</h4>

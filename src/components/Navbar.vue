@@ -140,7 +140,7 @@ export default {
       return this.numberStore.activeNumber
     },
     activePhoneNumber(){ //actual phone number string
-      return this.numberStore.activeNumber ? this.numberStore.activeNumber.phone_number : "";
+      return this.numberStore.activeNumber ? this.numberStore.activeNumber.business_number.phone_number : "";
     },
     numbers() {
       return this.numberStore.numbers

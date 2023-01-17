@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 
 import {requestLoginOTP, verifyLoginToken} from '@/helpers';
 import { router } from '@/router';
-import { useAlertStore, useUsersStore } from "@/stores";
+import { useAlertStore, useNumbersStore, useUsersStore } from "@/stores";
 import { validateMobile } from "@/helpers/utils";
 import { getActivePinia } from "pinia";
 
@@ -25,6 +25,7 @@ export const useAuthStore = defineStore({
             return requestLoginOTP(mobile_phone); // we intentionally did not catch error
         },
         async login(mobile_phone, otp, remember) {
+            this.clearStores();
             this.loading = true;
             this.authError = "";
             mobile_phone = validateMobile(mobile_phone);
@@ -48,12 +49,22 @@ export const useAuthStore = defineStore({
         isAuthenticated() {
             return !!this.token
         },
+        clearStores(){
+            //clear stores
+            const userStore = useUsersStore();
+            userStore.$reset();
+            const authStore = useAuthStore();
+            authStore.$reset();
+            const numStore = useNumbersStore();
+            numStore.$reset();
+
+            // map through that list and use the **$reset** fn to reset the state
+            getActivePinia()._s.forEach(store => store.$reset());
+        },
         logout() {
             this.token = null;
             this.mobile_number = null;
-            //clear stores
-            // map through that list and use the **$reset** fn to reset the state
-            getActivePinia()._s.forEach(store => store.$reset());
+            this.clearStores();
             router.push('/sign-in');
         }
     },
