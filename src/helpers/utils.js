@@ -77,6 +77,23 @@ export const buildPaymentLink = (currentUser, planAmount) => {
 
     return payment_link + extra_params;
 }
+
+/**
+ * Determine if a user just joined PressOne and needs to complete their profile
+ * @param first_name
+ * @param last_name
+ * @param date_joined
+ * @returns {boolean}
+ */
+export const userJustJoined = (first_name, last_name, date_joined) => {
+    function _containsNumbers(str) {
+        return /\d/.test(str);
+    }
+    if(_containsNumbers(first_name) && _containsNumbers(last_name)) //by default PressOne sets your first name and last name to the phone number you signed up with
+        return true
+    return false;
+}
+
 export const buildWebdialerLink = (mobile_number) => {
     const formattedPhone = validateMobile(mobile_number);
     const currentHost = window.location.hostname

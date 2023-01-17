@@ -60,7 +60,7 @@
                     </div>
                   </div>
                   <div class="mt-4 mb-4 text-center">
-                    <p class="text-muted">The perfect way to get started and see how it works.</p>
+                    <p class="text-muted">The good way to start and see it work.</p>
                   </div>
                 </div>
               </div>
@@ -104,7 +104,7 @@
                     </div>
                   </div>
                   <div class="mt-4 mb-4 text-center">
-                    <p class="text-muted">Enjoy all call management features.</p>
+                    <p class="text-muted">Enjoy amazing call management features.</p>
                   </div>
                 </div>
               </div>
@@ -279,7 +279,7 @@ export default {
        },
        featureShared:{
          title:"Maximum of <b>3</b> Users",
-         title2:"Unlimited Number of Users",
+         title2:"Unlimited Users",
          title3:"Unlimited Users",
          plan1:'ri-checkbox-circle-fill',
          plan2:'ri-checkbox-circle-fill',

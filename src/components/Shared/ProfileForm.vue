@@ -115,7 +115,7 @@ export default {
 
       this.$emit("success", null)
       this.userStore.showEditProfile = false
-      await this.userStore.loadCurrentUser()
+      await this.userStore.loadCurrentUser(this.userStore.currentUser.mobile)
     }
   },
   setup() {

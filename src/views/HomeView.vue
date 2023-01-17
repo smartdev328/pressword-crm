@@ -163,6 +163,7 @@ import Notes from "@/components/Shared/Notes.vue";
 import UserProfile from "@/components/Home/UserProfile.vue";
 import {fetchCallNotes, fetchUserCalls} from "@/helpers";
 import NoResultsFound from "@/components/Shared/NoResultsFound.vue";
+import { userJustJoined } from "@/helpers/utils";
 
 export default {
   name: "HomeView",
@@ -195,6 +196,12 @@ export default {
     }
   },
   async mounted() {
+    //if user just joined, redirect to complete sign up.
+    if(userJustJoined(this.currentUser.first_name, this.currentUser.last_name, this.currentUser.date_joined))
+    {
+      this.$router.push('complete-signup')
+    }
+
     this.calls = await fetchUserCalls()
     this.notes = await fetchCallNotes()
   },

@@ -28,33 +28,36 @@
           <div class="card">
             <div class="card-body">
               <div class="m-4">
-                <form action="javascript:void(0);">
+                <form action="javascript:void(0);" @submit.prevent="submitProfile">
+                  <div class="alert alert-danger shadow" role="alert" v-show="errorMessage">
+                    <strong> Error! </strong> {{ errorMessage }}
+                  </div>
                   <div class="row">
                     <div class="col-md-6">
                       <div class="mb-3">
                         <label for="firstNameinput" class="form-label">First Name</label>
-                        <input type="text" class="form-control" placeholder="Enter your firstname" id="firstNameinput">
+                        <input type="text" class="form-control" v-model="user.first_name" placeholder="Enter your firstname" id="firstNameinput">
                       </div>
                     </div>
                     <!--end col-->
                     <div class="col-md-6">
                       <div class="mb-3">
                         <label for="lastNameinput" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" placeholder="Enter your lastname" id="lastNameinput">
+                        <input type="text" class="form-control" v-model="user.last_name" placeholder="Enter your lastname" id="lastNameinput">
                       </div>
                     </div>
                     <!--end col-->
                     <div class="col-md-12">
                       <div class="mb-3">
                         <label for="companyNameinput" class="form-label">Company Name</label>
-                        <input type="text" class="form-control" placeholder="Enter company name" id="companyNameinput">
+                        <input type="text" class="form-control" v-model="user.business_name" placeholder="Enter company name" id="companyNameinput">
                       </div>
                     </div>
                     <!--end col-->
                     <div class="col-md-6">
                       <div class="mb-3">
                         <label for="emailidInput" class="form-label">Email Address</label>
-                        <input type="email" class="form-control" placeholder="me@business.com" id="emailidInput">
+                        <input type="email" class="form-control" v-model="user.personal_email" placeholder="me@business.com" id="emailidInput">
                       </div>
                     </div>
 
@@ -62,12 +65,12 @@
                     <div class="col-md-6">
                       <div class="mb-3">
                         <label for="ForminputState" class="form-label">Team Size</label>
-                        <select class="form-select mb-3" aria-label="Default select example">
-                          <option selected>Less than 5 people</option>
-                          <option value="1">5  - 10 people</option>
-                          <option value="2">10 - 20 people</option>
-                          <option value="3">20 - 50 people</option>
-                          <option value="3">More than 50 people</option>
+                        <select class="form-select mb-3" aria-label="Team Size" v-model="user.team_size" >
+                          <option selected value="0">Less than 5 people</option>
+                          <option value="5">5  - 10 people</option>
+                          <option value="10">10 - 20 people</option>
+                          <option value="20">20 - 50 people</option>
+                          <option value="50">More than 50 people</option>
                         </select>
                       </div>
                     </div>
@@ -96,6 +99,7 @@
 
 <script>
 import { useNumbersStore, useUsersStore } from "@/stores";
+import { updateUserProfile } from "@/helpers";
 
 export default {
   name: "CompleteSignUpView",
@@ -106,12 +110,37 @@ export default {
       numberStore, userStore
     }
   },
+  data() {
+    return {
+      errorMessage: null,
+      user:{
+        first_name: "",
+        last_name: "",
+        personal_email: "",
+        business_name: "",
+        team_size: ""
+      }
+    }
+  },
   computed: {
     currentUser() {
       return this.userStore.currentUser
     },
   },
   methods: {
+    async submitProfile() {
+      this.errorMessage = ""
+      try {
+        await updateUserProfile(this.userStore.currentUser.id, this.user)
+      } catch (e) {
+        this.errorMessage = String(e)
+        return
+      }
+
+      this.$emit("success", null)
+      await this.userStore.loadCurrentUser(this.userStore.currentUser.mobile);
+      this.$router.push('/home')
+    }
 
   },
   mounted() {
