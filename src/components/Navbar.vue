@@ -89,6 +89,12 @@
             ><i class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i>
             <span class="align-middle">Help</span></a
           >
+          <a class="dropdown-item" :href="this.$router.resolve('/pricing').href"
+          ><i
+            class="mdi mdi-cash text-muted fs-16 align-middle me-1"
+          ></i>
+            <span class="align-middle">Buy Number</span></a
+          >
           <div v-show="numbers.length > 1">
 
             <div class="dropdown-divider"></div>
@@ -102,10 +108,8 @@
               <span class="align-middle">{{ formatPhoneNumber(number.business_number.phone_number) }}</span>
               <p class="align-middle small text-muted"><span class="me-1" style="width: 16px;display: inline-block">&nbsp;</span>{{ number.business_number.label.substring(0,19) }} </p>
             </a>
-
           </div>
           <div class="dropdown-divider"></div>
-
           <a class="dropdown-item" href="#" @click.prevent="logout"
             ><i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
             <span class="align-middle" data-key="t-logout">Logout</span></a
