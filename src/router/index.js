@@ -8,6 +8,7 @@ import ContactsView from "@/views/ContactsView.vue";
 import CallsView from "@/views/CallsView.vue";
 import TeamView from "@/views/TeamView.vue";
 import PricingPlanView from "@/views/PricingPlanView.vue";
+import CompleteSignUpView from "@/views/CompleteSignUpView.vue";
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,10 @@ export const router = createRouter({
         {
           path: 'pricing',
           component: PricingPlanView
+        },
+        {
+          path: 'complete-signup',
+          component: CompleteSignUpView
         }
       ]
     },
