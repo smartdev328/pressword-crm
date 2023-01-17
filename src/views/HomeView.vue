@@ -200,8 +200,12 @@ export default {
     if(userJustJoined(this.currentUser.first_name, this.currentUser.last_name, this.currentUser.date_joined))
     {
       this.$router.push('complete-signup')
+      return
     }
-
+    if(this.currentUser.receivers.length === 0){
+      this.$router.push('pricing')
+      return;
+    }
     this.calls = await fetchUserCalls()
     this.notes = await fetchCallNotes()
   },
