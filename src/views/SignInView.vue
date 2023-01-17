@@ -171,6 +171,11 @@ export default {
       this.onSubmit();
     }
   },
+  mounted() {
+    if(this.$route.name === "sign-up"){
+      this.signUpMode = true;
+    }
+  },
   watch : {
     phoneError: {
       handler(value){

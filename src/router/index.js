@@ -51,6 +51,11 @@ export const router = createRouter({
       name: 'sign-in',
       component: SignInView
     },
+    {
+      path: '/sign-up',
+      name: 'sign-up',
+      component: SignInView
+    },
     // catch all redirect to home page
     { path: '/:pathMatch(.*)*', redirect: '/home' }
   ]
