@@ -71,7 +71,7 @@
               >
               <span
                 class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text"
-                >{{formatPhoneNumber(activeNumber.business_number.phone_number)}}</span
+                >{{formatPhoneNumber(activePhoneNumber)}}</span
               >
             </span>
           </span>
@@ -96,7 +96,7 @@
             <a class="dropdown-item" href="#"
                v-for="(number, i) in numbers" :key="i"
                @click.prevent="setActiveNumber(number, i)"
-               v-show="number.business_number.phone_number !== activeNumber.business_number.phone_number"
+               v-show="number.business_number.phone_number !== activePhoneNumber"
             ><i
               class="mdi mdi-swap-horizontal text-muted fs-16 align-middle me-1"></i>
               <span class="align-middle">{{ formatPhoneNumber(number.business_number.phone_number) }}</span>
@@ -136,8 +136,11 @@ export default {
     currentUser() {
       return this.userStore.currentUser
     },
-    activeNumber(){
+    activeNumber(){ // number object
       return this.numberStore.activeNumber
+    },
+    activePhoneNumber(){ //actual phone number string
+      return this.numberStore.activeNumber ? this.numberStore.activeNumber.phone_number : "";
     },
     numbers() {
       return this.numberStore.numbers

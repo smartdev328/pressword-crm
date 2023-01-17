@@ -4,6 +4,7 @@ import {requestLoginOTP, verifyLoginToken} from '@/helpers';
 import { router } from '@/router';
 import { useAlertStore, useUsersStore } from "@/stores";
 import { validateMobile } from "@/helpers/utils";
+import { getActivePinia } from "pinia";
 
 export const useAuthStore = defineStore({
     id: 'auth',
@@ -30,6 +31,7 @@ export const useAuthStore = defineStore({
             try {
                 const {token} = await verifyLoginToken(mobile_phone, otp, remember);
                 this.token = token;
+                console.log(this.token);
                 this.mobile_number = mobile_phone;
                 const userStore = useUsersStore();
                 await userStore.loadCurrentUser(this.mobile_number);
@@ -50,6 +52,9 @@ export const useAuthStore = defineStore({
         logout() {
             this.token = null;
             this.mobile_number = null;
+            //clear stores
+            // map through that list and use the **$reset** fn to reset the state
+            getActivePinia()._s.forEach(store => store.$reset());
             router.push('/sign-in');
         }
     },
