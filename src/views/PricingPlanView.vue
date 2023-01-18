@@ -60,7 +60,7 @@
                     </div>
                   </div>
                   <div class="mt-4 mb-4 text-center">
-                    <p class="text-muted">The good way to start and see it work.</p>
+                    <p class="text-muted">A great way to start and see it works.</p>
                   </div>
                 </div>
               </div>
