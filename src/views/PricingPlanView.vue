@@ -277,18 +277,18 @@ export default {
          plan2:'ri-checkbox-circle-fill',
          plan3:'ri-checkbox-circle-fill'
        },
-       featureShared:{
-         title:"Maximum of <b>3</b> Users",
-         title2:"Unlimited Users",
-         title3:"Unlimited Users",
-         plan1:'ri-checkbox-circle-fill',
-         plan2:'ri-checkbox-circle-fill',
-         plan3:'ri-checkbox-circle-fill'
-       },
        featureExtra:{
          title:"&#8358;500 per Extra User",
          title2:"&#8358;1,000 per Extra User",
          title3:"&#8358;2,000 per Extra User",
+         plan1:'ri-checkbox-circle-fill',
+         plan2:'ri-checkbox-circle-fill',
+         plan3:'ri-checkbox-circle-fill'
+       },
+       featureShared:{
+         title:"Maximum of <b>3</b> Users",
+         title2:"Unlimited Users",
+         title3:"Unlimited Users",
          plan1:'ri-checkbox-circle-fill',
          plan2:'ri-checkbox-circle-fill',
          plan3:'ri-checkbox-circle-fill'
