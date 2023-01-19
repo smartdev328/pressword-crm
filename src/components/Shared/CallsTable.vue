@@ -84,6 +84,7 @@ import {Howl} from "howler";
 import { buildWebdialerLink, formatPhoneNumber } from "@/helpers/utils";
 import Modal from "@/components/Shared/Modal.vue";
 import Notes from "@/components/Shared/Notes.vue";
+import {useNumbersStore} from "@/stores";
 
 export default {
   name: "CallsTable",
@@ -123,7 +124,7 @@ export default {
       return moment(timestamp).format("ddd MMM, hh:mm a")
     },
     callNumber(mobile_number) {
-      window.open(buildWebdialerLink(mobile_number), "_blank")
+      window.open(buildWebdialerLink(mobile_number, this.numberStore.activeNumber.id), "_blank")
     },
     openNotes(call) {
       this.callToShowNotes = call
@@ -155,6 +156,12 @@ export default {
           this.isPlayingAudio = false
         })
       }
+    }
+  },
+  setup () {
+    const numberStore = useNumbersStore()
+    return {
+      numberStore
     }
   }
 }

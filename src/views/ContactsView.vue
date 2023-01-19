@@ -182,7 +182,7 @@ export default {
       this.showConfirmDeleteContact = true
     },
     callContact(contact) {
-      window.open(buildWebdialerLink(contact.contact_number, "_blank"))
+      window.open(buildWebdialerLink(contact.contact_number, this.numberStore.activeNumber.id), "_blank")
     }
   },
   setup() {

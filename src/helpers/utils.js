@@ -94,12 +94,12 @@ export const userJustJoined = (first_name, last_name, date_joined) => {
     return false;
 }
 
-export const buildWebdialerLink = (mobile_number) => {
+export const buildWebdialerLink = (mobile_number, receiver_number_id) => {
     const formattedPhone = validateMobile(mobile_number);
     const currentHost = window.location.hostname
     let webdialerHost = "https://webdialer.pressone.co"
     if (currentHost.includes("pressone.africa")) {
         webdialerHost = "https://dialer.pressone.africa"
     }
-    return `${webdialerHost}/?s=ec.${formattedPhone.substring(1,)}`
+    return `${webdialerHost}/?s=${(receiver_number_id).toString(16)}.${formattedPhone.substring(1,)}`
 }

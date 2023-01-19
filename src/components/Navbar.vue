@@ -160,7 +160,7 @@ export default {
       authStore.logout();
     },
     callNumber() {
-      window.open(buildWebdialerLink(this.dialerNumber, "_blank"))
+      window.open(buildWebdialerLink(this.dialerNumber, this.numberStore.activeNumber.id), "_blank")
     },
     setActiveNumber(number, index){
       //number is an item in user.receivers data gotten from the getuserbymobile api endpoint.

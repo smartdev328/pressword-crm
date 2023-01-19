@@ -243,7 +243,7 @@ export default {
       await this.loadTeamMembers()
     },
     callTeamMember(member) {
-      window.open(buildWebdialerLink(member.phone_number, "_blank"))
+      window.open(buildWebdialerLink(member.phone_number, this.numbersStore.activeNumber.id), "_blank")
     },
     memberPermissions(member) {
       return parseTeamMemberPermissionsAsStringArray(member)
