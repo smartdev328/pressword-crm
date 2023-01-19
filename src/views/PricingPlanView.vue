@@ -278,9 +278,9 @@ export default {
          plan3:'ri-checkbox-circle-fill'
        },
        featureExtra:{
-         title:"&#8358;500 per Extra User",
-         title2:"&#8358;1,000 per Extra User",
-         title3:"&#8358;2,000 per Extra User",
+         title:"&#8358;500/mth per Extra User </br> (2 users included in plan)",
+         title2:"&#8358;1,000/mth per Extra User </br> (2 users included in plan)",
+         title3:"&#8358;2,000/mth per Extra User </br> (2 users included in plan)",
          plan1:'ri-checkbox-circle-fill',
          plan2:'ri-checkbox-circle-fill',
          plan3:'ri-checkbox-circle-fill'
