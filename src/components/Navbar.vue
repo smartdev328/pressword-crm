@@ -102,11 +102,11 @@
             <a class="dropdown-item" href="#"
                v-for="(number, i) in numbers" :key="i"
                @click.prevent="setActiveNumber(number, i)"
-               v-show="number.business_number.phone_number !== activePhoneNumber"
+               v-show="number.phone_number !== activePhoneNumber"
             ><i
               class="mdi mdi-swap-horizontal text-muted fs-16 align-middle me-1"></i>
-              <span class="align-middle">{{ formatPhoneNumber(number.business_number.phone_number) }}</span>
-              <p class="align-middle small text-muted"><span class="me-1" style="width: 16px;display: inline-block">&nbsp;</span>{{ number.business_number.label.substring(0,19) }} </p>
+              <span class="align-middle">{{ formatPhoneNumber(number.phone_number) }}</span>
+              <p class="align-middle small text-muted"><span class="me-1" style="width: 16px;display: inline-block">&nbsp;</span>{{ number.phone_number.substring(0,19) }} </p>
             </a>
           </div>
           <div class="dropdown-divider"></div>
@@ -144,7 +144,7 @@ export default {
       return this.numberStore.activeNumber
     },
     activePhoneNumber(){ //actual phone number string
-      return this.numberStore.activeNumber ? this.numberStore.activeNumber.business_number.phone_number : "";
+      return this.numberStore.activeNumber ? this.numberStore.activeNumber.phone_number : "";
     },
     numbers() {
       return this.numberStore.numbers

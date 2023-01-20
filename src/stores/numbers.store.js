@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 
-import {fetchUserNumbers} from '@/helpers';
 import { useUsersStore } from "@/stores/users.store";
 import { formatPhoneNumber } from "@/helpers/utils";
 
@@ -12,12 +11,12 @@ export const useNumbersStore = defineStore({
         activeNumber: null
     }),
     getters: {
-        activeNumberLabel: (state) => state.activeNumber ? formatPhoneNumber(state.activeNumber.business_number.phone_number) : "PressOne"
+        activeNumberLabel: (state) => state.activeNumber ? formatPhoneNumber(state.activeNumber.phone_number) : "PressOne"
     },
     actions: {
         async getUserPhones() {
             const userStore = useUsersStore();
-            this.numbers = userStore.currentUser.receivers;
+            this.numbers = userStore.currentUser.business_numbers;
             if (this.numbers?.length && !this.activeNumber) { //set active number to first number if not set
                 this.activeNumber = this.numbers[0]
             }
@@ -30,5 +29,5 @@ export const useNumbersStore = defineStore({
             return !this.activeNumber;
         }
     },
-    persist: true
+    // persist: true
 });

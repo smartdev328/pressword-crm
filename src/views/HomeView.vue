@@ -81,7 +81,7 @@
             </div>
             <!-- end card header -->
 
-            <div class="card-body">
+            <div class="card-body home-card">
               <div class="table-responsive">
                 <CallsTable
                     :calls="calls" :limit="5" :hide-agent="true"
@@ -106,7 +106,7 @@
               <h4 class="card-title mb-0 flex-grow-1">Recent Notes</h4>
             </div>
             <!-- end card header -->
-            <div class="card-body pt-0">
+            <div class="card-body home-card pt-0">
               <Notes
                   :notes="notes.results"
                   v-if="notes?.results?.length"
@@ -128,7 +128,7 @@
               <h4 class="card-title mb-0 flex-grow-1">Quick Contact Add</h4>
             </div>
 
-            <div class="card-body p-4">
+            <div class="card-body home-card p-4">
               <ContactForm/>
             </div>
           </div>
@@ -141,7 +141,7 @@
               <h4 class="card-title mb-0 flex-grow-1">User Profile</h4>
             </div>
 
-            <div class="card-body p-4">
+            <div class="card-body home-card p-4">
               <UserProfile/>
             </div>
           </div>
@@ -212,4 +212,9 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.home-card {
+  max-height: 350px;
+  overflow-y: scroll;
+}
+</style>

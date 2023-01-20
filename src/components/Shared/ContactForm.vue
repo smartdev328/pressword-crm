@@ -82,7 +82,7 @@
 
 <script>
 import {addNewContact, updateContact} from "@/helpers";
-import {useUsersStore} from "@/stores";
+import {useNumbersStore, useUsersStore} from "@/stores";
 
 export default {
   name: "ContactForm",
@@ -98,7 +98,7 @@ export default {
         contact_name: "",
         contact_number: "",
         contact_company: "",
-        // business_number: "", TODO: Is this required?
+        business_number: "",
         user: this.userStore.currentUser.id
       },
       isSuccess: false
@@ -116,6 +116,7 @@ export default {
         contact_name: "",
         contact_number: "",
         contact_company: "",
+        business_number: ""
       }
     },
     async submitContact() {
@@ -136,6 +137,7 @@ export default {
           await updateContact(this.contactToUpdate.id, this.contact)
         }
         else {
+          this.contact.business_number = this.numbersStore.activeNumber?.id
           await addNewContact(this.contact);
         }
         this.resetContact();
@@ -162,8 +164,10 @@ export default {
   },
   setup () {
     const userStore = useUsersStore()
+    const numbersStore = useNumbersStore()
     return {
-      userStore
+      userStore,
+      numbersStore
     }
   }
 }
