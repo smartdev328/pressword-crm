@@ -67,7 +67,7 @@
             <span class="text-start ms-xl-2">
               <span
                 class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"
-                >{{ currentUser.first_name }}</span
+                >{{ currentUser?.first_name }}</span
               >
               <span
                 class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text"
@@ -78,7 +78,7 @@
         </button>
         <div class="dropdown-menu dropdown-menu-end">
           <!-- item-->
-          <h6 class="dropdown-header">Welcome {{ currentUser.first_name }}!</h6>
+          <h6 class="dropdown-header">Welcome {{ currentUser?.first_name }}!</h6>
           <a class="dropdown-item" href="#" @click.prevent="userStore.showEditProfile = true"
             ><i
               class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"
@@ -105,8 +105,8 @@
                v-show="number.phone_number !== activePhoneNumber"
             ><i
               class="mdi mdi-swap-horizontal text-muted fs-16 align-middle me-1"></i>
-              <span class="align-middle">{{ formatPhoneNumber(number.phone_number) }}</span>
-              <p class="align-middle small text-muted"><span class="me-1" style="width: 16px;display: inline-block">&nbsp;</span>{{ number.phone_number.substring(0,19) }} </p>
+              <span class="align-middle">{{ formatPhoneNumber(number?.phone_number) }}</span>
+              <p class="align-middle small text-muted"><span class="me-1" style="width: 16px;display: inline-block">&nbsp;</span>{{ number?.phone_number?.substring(0,19) }} </p>
             </a>
           </div>
           <div class="dropdown-divider"></div>
