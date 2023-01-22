@@ -179,6 +179,7 @@ import ConfirmationModal from "@/components/Shared/ConfirmationModal.vue";
 import {useNumbersStore} from "@/stores";
 import { parseTeamMemberPermissionsAsStringArray } from "@/helpers/teamMembers";
 import { buildWebdialerLink } from "@/helpers/utils";
+import {useDialerStore} from "@/stores/dialer.store";
 
 export default {
   name: "TeamView",
@@ -243,7 +244,7 @@ export default {
       await this.loadTeamMembers()
     },
     callTeamMember(member) {
-      window.open(buildWebdialerLink(member.phone_number, this.numbersStore.activeNumber.id), "_blank")
+      this.dialerStore.beginCall(member.phone_number)
     },
     memberPermissions(member) {
       return parseTeamMemberPermissionsAsStringArray(member)
@@ -254,8 +255,10 @@ export default {
   },
   setup() {
     const numbersStore = useNumbersStore()
+    const dialerStore = useDialerStore()
     return {
-      numbersStore
+      numbersStore,
+      dialerStore
     }
   }
 }

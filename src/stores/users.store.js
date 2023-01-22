@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-import { fetchWrapper, BASE_API, getUserDetailsByPhone } from "@/helpers";
+import {fetchWrapper, BASE_API, getUserDetailsByPhone, PINIA_PERSIST_OPTIONS} from "@/helpers";
 
 
 export const useUsersStore = defineStore({
@@ -23,5 +23,5 @@ export const useUsersStore = defineStore({
             // this.currentUser contains all user properties. E.g. this.currentUser.first_name
         },
     },
-    persist: true
+    persist: PINIA_PERSIST_OPTIONS
 });

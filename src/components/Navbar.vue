@@ -64,15 +64,17 @@
               src="@/assets/images/anonymous.png"
               alt="Header Avatar"
             />
-            <span class="text-start ms-xl-2">
+            <span class="text-start ms-xl-2 profile-name">
               <span
                 class="d-none d-xl-inline-block ms-1 fw-medium user-name-text"
-                >{{ currentUser?.first_name }}</span
               >
+                {{ currentUser?.first_name }}
+              </span>
               <span
                 class="d-none d-xl-block ms-1 fs-12 text-muted user-name-sub-text"
-                >{{formatPhoneNumber(activePhoneNumber)}}</span
-              >
+                >
+                {{formatPhoneNumber(activePhoneNumber)}}
+              </span>
             </span>
           </span>
         </button>
@@ -101,7 +103,7 @@
             <h6 class="dropdown-header" title="Tap any number to view that number">Switch Account</h6>
             <a class="dropdown-item" href="#"
                v-for="(number, i) in numbers" :key="i"
-               @click.prevent="setActiveNumber(number, i)"
+               @click.prevent="setActiveNumber(number)"
                v-show="number.phone_number !== activePhoneNumber"
             ><i
               class="mdi mdi-swap-horizontal text-muted fs-16 align-middle me-1"></i>
@@ -124,16 +126,17 @@ import { useAuthStore, useUsersStore, useNumbersStore } from "@/stores";
 import Modal from "@/components/Shared/Modal.vue";
 import ProfileForm from "@/components/Shared/ProfileForm.vue";
 import { buildWebdialerLink, formatPhoneNumber } from "@/helpers/utils";
+import {useDialerStore} from "@/stores/dialer.store";
 
 export default {
   name: "Navbar",
   components: {
     ProfileForm,
-    Modal
+    Modal,
   },
   data() {
       return {
-        dialerNumber: ""
+        dialerNumber: "",
       }
   },
   computed: {
@@ -151,7 +154,7 @@ export default {
     },
     dialerPlaceholder() {
       return this.activeNumber ? "Enter Phone Number" : "Purchase a Number to Activate"
-    }
+    },
   },
   methods:{
     formatPhoneNumber,
@@ -160,22 +163,24 @@ export default {
       authStore.logout();
     },
     callNumber() {
-      window.open(buildWebdialerLink(this.dialerNumber, this.numberStore.activeNumber.id), "_blank")
+      this.dialerStore.beginCall(this.dialerNumber)
     },
-    setActiveNumber(number, index){
+    setActiveNumber(number){
       //number is an item in user.receivers data gotten from the getuserbymobile api endpoint.
       this.numberStore.setActiveNumber(number)
       this.$router.go()
-    }
+    },
   },
   setup() {
     const authStore = useAuthStore()
     const numberStore = useNumbersStore()
     const userStore = useUsersStore()
+    const dialerStore = useDialerStore()
     return {
       authStore,
       numberStore,
-      userStore
+      userStore,
+      dialerStore
     }
   },
   async mounted() {
@@ -184,4 +189,26 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.number-switcher {
+  display: none;
+}
+@media screen and (min-width: 1024px) {
+  .number-switcher {
+    width: 200px;
+    display: block;
+  }
+}
+
+@media screen and (min-width: 1600px) {
+  .number-switcher {
+    width: 350px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .profile-name {
+    width: 120px;
+  }
+}
+</style>
