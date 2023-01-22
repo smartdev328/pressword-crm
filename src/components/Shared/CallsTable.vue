@@ -85,6 +85,7 @@ import { buildWebdialerLink, formatPhoneNumber } from "@/helpers/utils";
 import Modal from "@/components/Shared/Modal.vue";
 import Notes from "@/components/Shared/Notes.vue";
 import {useNumbersStore} from "@/stores";
+import {useDialerStore} from "@/stores/dialer.store";
 
 export default {
   name: "CallsTable",
@@ -124,7 +125,7 @@ export default {
       return moment(timestamp).format("ddd MMM, hh:mm a")
     },
     callNumber(mobile_number) {
-      window.open(buildWebdialerLink(mobile_number, this.numberStore.activeNumber.id), "_blank")
+      this.dialerStore.beginCall(mobile_number)
     },
     openNotes(call) {
       this.callToShowNotes = call
@@ -160,8 +161,10 @@ export default {
   },
   setup () {
     const numberStore = useNumbersStore()
+    const dialerStore = useDialerStore()
     return {
-      numberStore
+      numberStore,
+      dialerStore
     }
   }
 }

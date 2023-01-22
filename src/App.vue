@@ -1,4 +1,5 @@
 <template>
+  <Notifications position="bottom right"/>
   <Alert></Alert>
   <RouterView></RouterView>
 </template>
@@ -6,9 +7,6 @@
 <script setup>
 import {RouterView} from 'vue-router'
 import Alert from "@/components/Alert.vue";
-import { useUsersStore } from "@/stores";
-
-const userStore = useUsersStore();
 </script>
 
 <style scoped>

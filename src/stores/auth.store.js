@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia';
 
-import {requestLoginOTP, verifyLoginToken} from '@/helpers';
+import {PINIA_PERSIST_OPTIONS, requestLoginOTP, verifyLoginToken} from '@/helpers';
 import { router } from '@/router';
 import { useAlertStore, useNumbersStore, useUsersStore } from "@/stores";
-import { validateMobile } from "@/helpers/utils";
+import { validateMobile} from "@/helpers/utils";
 import { getActivePinia } from "pinia";
 
 export const useAuthStore = defineStore({
@@ -68,5 +68,5 @@ export const useAuthStore = defineStore({
             router.push('/sign-in');
         }
     },
-    persist: true
+    persist: PINIA_PERSIST_OPTIONS
 });

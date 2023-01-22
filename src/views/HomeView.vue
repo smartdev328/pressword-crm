@@ -164,6 +164,7 @@ import UserProfile from "@/components/Home/UserProfile.vue";
 import {fetchCallNotes, fetchUserCalls} from "@/helpers";
 import NoResultsFound from "@/components/Shared/NoResultsFound.vue";
 import { userJustJoined } from "@/helpers/utils";
+import ActiveCall from "@/components/Shared/ActiveCall.vue";
 
 export default {
   name: "HomeView",
@@ -173,7 +174,7 @@ export default {
     CallsTable,
     ContactForm,
     Notes,
-    NoResultsFound
+    NoResultsFound,
   },
   computed: {
     currentUser() {

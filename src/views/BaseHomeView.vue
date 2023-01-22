@@ -10,7 +10,7 @@
     <div class="vertical-overlay"></div> <!-- Vertical Overlay-->
 
     <div class="main-content">
-
+      <ActiveCall/>
       <RouterView></RouterView> <!-- Child component is HomeView -->
 
       <footer class="footer">
@@ -36,12 +36,14 @@
 import Navbar from "@/components/Navbar.vue";
 import SideMenu from "@/components/SideMenu.vue";
 import {InitAppJS} from "@/assets/js/app"
+import ActiveCall from "@/components/Shared/ActiveCall.vue";
 
 export default {
   name: "BaseHomeView",
   components : {
     Navbar,
-    SideMenu
+    SideMenu,
+    ActiveCall
   },
   methods : {
     topFunction() {

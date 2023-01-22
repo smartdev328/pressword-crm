@@ -116,6 +116,7 @@ import {deleteContact, fetchUserContacts} from "@/helpers";
 import {buildWebdialerLink} from "@/helpers/utils";
 import Loading from "@/components/Shared/Loading.vue";
 import {useNumbersStore} from "@/stores";
+import {useDialerStore} from "@/stores/dialer.store";
 
 export default {
   name: "ContactsView",
@@ -182,13 +183,15 @@ export default {
       this.showConfirmDeleteContact = true
     },
     callContact(contact) {
-      window.open(buildWebdialerLink(contact.contact_number, this.numberStore.activeNumber.id), "_blank")
+      this.dialerStore.beginCall(contact.contact_number)
     }
   },
   setup() {
     const numberStore = useNumbersStore()
+    const dialerStore = useDialerStore()
     return {
-      numberStore
+      numberStore,
+      dialerStore
     }
   },
   async mounted() {
