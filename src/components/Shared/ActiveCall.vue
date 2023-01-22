@@ -39,6 +39,10 @@ export default {
     this.dialerStore.resetIFrameURL()
     this.dialerStore.iframeEl = this.$refs["active-call"]
 
+    this.$refs["active-call"].addEventListener('load', () => {
+      this.dialerStore.initDialer()
+    }, true)
+
     window.addEventListener("message", message => {
       if (message.source === this.$refs["active-call"].contentWindow) {
         switch (message.data) {
@@ -52,7 +56,7 @@ export default {
             this.dialerStore.setIsDialerShowing(true)
             break
           case this.IFRAME_MSG.INIT_COMPLETE:
-            this.dialerStore.isLoading = false
+            this.dialerStore.initComplete()
             break
           default:
             this.dialerStore.setIsDialerShowing(false)

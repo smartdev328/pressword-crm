@@ -54,5 +54,8 @@ async function handleResponse(response) {
         return Promise.reject(error);
     }
 
-    return data;
+    return {
+        data,
+        headers: response.headers
+    };
 }

@@ -30,8 +30,8 @@ export const useAuthStore = defineStore({
             this.authError = "";
             mobile_phone = validateMobile(mobile_phone);
             try {
-                const {token} = await verifyLoginToken(mobile_phone, otp, remember);
-                this.token = token;
+                const {data, headers} = await verifyLoginToken(mobile_phone, otp, remember);
+                this.token = data.token;
                 this.mobile_number = mobile_phone;
                 const userStore = useUsersStore();
                 await userStore.loadCurrentUser(this.mobile_number);
