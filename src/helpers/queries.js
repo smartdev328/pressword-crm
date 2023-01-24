@@ -7,7 +7,7 @@ const getActiveBusinessId = () => {
     if (!numberStore.activeNumber) {
         return ''
     }
-    return numberStore.activeNumber.id
+    return numberStore.activeNumber.business_number.id
 }
 
 const parseData = async response => {
