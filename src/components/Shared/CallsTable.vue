@@ -122,7 +122,7 @@ export default {
         return new Date(duration * 1000).toISOString().substring(11, 16)
     },
     formatCallTimestamp(timestamp) {
-      return moment(timestamp).format("ddd MMM, hh:mm a")
+      return moment(timestamp).format("ddd MMM D, hh:mm a")
     },
     callNumber(mobile_number) {
       this.dialerStore.beginCall(mobile_number)
