@@ -8,20 +8,20 @@ import {PINIA_PERSIST_OPTIONS} from "@/helpers";
 export const useNumbersStore = defineStore({
     id: 'numbers',
     state: () => ({
-        numbers: null|[],
-        activeNumber: null
+        numbers: null|[], // this is an array of Receivers (User.receivers)
+        activeNumber: null //Receiver object
     }),
     getters: {
-        activeNumberLabel: (state) => state.activeNumber ? formatPhoneNumber(state.activeNumber.phone_number) : "PressOne",
+        activeNumberLabel: (state) => state.activeNumber ? formatPhoneNumber(state.activeNumber.business_number.phone_number) : "PressOne",
         currentUserReceiver() {
             const userStore = useUsersStore();
-            return this.activeNumber.receivers.find(rec => rec.user_id === userStore.currentUser.id)
+            return this.activeNumber.id;
         }
     },
     actions: {
         async getUserPhones() {
             const userStore = useUsersStore();
-            this.numbers = userStore.currentUser.business_numbers;
+            this.numbers = userStore.currentUser.receivers;
             if (this.numbers?.length && !this.activeNumber) { //set active number to first number if not set
                 this.activeNumber = this.numbers[0]
             }

@@ -137,7 +137,7 @@ export default {
           await updateContact(this.contactToUpdate.id, this.contact)
         }
         else {
-          this.contact.business_number = this.numbersStore.activeNumber?.id
+          this.contact.business_number = this.numbersStore.activeNumber?.business_number?.id
           await addNewContact(this.contact);
         }
         this.resetContact();
