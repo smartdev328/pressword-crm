@@ -16,7 +16,7 @@ export const useDialerStore = defineStore({
     getters: {
         defaultIframeURL() {
             const numbersStore = useNumbersStore()
-            let receiverId = numbersStore.currentUserReceiver.id
+            let receiverId = numbersStore.currentUserReceiver
             if (receiverId) {
                 receiverId = parseInt(receiverId).toString(16)
                 return `${getWebdialerHost()}?s=${receiverId}`
