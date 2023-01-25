@@ -45,13 +45,26 @@ export default {
     SideMenu,
     ActiveCall
   },
+  data(){
+    return {
+      mybutton: null
+    }
+  },
   methods : {
     topFunction() {
       (document.body.scrollTop = 0); (document.documentElement.scrollTop = 0);
+    },
+    scrollFunction() {
+        100 < document.body.scrollTop || 100 < document.documentElement.scrollTop
+            ? (this.mybutton.style.display = "block")
+            : (this.mybutton.style.display = "none");
     }
   },
   mounted() {
-    InitAppJS()
+    this.mybutton = document.getElementById("back-to-top");
+
+    this.mybutton && (window.onscroll = () => this.scrollFunction());
+    // InitAppJS()
   }
 };
 </script>
