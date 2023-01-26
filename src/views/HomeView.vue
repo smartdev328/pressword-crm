@@ -83,14 +83,18 @@
 
             <div class="card-body home-card">
               <div class="table-responsive">
-                <CallsTable
-                    :calls="calls" :limit="5" :hide-agent="true"
-                    v-if="calls?.length"
-                />
-                <NoResultsFound
-                    v-else
-                    description="Once you make a call or receive one, it would show up here. 😄"
-                />
+                <template v-if="!isLoadingCalls">
+                  <CallsTable
+                      :calls="calls" :limit="5" :hide-agent="true"
+                      v-if="calls?.length"
+                  />
+                  <NoResultsFound
+                      v-else
+                      description="Once you make a call or receive one, it would show up here. 😄"
+                  />
+                </template>
+
+                <Loading v-else/>
               </div>
               <!-- end table responsive -->
             </div>
@@ -106,16 +110,19 @@
               <h4 class="card-title mb-0 flex-grow-1">Recent Notes</h4>
             </div>
             <!-- end card header -->
-            <div class="card-body home-card pt-0">
-              <Notes
-                  :notes="notes.results"
-                  v-if="notes?.results?.length"
-              />
-              <NoResultsFound
-                  v-else
-                  description="Add notes to your calls and they'd show up here. 😄"
-              />
-            </div>
+            <template v-if="!isLoadingNotes">
+              <div class="card-body home-card pt-0">
+                <Notes
+                    :notes="notes.results"
+                    v-if="notes?.results?.length"
+                />
+                <NoResultsFound
+                    v-else
+                    description="Add notes to your calls and they'd show up here. 😄"
+                />
+              </div>
+            </template>
+            <Loading v-else/>
             <!-- end card body -->
           </div>
           <!-- end card -->
@@ -164,6 +171,7 @@ import UserProfile from "@/components/Home/UserProfile.vue";
 import {fetchCallNotes, fetchUserCalls} from "@/helpers";
 import NoResultsFound from "@/components/Shared/NoResultsFound.vue";
 import { userJustJoined } from "@/helpers/utils";
+import Loading from "@/components/Shared/Loading.vue";
 import ActiveCall from "@/components/Shared/ActiveCall.vue";
 
 export default {
@@ -175,6 +183,7 @@ export default {
     ContactForm,
     Notes,
     NoResultsFound,
+    Loading
   },
   computed: {
     currentUser() {
@@ -184,7 +193,9 @@ export default {
   data() {
     return {
       notes: null,
-      calls: null
+      calls: null,
+      isLoadingCalls: false,
+      isLoadingNotes: false,
     }
   },
   methods: {},
@@ -207,8 +218,24 @@ export default {
       this.$router.push('pricing')
       return;
     }
-    this.calls = await fetchUserCalls()
-    this.notes = await fetchCallNotes()
+    this.isLoadingCalls = true
+    this.isLoadingNotes = true
+
+    try {
+      this.calls = await fetchUserCalls()
+    } catch (error) {
+      console.log(error)
+    }finally{
+      this.isLoadingCalls = false
+    }
+    
+    try {
+      this.notes = await fetchCallNotes()
+    } catch (error) {
+      console.log(error)
+    }finally{
+      this.isLoadingNotes = false
+    }
   },
 };
 </script>

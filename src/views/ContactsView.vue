@@ -161,9 +161,14 @@ export default {
     },
     async loadContacts(page = 1) {
       this.isLoading = true
-      this.contacts = await fetchUserContacts(page)
-      this.contacts.page = page
-      this.isLoading = false
+      try {
+        this.contacts = await fetchUserContacts(page)
+        this.contacts.page = page
+      } catch (error) {
+        console.log(error)
+      } finally{
+        this.isLoading = false
+      }
     },
     async searchContacts(){
 
