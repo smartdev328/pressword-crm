@@ -40,6 +40,7 @@ export function register(user, user_data=null) {
       '$last_name': user.last_name,
     }
   }
+  user_data['$distinct_id'] = user.id
   mixpanel.init(_MIXPANEL_TOKEN, {debug: _DEBUG});
   mixpanel.register(user_data)
 }
