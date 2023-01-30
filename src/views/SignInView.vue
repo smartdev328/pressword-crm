@@ -113,7 +113,7 @@
 import { useAuthStore } from "@/stores";
 import kelvinTeamBg from "@/assets/images/team-kelvin.jpg"
 import patternBg from "@/assets/images/cover-pattern.png"
-import { EVENTS, track } from "@/helpers/analytics";
+import { EVENTS, track, track_error } from "@/helpers";
 
 export default {
   name: "SignInView",
@@ -182,6 +182,7 @@ export default {
     phoneError: {
       handler(value){
         if(value){
+          track_error(EVENTS.LOGIN_ISSUE,this.phoneError)
           this.authStore.loading = false;
         }
       },
