@@ -16,6 +16,11 @@ export function track(event, prop) {
   mixpanel.track(event, prop)
 }
 
+export function identify_tracked_user(id){
+  mixpanel.init(_MIXPANEL_TOKEN, {debug: _DEBUG});
+  mixpanel.identify(id);
+}
+
 export function track_error(event, error) {
   mixpanel.init(_MIXPANEL_TOKEN, {debug: _DEBUG});
   mixpanel.track(event, { "error": error })
