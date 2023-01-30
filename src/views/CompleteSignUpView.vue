@@ -99,7 +99,7 @@
 
 <script>
 import { useNumbersStore, useUsersStore } from "@/stores";
-import { updateUserProfile } from "@/helpers";
+import { updateUserProfile, track, EVENTS, register } from "@/helpers";
 
 export default {
   name: "CompleteSignUpView",
@@ -131,6 +131,12 @@ export default {
     async submitProfile() {
       this.errorMessage = ""
       try {
+        try {
+          register(this.user, this.user)
+          track(EVENTS.SIGNED_UP, this.user)
+        }catch (e) {
+          //do nothing
+        }
         await updateUserProfile(this.userStore.currentUser.id, this.user)
       } catch (e) {
         this.errorMessage = String(e)

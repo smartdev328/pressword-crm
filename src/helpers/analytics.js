@@ -10,7 +10,7 @@ export const EVENTS = {
 }
 
 const _MIXPANEL_TOKEN = '2c91e98b6d0b2814042994af76445638'
-const _DEBUG = true;
+const _DEBUG = false;
 export function track(event, prop) {
   mixpanel.init(_MIXPANEL_TOKEN, {debug: _DEBUG});
   mixpanel.track(event, prop)
@@ -24,13 +24,16 @@ export function track_error(event, error) {
 /**
  *
  * @param user CurrentUser object from UsersStore
+ * @param user_data [Optional ]Actual user data to register. If not passed, we extract user data from user object
  */
-export function register(user) {
-  let user_data = {
-    '$email': user.personal_email,
-    '$phone': user.mobile,
-    '$first_name': user.first_name,
-    '$last_name': user.last_name,
+export function register(user, user_data=null) {
+  if(!user_data){
+    user_data = {
+      '$email': user.personal_email,
+      '$phone': user.mobile,
+      '$first_name': user.first_name,
+      '$last_name': user.last_name,
+    }
   }
   mixpanel.init(_MIXPANEL_TOKEN, {debug: _DEBUG});
   mixpanel.register(user_data)
