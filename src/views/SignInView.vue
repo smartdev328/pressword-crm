@@ -113,6 +113,7 @@
 import { useAuthStore } from "@/stores";
 import kelvinTeamBg from "@/assets/images/team-kelvin.jpg"
 import patternBg from "@/assets/images/cover-pattern.png"
+import { EVENTS, track } from "@/helpers/analytics";
 
 export default {
   name: "SignInView",
@@ -140,6 +141,7 @@ export default {
     async onSubmit() {
       this.phoneError = "";
       if(!this.otp){
+        track(EVENTS.REQUEST_OTP,{"mobile":this.mobile})
         this.authStore.getOTP(this.mobile).then((res)=>{
           this.authStore.loading = false
           if('detail' in res){ //response from server has a property "detail" that contains "We texted you a login code" or  "Unable to send you a login code. Try again later."
