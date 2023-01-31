@@ -17,7 +17,7 @@ import './assets/libs/bootstrap/js/bootstrap.bundle.min.js'
 import './assets/libs/simplebar/simplebar.min.js'
 import './assets/libs/feather-icons/feather.min.js'
 import './assets/js/plugins.js'
-import './assets/js/app.js'
+// import './assets/js/app.js'
 
 const app = createApp(App)
 
