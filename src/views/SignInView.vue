@@ -174,6 +174,11 @@ export default {
     }
   },
   mounted() {
+    try {
+      track(EVENTS.VIEWED_SIGNIN, {route: this.$route.name})
+    }catch (e) {
+      //do nothing
+    }
     if(this.$route.name === "sign-up"){
       this.signUpMode = true;
     }

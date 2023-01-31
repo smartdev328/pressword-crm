@@ -1,6 +1,7 @@
 import mixpanel from 'mixpanel-browser';
 
 export const EVENTS = {
+  VIEWED_SIGNIN: "Viewed Sign In",
   REQUEST_OTP:"Request OTP",
   SIGNED_IN: "Signed In",
   LOGIN_ISSUE: "Login Issue",
