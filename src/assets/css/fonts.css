@@ -1,0 +1,40 @@
+@font-face {
+  font-family: 'Recoleta';
+  src: url('@/assets/fonts/recoleta/regular/recoleta.woff2') format('woff2'),
+      url('@/assets/fonts/recoleta/regular/recoleta.woff') format('woff'),
+      url('@/assets/fonts/recoleta/regular/recoleta.eot') format('eot'),
+      url('@/assets/fonts/recoleta/regular/recoleta.ttf') format('ttf');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Recoleta-Bold';
+  src: url('@/assets/fonts/recoleta/bold/Recoleta-Bold.woff2') format('woff2'),
+      url('@/assets/fonts/recoleta/bold/Recoleta-Bold.woff') format('woff'),
+      url('@/assets/fonts/recoleta/bold/Recoleta-Bold.eot') format('eot'),
+      url('@/assets/fonts/recoleta/bold/Recoleta-Bold.ttf') format('ttf');
+  font-weight: 700;
+  font-style: bold;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Urbanist-Regular';
+  src: url('@/assets/fonts/urbanist/regular/Urbanist-Regular.woff2') format('woff2'),
+      url('@/assets/fonts/urbanist/regular/Urbanist-Regular.woff') format('woff'),
+      url('@/assets/fonts/urbanist/regular/Urbanist-Regular.eot') format('eot'),
+      url('@/assets/fonts/urbanist/regular/Urbanist-Regular.ttf') format('ttf');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Urbanist-Medium';
+  src: url('@/assets/fonts/urbanist/medium/Urbanist-Medium.woff2') format('woff2'),
+      url('@/assets/fonts/urbanist/medium/Urbanist-Medium.woff') format('woff'),
+      url('@/assets/fonts/urbanist/medium/Urbanist-Medium.eot') format('eot'),
+      url('@/assets/fonts/urbanist/medium/Urbanist-Medium.ttf') format('ttf');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}

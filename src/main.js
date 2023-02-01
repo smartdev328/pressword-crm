@@ -10,6 +10,8 @@ import './assets/css/bootstrap.min.css'
 import './assets/css/icons.min.css'
 import './assets/css/app.min.css'
 import './assets/css/custom.css'
+import './assets/css/fonts.css'
+import './assets/css/text-styles.css'
 
 import './assets/js/layout.js'
 
