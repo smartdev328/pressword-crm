@@ -37,14 +37,14 @@ export const router = createRouter({
           component: TeamView
         },
         {
-          path: 'pricing',
-          component: PricingPlanView
-        },
-        {
           path: 'complete-signup',
           component: CompleteSignUpView
         }
       ]
+    },
+    {
+      path: '/pricing',
+      component: PricingPlanView
     },
     {
       path: '/sign-in',
@@ -67,7 +67,7 @@ router.beforeEach(async (to) => {
   alertStore.clear();
 
   // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/sign-in'];
+  const publicPages = ['/sign-in', '/pricing'];
   const authRequired = !publicPages.includes(to.path);
   const authStore = useAuthStore();
 
