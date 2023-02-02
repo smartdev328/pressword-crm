@@ -25,10 +25,6 @@
       </footer>
     </div>
   </div>
-  <!--start back-to-top-->
-  <button @click=topFunction class="btn btn-danger btn-icon" id="back-to-top">
-    <i class="ri-arrow-up-line"></i>
-  </button>
 </template>
 
 
@@ -47,23 +43,11 @@ export default {
   },
   data(){
     return {
-      mybutton: null
     }
   },
   methods : {
-    topFunction() {
-      (document.body.scrollTop = 0); (document.documentElement.scrollTop = 0);
-    },
-    scrollFunction() {
-        100 < document.body.scrollTop || 100 < document.documentElement.scrollTop
-            ? (this.mybutton.style.display = "block")
-            : (this.mybutton.style.display = "none");
-    }
   },
   mounted() {
-    this.mybutton = document.getElementById("back-to-top");
-
-    this.mybutton && (window.onscroll = () => this.scrollFunction());
     // InitAppJS()
   }
 };

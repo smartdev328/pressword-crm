@@ -1,17 +1,11 @@
 <template>
   <div class="page-content">
-    <div class="container-fluid">
-
-      <!-- start page title -->
-      <div class="row">
-        <div class="col-12">
-          <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-            <h4 class="mb-sm-0">&nbsp;</h4>
-          </div>
-        </div>
+    <div class="navbar-header justify bg-white shadow">
+      <div class="text-end w-100">
+        <router-link to="/sign-in" class="text-base text-black">Sign In / Sign Up</router-link>
       </div>
-      <!-- end page title -->
-
+    </div>
+    <div class="container-fluid">
       <div class="row justify-content-center mt-5">
         <div class="col-lg-5">
           <div class="text-center mb-4 pb-2">
@@ -388,5 +382,7 @@ export default {
 </script>
 
 <style scoped>
-
+.page-content{
+  padding: 0;
+}
 </style>
