@@ -12,6 +12,7 @@
     "@kyvg/vue3-notification": "^2.8.0",
     "howler": "^2.2.3",
     "jwt-decode": "^3.1.2",
+    "mixpanel-browser": "^2.45.0",
     "moment": "^2.29.4",
     "pinia": "^2.0.28",
     "pinia-plugin-persistedstate": "^3.0.2",

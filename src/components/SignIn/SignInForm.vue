@@ -74,7 +74,8 @@
 
 <script setup>
 import { ref, watch } from 'vue'
-import { useAuthStore } from "@/stores";
+import { useAuthStore } from "@/stores"
+import { EVENTS, track_error } from "@/helpers"
 
 const props = defineProps({
   isSignIn: {
@@ -122,6 +123,7 @@ const resendOTP = () => {
 } 
 
 watch(() => props.phoneError, (value) => {
+  track_error(EVENTS.LOGIN_ISSUE, phoneError.value)
   if(value) authStore.loading = false
 })
 </script>

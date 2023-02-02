@@ -1,6 +1,14 @@
 import { defineStore } from 'pinia';
 
-import {PINIA_PERSIST_OPTIONS, requestLoginOTP, verifyLoginToken} from '@/helpers';
+import {
+    EVENTS,
+    identify_tracked_user,
+    PINIA_PERSIST_OPTIONS,
+    register,
+    requestLoginOTP,
+    track,
+    verifyLoginToken
+} from "@/helpers";
 import { router } from '@/router';
 import { useAlertStore, useNumbersStore, useUsersStore } from "@/stores";
 import { validateMobile} from "@/helpers/utils";
@@ -36,10 +44,14 @@ export const useAuthStore = defineStore({
                 const userStore = useUsersStore();
                 await userStore.loadCurrentUser(this.mobile_number);
                 this.loading = false;
+                identify_tracked_user(userStore.currentUser.id)
+                register(userStore.currentUser)
+                track(EVENTS.SIGNED_IN,{})
                 // redirect to previous url or default to home page
                 router.push(this.returnUrl || '/');
             } catch (error) {
                 error = "There was a problem validating your token, please try again"
+                track(EVENTS.LOGIN_ISSUE,{"error":error})
                 this.loading = false;
                 const alertStore = useAlertStore();
                 alertStore.error(error);

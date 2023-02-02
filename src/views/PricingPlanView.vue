@@ -50,7 +50,7 @@
                       </li>
                     </ul>
                     <div class="mt-4">
-                      <a :href="buildPaymentLink(currentUser,1499)" target="_blank" class="btn btn-soft-success w-100 waves-effect waves-light">Get started</a>
+                      <a :href="buildPaymentLink(currentUser,1499)"  @click="trackPay(1499,'Basic Plan')" target="_blank" class="btn btn-soft-success w-100 waves-effect waves-light">Get started</a>
                     </div>
                   </div>
                   <div class="mt-4 mb-4 text-center">
@@ -94,7 +94,7 @@
                       </li>
                     </ul>
                     <div class="mt-4">
-                      <a :href="buildPaymentLink(currentUser,4999)" target="_blank" class="btn btn-success w-100 waves-effect waves-light">Get started</a>
+                      <a :href="buildPaymentLink(currentUser,4999)" @click="trackPay(4999,'Professional Plan')" target="_blank" class="btn btn-success w-100 waves-effect waves-light">Get started</a>
                     </div>
                   </div>
                   <div class="mt-4 mb-4 text-center">
@@ -137,7 +137,7 @@
                       </li>
                     </ul>
                     <div class="mt-4">
-                      <a :href="buildPaymentLink(currentUser,9999)" target="_blank" class="btn btn-soft-success w-100 waves-effect waves-light">Get started</a>
+                      <a :href="buildPaymentLink(currentUser,9999)" @click="trackPay(9999,'International Plan')"  target="_blank" class="btn btn-soft-success w-100 waves-effect waves-light">Get started</a>
                     </div>
                   </div>
                   <div class="mt-4 mb-4 text-center">
@@ -257,6 +257,7 @@
 <script>
 import { buildPaymentLink } from "@/helpers/utils";
 import {useNumbersStore, useUsersStore} from "@/stores";
+import { EVENTS, track } from "@/helpers";
 
 export default {
   name: "PricingPlanView",
@@ -358,8 +359,10 @@ export default {
     },
   },
   methods: {
-    buildPaymentLink
-
+    buildPaymentLink,
+    trackPay(amount, plan){
+      track(EVENTS.CLICKED_PAY, { "amount": amount,"plan": plan,"email": this.currentUser.personal_email, "mobile": this.currentUser.mobile})
+    }
   },
   setup() {
     const numberStore = useNumbersStore()
@@ -369,7 +372,11 @@ export default {
     }
   },
   mounted() {
-
+    try {
+      track(EVENTS.VIEWED_PRICING, this.currentUser)
+    }catch (e) {
+      //do nothing
+    }
   }
 }
 </script>

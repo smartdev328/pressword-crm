@@ -32,14 +32,17 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useAuthStore } from "@/stores";
+import { useAuthStore } from "@/stores"
+import { useRoute } from 'vue-router'
+import { EVENTS, track } from "@/helpers";
 import wrapper from "@/components/SignIn/wrapper.vue"
 import completeSetupWrap from "@/components/CompleteSetup/completeSetupWrap.vue"
 import SignInForm from "@/components/SignIn/SignInForm.vue"
 import SignInFooter from "@/components/SignIn/footer.vue"
 import imageBlock from "@/components/SignIn/imageBlock.vue"
 
-const authStore = useAuthStore();
+const authStore = useAuthStore()
+const route = useRoute()
 
 const phoneError = ref('')
 const otpSent = ref(false)
@@ -60,6 +63,7 @@ const onSubmit = async (data) => {
 }
 
 const getOTP = (data) => {
+  track(EVENTS.REQUEST_OTP, { "mobile": mobile.value })
   authStore.getOTP(data.mobile)
     .then((res)=>{
       authStore.loading = false
@@ -96,6 +100,8 @@ const finish = () =>{
     await authStore.login(userData.value.mobile, userData.value.otp, userData.value.rememberMe)
   }, 0);
 }
+
+track(EVENTS.VIEWED_SIGNIN, { route: route.name })
 
 </script>
 
