@@ -21,6 +21,8 @@ import { useRouter } from 'vue-router';
 import completeSetup from '@/components/CompleteSetup/completeSetup.vue'
 import choosePlan from '@/components/CompleteSetup/choosePlan.vue'
 
+const emit = defineEmits(['finish'])
+
 const router = useRouter()
 
 let currentView = ref('completeSetup')
@@ -32,7 +34,7 @@ const components = {
 const submit = (value) => {
   console.log(value)
   if(value.nextStep) currentView.value = value.nextStep
-  else router.push('/')
+  else emit('finish')
 }
 </script>
 

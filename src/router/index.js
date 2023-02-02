@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import SignInView from "@/views/SignInView.vue";
+import SignUpView from "@/views/SignUpView.vue";
 import HomeView from "@/views/HomeView.vue";
 import BaseHomeView from "@/views/BaseHomeView.vue";
 
@@ -54,7 +55,7 @@ export const router = createRouter({
     {
       path: '/sign-up',
       name: 'sign-up',
-      component: SignInView
+      component: SignUpView
     },
     // catch all redirect to home page
     { path: '/:pathMatch(.*)*', redirect: '/home' }
@@ -67,7 +68,7 @@ router.beforeEach(async (to) => {
   alertStore.clear();
 
   // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/sign-in', '/pricing'];
+  const publicPages = ['/sign-in', '/pricing', '/sign-up'];
   const authRequired = !publicPages.includes(to.path);
   const authStore = useAuthStore();
 
