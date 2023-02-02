@@ -42,7 +42,7 @@
               </div>
             </div>
             <div class="card-body">
-              <div>
+              <div v-if="!isLoading">
                 <CallsTable
                   :calls="calls"
                   v-if="calls?.length"
@@ -51,7 +51,9 @@
                     v-else
                   description="Once you make a call or receive one, it would show up here. 😄"
                 />
+                
               </div>
+              <Loading v-else/>
             </div>
           </div>
           <!--end card-->
@@ -70,16 +72,19 @@ import CallsTable from "@/components/Shared/CallsTable.vue";
 import NoResultsFound from "@/components/Shared/NoResultsFound.vue";
 import {fetchUserCalls} from "@/helpers";
 import {useNumbersStore} from "@/stores";
+import Loading from "@/components/Shared/Loading.vue";
 
 export default {
   name: "CallsView",
   components: {
     NoResultsFound,
-    CallsTable
+    CallsTable,
+    Loading
   },
   data() {
     return {
-      calls: null
+      calls: null,
+      isLoading: false,
     }
   },
   setup() {
@@ -89,7 +94,14 @@ export default {
     }
   },
   async mounted() {
-    this.calls = await fetchUserCalls()
+    try {
+      this.isLoading = true
+      this.calls = await fetchUserCalls()
+    } catch (error) {
+      console.log(error)
+    } finally{
+      this.isLoading = false
+    }
   }
 }
 </script>

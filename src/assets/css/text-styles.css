@@ -1,0 +1,41 @@
+/* Fonts */
+.font-recoleta{
+  font-family: "Recoleta", sans-serif;
+}
+.font-recoleta-bold{
+  font-family: "Recoleta-Bold", sans-serif;
+}
+.font-urbanist{
+  font-family: "Urbanist-Regular";
+}
+.font-urbanist-md{
+  font-family: "Urbanist-Medium";
+}
+
+/* Styles */
+.text-bold{
+  font-weight: 700;
+}
+
+/* Sizes */
+.text-base{
+  font-size: 16px;
+}
+.text-sm{
+  font-size: 14px;
+}
+.text-head{
+  font-size: 32px;
+}
+
+/* Colors */
+
+.text-darker{
+  color: #212121;
+}
+.text-sub-heding{
+  color: #474B50;
+}
+.text-grey{
+  color: #616C74;
+}

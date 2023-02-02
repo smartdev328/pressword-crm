@@ -6,5 +6,5 @@ export const AUTH_EXCLUDE_LIST = [
 ]
 
 export const PINIA_PERSIST_OPTIONS = {
-    storage: sessionStorage
+    storage: localStorage
 }
