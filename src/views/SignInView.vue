@@ -49,7 +49,7 @@ const onSubmit = async (data) => {
 }
 
 const getOTP = (data) => {
-  track(EVENTS.REQUEST_OTP, { "mobile": mobile.value })
+  track(EVENTS.REQUEST_OTP, { "mobile": data.mobile })
   authStore.getOTP(data.mobile)
     .then((res)=>{
       authStore.loading = false

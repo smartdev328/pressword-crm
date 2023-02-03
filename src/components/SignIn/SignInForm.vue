@@ -123,7 +123,7 @@ const resendOTP = () => {
 } 
 
 watch(() => props.phoneError, (value) => {
-  track_error(EVENTS.LOGIN_ISSUE, phoneError.value)
+  track_error(EVENTS.LOGIN_ISSUE, props.phoneError)
   if(value) authStore.loading = false
 })
 </script>
