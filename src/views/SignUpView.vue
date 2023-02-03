@@ -1,7 +1,11 @@
 <template>
   <wrapper :isShowCompleteSteps="isShowCompleteSteps">
     <template v-slot:completeSetup>
-      <completeSetupWrap v-if="isShowCompleteSteps" @finish="finish"/>
+      <completeSetupWrap 
+        v-if="isShowCompleteSteps" 
+        @finish="finish"
+        :userData="userData"
+      />
     </template>
 
     <template v-slot:image>
@@ -52,11 +56,11 @@ const isCompleteStepsFinished = ref(false)
 
 const onSubmit = async (data) => {
   phoneError.value = ""
+  userData.value = { ...data }
 
   if(!otpSent.value){
     getOTP(data)
   }else{
-    userData.value = { ...data }
     if(!isCompleteStepsFinished.value) isShowCompleteSteps.value = true
     else await authStore.login(userData.value.mobile, userData.value.otp, userData.value.rememberMe)
   }
@@ -96,6 +100,8 @@ const resendOTP = (data) =>{
 const finish = () =>{
   isShowCompleteSteps.value = false
   isCompleteStepsFinished.value = true
+  authStore.token = null
+  
   setTimeout(async () => {
     await authStore.login(userData.value.mobile, userData.value.otp, userData.value.rememberMe)
   }, 0);

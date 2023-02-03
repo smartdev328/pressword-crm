@@ -7,6 +7,7 @@
           <component 
             :is='components[currentView]' 
             :key="currentView"
+            :userData="props.userData"
             @submit="submit"
           ></component>
         </div>
@@ -17,18 +18,20 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router';
 import completeSetup from '@/components/CompleteSetup/completeSetup.vue'
-import choosePlan from '@/components/CompleteSetup/choosePlan.vue'
+// import choosePlan from '@/components/CompleteSetup/choosePlan.vue'
+import completeSignUp from "@/components/CompleteSetup/completeSignUp.vue";
 
 const emit = defineEmits(['finish'])
+const props = defineProps({
+  userData: String
+})
 
-const router = useRouter()
-
-let currentView = ref('completeSetup')
+let currentView = ref('completeSignUp')
 const components = {
   completeSetup,
-  choosePlan
+  // choosePlan,
+  completeSignUp
 }
 
 const submit = (value) => {
