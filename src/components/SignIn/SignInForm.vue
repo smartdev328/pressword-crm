@@ -91,7 +91,7 @@ const props = defineProps({
   footerHead: String,
   footerLink: String,
   footerLinkText: String,
-  phoneError: [String, Number]
+  phoneError: [String, Number, Error]
 })
 
 const emit = defineEmits(['submit', 'resendOTP'])

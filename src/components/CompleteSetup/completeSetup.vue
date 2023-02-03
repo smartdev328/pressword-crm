@@ -29,7 +29,7 @@ const radioList = [
   }
 ]
 
-const submit = (value) => emit('submit', { ...value, nextStep: 'choosePlan' })
+const submit = (value) => emit('submit', value)
 </script>
 
 <style scoped>

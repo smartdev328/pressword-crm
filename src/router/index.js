@@ -9,7 +9,7 @@ import ContactsView from "@/views/ContactsView.vue";
 import CallsView from "@/views/CallsView.vue";
 import TeamView from "@/views/TeamView.vue";
 import PricingPlanView from "@/views/PricingPlanView.vue";
-import CompleteSignUpView from "@/views/CompleteSignUpView.vue";
+// import CompleteSignUpView from "@/views/CompleteSignUpView.vue";
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,12 +37,13 @@ export const router = createRouter({
           path: 'team',
           component: TeamView
         },
-        {
-          path: 'complete-signup',
-          component: CompleteSignUpView
-        }
+        
       ]
     },
+    // {
+    //   path: '/complete-signup',
+    //   component: CompleteSignUpView
+    // },
     {
       path: '/pricing',
       component: PricingPlanView
@@ -68,7 +69,7 @@ router.beforeEach(async (to) => {
   alertStore.clear();
 
   // redirect to login page if not logged in and trying to access a restricted page
-  const publicPages = ['/sign-in', '/pricing', '/sign-up'];
+  const publicPages = ['/sign-in', '/pricing', '/sign-up', '/complete-signup'];
   const authRequired = !publicPages.includes(to.path);
   const authStore = useAuthStore();
 
