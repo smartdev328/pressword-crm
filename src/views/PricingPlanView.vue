@@ -2,7 +2,7 @@
   <div class="page-content">
     <div class="navbar-header justify bg-white shadow">
       <div class="text-end w-100">
-        <router-link to="/sign-in" class="text-base text-black">Sign In / Sign Up</router-link>
+        <router-link to="/" class="text-base text-black">{{ this.currentUser !== null ? "Go Back" : "Sign In or Create Account" }}</router-link>
       </div>
     </div>
     <div class="container-fluid">
