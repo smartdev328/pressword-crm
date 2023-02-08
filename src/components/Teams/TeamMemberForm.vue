@@ -64,14 +64,18 @@
                   Invite to
                 </label>
                 <select v-model="teamMember.business_number" class="form-select">
-                  <option
-                      :value="number.id"
-                      v-for="(number, i) in numberStore.numbers"
-                      :key="i"
-                      :selected="number.id === teamMember.business_number"
+                  <template 
+                    v-for="(number, i) in numberStore.numbers"
+                    :key="i"
                   >
-                    {{number.phone_number}}
-                  </option>
+                    <option
+                      v-if="number.business_number && number.business_number.phone_number"
+                      :value="number.business_number.id"
+                      :selected="number.business_number.id === teamMember.business_number"
+                    >
+                      {{ formatPhoneNumber(number.business_number.phone_number) }}
+                    </option>
+                  </template>
                 </select>
               </div>
             </div>
@@ -115,6 +119,7 @@
 import {useNumbersStore} from "@/stores";
 import {addNewTeamMember, updateTeamMember} from "@/helpers";
 import NoResultsFound from "@/components/Shared/NoResultsFound.vue";
+import { formatPhoneNumber } from "@/helpers/utils";
 
 export default {
   name: "TeamMemberForm",
@@ -133,7 +138,8 @@ export default {
       },
       teamMemberUpdatePayload: {
         receiver_name: ""
-      }
+      },
+      formatPhoneNumber: formatPhoneNumber
     }
   },
   watch: {

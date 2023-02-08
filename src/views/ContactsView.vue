@@ -23,6 +23,11 @@
                 <div class="flex-shrink-0">
                   <div class="hstack text-nowrap gap-2">
                     <button class="btn btn-info add-btn" @click="showContactFormModal = true"><i class="ri-add-fill me-1 align-bottom"></i> Add Contact</button>
+                    <dropdown 
+                      btnText="Import Contact"
+                      :options="importOptions"
+                      @select="importSelect"
+                    />
                   </div>
                 </div>
               </div>
@@ -102,6 +107,50 @@
       </div>
       <!--end row-->
     </div>
+
+    <ModalUploadFiles 
+      v-if="showUploadFilesModal"
+      id="importModal"
+      title="Add Contacts"
+      btnText="Upload file"
+      @close="showUploadFilesModal = false"
+      @submit="uploadFile"
+    >
+      <template v-slot:top-text>
+        <ul class="d-flex flex-wrap gap-4 ps-3">
+          <li class="text-muted">Download the .xls file below</li>
+          <li class="text-muted">Add your contact details to the file.</li>
+          <li class="text-muted">Save and re-upload file</li>
+        </ul>
+      </template>
+      <template v-slot:preview>
+        <ul class="d-flex flex-wrap gap-4 list-unstyled mb-0" id="dropzone-preview">
+          <li class="mt-2" id="dropzone-preview-list">
+            <div class="border border-dashed rounded">
+              <div class="d-flex align-items-center p-2">
+                <div class="flex-shrink-0 me-3">
+                  <div class="avatar-sm bg-light rounded d-flex align-items-center justify-content-center">
+                    <i class="text-muted ri-folder-zip-line text-success" :style="{ fontSize: '24px' }"></i>
+                  </div>
+                </div>
+                <div class="flex-grow-1">
+                  <div class="pt-1">
+                    <h5 class="fs-14 mb-1" data-dz-name>Add_Contacts.xls</h5>
+                    <p class="fs-13 text-muted mb-0" data-dz-size>2.2MB</p>
+                  </div>
+                </div>
+                <div class="flex-shrink-0 me-2" :style="{ marginLeft: '94px' }">
+                  <i 
+                    class="text-muted ri-download-2-line text-success cursor-pointer" 
+                    :style="{ fontSize: '18px' }"
+                  ></i>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </template>
+    </ModalUploadFiles>
   </div>
 </template>
 
@@ -111,7 +160,9 @@ import ContactForm from "@/components/Shared/ContactForm.vue";
 import NoResultsFound from "@/components/Shared/NoResultsFound.vue";
 import PaginationControl from "@/components/Shared/PaginationControl.vue";
 import ConfirmationModal from "@/components/Shared/ConfirmationModal.vue";
+import dropdown from "@/components/form-items/dropdown.vue";
 import Modal from "@/components/Shared/Modal.vue";
+import ModalUploadFiles from "@/components/Shared/ModalUploadFiles.vue";
 import {deleteContact, fetchUserContacts} from "@/helpers";
 import {buildWebdialerLink} from "@/helpers/utils";
 import Loading from "@/components/Shared/Loading.vue";
@@ -127,18 +178,26 @@ export default {
     ContactForm,
     ContactsTable,
     Modal,
-    Loading
+    Loading,
+    dropdown,
+    ModalUploadFiles
   },
   data () {
     return {
       isLoading: false,
       showContactFormModal: false,
+      showUploadFilesModal: false,
       showConfirmDeleteContact: false,
       contacts: null,
       searchQuery: "",
 
       contactBeingUpdated: null,
-      contactToDelete: null
+      contactToDelete: null,
+
+      importOptions: [
+        { text: 'Google Contact', value: 0 },
+        { text: 'Import .xls file', value: 1 }
+      ]
     }
   },
   computed: {
@@ -189,6 +248,13 @@ export default {
     },
     callContact(contact) {
       this.dialerStore.beginCall(contact.contact_number)
+    },
+    importSelect(item) {
+      if(item.value == this.importOptions[1].value) this.showUploadFilesModal = true
+    },
+    uploadFile(file){
+      console.log(file, 'file')
+      this.showUploadFilesModal = false
     }
   },
   setup() {

@@ -13,6 +13,28 @@ File: Custom Css File
     background-color: #12698c !important;
     border-color: #12698c !important;
 }
+.btn-green {
+    background-color: #45CB85;
+    border-color: #45CB85;
+}
+.btn-green:disabled {
+    opacity: 0.65;
+}
+.btn-green:hover {
+    background-color: #3bad71;
+    border-color: #37a26a;
+}
+.btn-soft-green, 
+.btn-soft-green:active {
+    color: #45cb85!important;
+    background-color: rgb(69 203 133 / 10%)!important;
+    border-color: transparent!important;
+}
+.btn-soft-green:hover {
+    color: #fff!important;
+    background-color: #45cb85!important;
+    border-color: transparent!important;
+}
 .bg-primary {
     background-color: #F3BF24 !important;
 }
