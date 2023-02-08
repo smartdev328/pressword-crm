@@ -1,19 +1,19 @@
 <template>
   <div id="layout-wrapper">
-    <header id="page-topbar">
+    <header id="page-topbar" v-if="isAuthenticated">
       <div class="layout-width">
         <Navbar/> <!-- App to Navbar-->
       </div>
     </header>
-    <SideMenu/> <!-- Left Sidebar -->
+    <SideMenu v-if="isAuthenticated"/> <!-- Left Sidebar -->
 
-    <div class="vertical-overlay"></div> <!-- Vertical Overlay-->
+    <div class="vertical-overlay" v-if="isAuthenticated"></div> <!-- Vertical Overlay-->
 
-    <div class="main-content">
-      <ActiveCall/>
+    <div :class="[ isAuthenticated ? 'main-content' : '' ]">
+      <ActiveCall v-if="isAuthenticated"/>
       <RouterView></RouterView> <!-- Child component is HomeView -->
 
-      <footer class="footer">
+      <footer class="footer" v-if="isAuthenticated">
         <div class="container-fluid">
           <div class="row">
             <div class="col-sm-6">
@@ -28,31 +28,17 @@
 </template>
 
 
-<script>
+<script setup>
+import { useAuthStore } from '@/stores';
 import Navbar from "@/components/Navbar.vue";
 import SideMenu from "@/components/SideMenu.vue";
-import {InitAppJS} from "@/assets/js/app"
+// import {InitAppJS} from "@/assets/js/app"
 import ActiveCall from "@/components/Shared/ActiveCall.vue";
 
-export default {
-  name: "BaseHomeView",
-  components : {
-    Navbar,
-    SideMenu,
-    ActiveCall
-  },
-  data(){
-    return {
-    }
-  },
-  methods : {
-  },
-  mounted() {
-    // InitAppJS()
-  }
-};
+const { isAuthenticated } = useAuthStore()
 </script>
 
 <style scoped>
 
 </style>
+<script> export default { name: 'BaseHomeView' } </script>

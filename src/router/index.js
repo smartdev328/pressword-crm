@@ -37,17 +37,16 @@ export const router = createRouter({
           path: 'team',
           component: TeamView
         },
-        
+        {
+          path: 'pricing',
+          component: PricingPlanView
+        },
       ]
     },
     // {
     //   path: '/complete-signup',
     //   component: CompleteSignUpView
     // },
-    {
-      path: '/pricing',
-      component: PricingPlanView
-    },
     {
       path: '/sign-in',
       name: 'sign-in',
@@ -73,7 +72,7 @@ router.beforeEach(async (to) => {
   const authRequired = !publicPages.includes(to.path);
   const authStore = useAuthStore();
 
-  if (authRequired && !authStore.isAuthenticated()) {
+  if (authRequired && !authStore.isAuthenticated) {
     authStore.returnUrl = to.fullPath;
     return '/sign-in';
   }
