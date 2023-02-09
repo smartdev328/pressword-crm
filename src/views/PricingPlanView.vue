@@ -1,7 +1,7 @@
 <template>
   <div class="page-content">
     <div class="navbar-header justify bg-white shadow">
-      <div class="text-end w-100">
+      <div v-if="!isAuthenticated" class="text-end w-100">
         <router-link to="/" class="text-base text-black">{{ this.currentUser !== null ? "Go Back" : "Sign In or Create Account" }}</router-link>
       </div>
     </div>
@@ -256,7 +256,7 @@
 
 <script>
 import { buildPaymentLink } from "@/helpers/utils";
-import {useNumbersStore, useUsersStore} from "@/stores";
+import {useNumbersStore, useUsersStore, useAuthStore} from "@/stores";
 import { EVENTS, track } from "@/helpers";
 
 export default {
@@ -367,8 +367,9 @@ export default {
   setup() {
     const numberStore = useNumbersStore()
     const userStore = useUsersStore()
+    const { isAuthenticated } = useAuthStore()
     return {
-      numberStore, userStore
+      numberStore, userStore, isAuthenticated
     }
   },
   mounted() {

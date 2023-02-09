@@ -36,11 +36,6 @@
             required
           >
           <div class="text-danger" v-show="authStore.authError">{{ authStore.authError }}</div>
-          <p class="mb-0" v-show="authStore.authError">
-            <a href="#" class="fw-semibold text-primary text-decoration-underline" @click.prevent="resendOTP">
-              Resend OTP
-            </a>
-          </p>
       </div>
 
       <div class="form-check" v-show="props.isSignIn">
@@ -59,15 +54,25 @@
   </div>
 
   <div class="mt-5 text-center">
-    <p class="mb-0">
+    <p v-if="props.otpSent" class="mb-0">
+      Didn`t receive OTP?
+      <span
+        class="fw-semibold text-primary text-decoration-underline cursor-pointer"
+        @click="resendOTP"
+      >
+        Resend OTP
+      </span>
+    </p>
+    <p v-else class="mb-0">
       {{ props.footerHead }}
-      <router-link 
+      <router-link
         :to="footerLink" 
         class="fw-semibold text-primary text-decoration-underline"
       >
         {{ props.footerLinkText }}
       </router-link>
     </p>
+
   </div>
 </div>
 </template>
