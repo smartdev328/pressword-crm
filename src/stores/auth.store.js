@@ -24,6 +24,9 @@ export const useAuthStore = defineStore({
         loading:false,
         authError:null
     }),
+    getters: {
+        isAuthenticated: (state) => !!state.token,
+    },
     actions: {
         async getOTP(mobile_phone) {
             this.authError = "";
@@ -57,9 +60,6 @@ export const useAuthStore = defineStore({
                 alertStore.error(error);
                 this.authError = error;
             }
-        },
-        isAuthenticated() {
-            return !!this.token
         },
         clearStores(){
             //clear stores
