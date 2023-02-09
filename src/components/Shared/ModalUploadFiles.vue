@@ -55,7 +55,6 @@
                     </div>
                   </div>
                   <div class="flex-shrink-0 ms-5"> 
-                    
                     <button data-dz-remove class="btn btn-sm btn-danger" @click="file = null">Delete</button>
                   </div>
                 </div>
