@@ -150,6 +150,71 @@
         </ul>
       </template>
     </ModalUploadFiles>
+
+    <Modal 
+      v-model="showGoogleContactsModal" id="google-contact-form-modal"
+      modalClass="modal-dialog-scrollable"
+    >
+      <template v-slot:title>
+        Add Google contacts
+      </template>
+      <!-- <div class="card card-height-100 mb-0"> -->
+        <div class="modal-body p-4">
+          <Loading v-if="loadingGoogleContacts"/>
+          <div v-else>
+            <template v-if="googleContacts.length">
+              <label class="list-group-item mb-3 ps-3">
+                <input class="form-check-input me-1" type="checkbox" @change="selectAllGoogleContacts">
+                Select All
+              </label>
+              <div class="list-group">
+                <label 
+                  v-for="(item, index) in googleContacts"
+                  :key="index"
+                  class="list-group-item"
+                >
+                  <input class="form-check-input me-1" type="checkbox" :value="item" v-model="selectedGoogleContacts">
+                  {{ item.contact_name }}
+                </label>
+              </div>
+            </template>
+            <span v-else>No contacts with phone number</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button 
+            type="button" 
+            class="btn btn-light" 
+            data-bs-dismiss="modal"
+            @click="closeGoogleContactsModal"
+          >
+            Cancel
+          </button>
+          <button v-if="googleContacts.length" type="button" class="btn btn-primary" @click="saveGoogleContacts">
+            Submit
+          </button>
+        </div>
+      <!-- </div> -->
+    </Modal>
+    <Modal 
+      v-model="importContactsFinished" 
+      id="google-contact-form-modal-done"
+      :showTitle="false"
+    >
+      <!-- <div class="card card-height-100 mb-0"> -->
+        <div class="modal-body p-4">
+          <div class="avatar-lg bg-light rounded-circle mx-auto d-flex align-items-center justify-content-center mt-4">
+            <i class="ri-checkbox-circle-fill text-green" :style="{ fontSize: '60px' }"></i>
+          </div>
+          <h4 class="text-center fw-medium mt-4">Contacts added !</h4>
+          <p class="text-center text-muted mb-0">You have successfully uploaded your contacts.</p>
+
+          <button type="button" class="btn btn-primary w-100 mt-4" @click="importContactsFinished = false">
+            Done
+          </button>
+        </div>
+      <!-- </div> -->
+    </Modal>
   </div>
 </template>
 
@@ -169,7 +234,7 @@ import { useNumbersStore, useUsersStore } from "@/stores";
 import {useDialerStore} from "@/stores/dialer.store";
 import { addNewContacts } from "@/helpers";
 import * as XLSX from 'xlsx';
-import 'https://apis.google.com/js/api.js'
+import { gapi } from 'gapi-script';
 
 export default {
   name: "ContactsView",
@@ -190,6 +255,7 @@ export default {
       showContactFormModal: false,
       showUploadFilesModal: false,
       showConfirmDeleteContact: false,
+      showGoogleContactsModal: false,
       contacts: null,
       searchQuery: "",
 
@@ -197,9 +263,13 @@ export default {
       contactToDelete: null,
 
       importOptions: [
-        // { text: 'Google Contact', value: 0 },
+        { text: 'Google Contact', value: 0 },
         { text: 'Import .xls file', value: 1 }
-      ]
+      ],
+      googleContacts: [],
+      selectedGoogleContacts: [],
+      loadingGoogleContacts: false,
+      importContactsFinished: false
     }
   },
   computed: {
@@ -254,9 +324,9 @@ export default {
     importSelect(item) {
       if(item.value == this.importOptions[1].value) this.showUploadFilesModal = true
       else{
-        const { gapi } = window;
-        const peopleApiKey = 'AIzaSyCu9D_E3igCYhX6Axww5ULXBLGnJTwVdyw'
-        const peopleClientId = '458041085291-nn2fq8oj19ibb840sfh6a4vajk8r0imn.apps.googleusercontent.com'
+        const peopleApiKey = 'AIzaSyAnWR6g574x6CxuchBIErGeHr727RXRwMM'
+        const peopleClientId = '643444896887-pc0ibe388b7cb29gvnaqkp5tg5p39prt.apps.googleusercontent.com'
+        let GoogleAuth = null
 
         function initClient() {
           // initialize the JS client library
@@ -266,9 +336,10 @@ export default {
               clientId: peopleClientId,
               // scope is a space delimited string
               scope: 'https://www.googleapis.com/auth/contacts.readonly',
+              discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/people/v1/rest']
             })
             .then(() => {
-              var GoogleAuth = gapi.auth2.getAuthInstance();
+              GoogleAuth = gapi.auth2.getAuthInstance();
               // Listen for sign-in state changes.
               GoogleAuth.isSignedIn.listen(updateSigninStatus);
               // Handle the initial sign-in state.
@@ -290,31 +361,52 @@ export default {
         function formatResults(arrayComingFromPeopleApi) {
           const resources = arrayComingFromPeopleApi.map((resource) => {
             // get multiple email addresses and phone numbers if applicable
-            const { emailAddresses = [], names = [], phoneNumbers = [] } = resource;
+            const { emailAddresses = [], names = [], phoneNumbers = [], organizations = [] } = resource;
             const email = emailAddresses.map((email = {}) => email.value || '');
             const phone = phoneNumbers.map((phone = {}) => phone.value || '');
             const lastName = names.map((name = {}) => name.familyName || '');
             const firstName = names.map((name = {}) => name.givenName || '');
+            const organization = organizations.map((name = {}) => name.name || '');
 
             return {
               first: firstName[0],
               last: lastName[0],
               email,
               phone,
+              organization
             };
           });
+          return resources
           // commit the resources to the store
         }
-        function makeApiCall() {
+        const makeApiCall = () => {
+          this.showGoogleContactsModal = true
+          this.loadingGoogleContacts = true
+
           // https://developers.google.com/people/api/rest/v1/people.connections/list
           gapi.client.people.people.connections
             .list({
               resourceName: 'people/me', // deprecated (required for now)
-              // personFields: 'emailAddresses,names,phoneNumbers',
+              personFields: 'emailAddresses,names,phoneNumbers,organizations',
             })
-            .then((response) => {
-              formatResults(response.result.connections);
-              console.log(formatResults(response.result.connections), 'formatResults(response.result.connections)')
+            .then(async (response) => {
+              let peopleList = formatResults(response.result.connections)
+              peopleList = peopleList.filter(elem => elem.phone.length)
+
+              if(peopleList.length){
+                peopleList = peopleList.map(elem => {
+                  return {
+                    contact_email: elem.email[0] ? elem.email[0] : '',
+                    contact_name: `${elem.first} ${elem.last}`,
+                    contact_number: elem.phone[0],
+                    contact_company: elem.organization[0] ? elem.organization[0] : '', 
+                    user: this.userStore.currentUser.id, 
+                    business_number: this.numberStore.activeNumber?.business_number?.id  
+                  }
+                })
+                this.googleContacts = JSON.parse(JSON.stringify(peopleList))
+                this.loadingGoogleContacts = false
+              } else this.loadingGoogleContacts = false
             })
             .catch((error) => {
               return error.result.error.message;
@@ -353,16 +445,40 @@ export default {
           }
         })
 
-        try {
-          await addNewContacts({ contacts: result })
-          await this.loadContacts() 
-        } catch (error) {
-          console.log(error)
-        } finally {
-          this.showUploadFilesModal = false
-        }
+        result = result.filter(elem => elem.contact_number && elem.contact_name )
+
+        if(result.length){
+          try {
+            await addNewContacts({ contacts: result })
+            await this.loadContacts() 
+            this.importContactsFinished = true
+          } catch (error) {
+            console.log(error)
+          } finally {
+            this.showUploadFilesModal = false
+          }
+        } else this.showUploadFilesModal = false
       };
       fileReader.readAsBinaryString(file);
+    },
+    selectAllGoogleContacts(event){
+      if(event.target.checked) this.selectedGoogleContacts = JSON.parse(JSON.stringify(this.googleContacts))
+      else this.selectedGoogleContacts = []
+    },
+    async saveGoogleContacts() {
+      try {
+        await addNewContacts({ contacts: this.selectedGoogleContacts })
+        await this.loadContacts() 
+        this.importContactsFinished = true
+      } catch (error) {
+        console.log(error)
+      } finally{
+        this.closeGoogleContactsModal()
+      }
+    },
+    closeGoogleContactsModal(){
+      this.showGoogleContactsModal = false
+      this.selectedGoogleContacts = []
     }
   },
   setup() {

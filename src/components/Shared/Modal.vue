@@ -1,8 +1,11 @@
 <template>
   <div @click="backgroundClick" :class="{modal: true, fade: true, show: modelValue}" :style="{display: modelValue ? 'block' : 'none', backgroundColor: 'rgba(0,0,0,0.6)'}" :id="id" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+    <div 
+      class="modal-dialog modal-dialog-centered"
+      :class="[modalClass]"
+    >
       <div class="modal-content border-0">
-        <div class="modal-header bg-soft-info p-3">
+        <div v-if="showTitle" class="modal-header bg-soft-info p-3">
           <h5 class="modal-title" :id="`${id}-header`">
             <slot name="title"></slot>
           </h5>
@@ -20,6 +23,11 @@ export default {
   props: {
     modelValue: Boolean,
     id: String,
+    modalClass: String,
+    showTitle: {
+      type: Boolean,
+      default: true
+    }
   },
   emits: ["update:modelValue"],
   methods: {

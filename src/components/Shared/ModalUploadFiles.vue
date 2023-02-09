@@ -11,8 +11,11 @@
   >
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content border-0">
-        <div class="card-header align-items-center d-flex p-3">
-          <h4 class="card-title mb-0 flex-grow-1" :id="`${id}-header`">{{ props.title }}</h4>
+        <div class="modal-header bg-soft-info p-3">
+          <h5 class="modal-title" :id="`${id}-header`">
+            {{ props.title }}
+          </h5>
+          <button @click="closeModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" :id="`${id}-close-modal`"></button>
         </div>
         <div class="card-body p-3">
           <slot name="top-text"></slot>
