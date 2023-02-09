@@ -134,7 +134,7 @@ export default {
         mobile: "",
         user_display_name: "",
         role: "",
-        business_number: this.numberStore.numbers[0]?.id
+        business_number: this.numberStore.numbers[0]?.business_number?.id
       },
       teamMemberUpdatePayload: {
         receiver_name: ""
