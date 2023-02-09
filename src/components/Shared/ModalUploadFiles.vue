@@ -54,7 +54,8 @@
                       <p class="fs-13 text-muted mb-0" data-dz-size>{{ (file.size / (1024*1024)).toFixed(2) }}MB</p>
                     </div>
                   </div>
-                  <div class="flex-shrink-0 ms-5">
+                  <div class="flex-shrink-0 ms-5"> 
+                    
                     <button data-dz-remove class="btn btn-sm btn-danger" @click="file = null">Delete</button>
                   </div>
                 </div>
