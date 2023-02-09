@@ -140,10 +140,9 @@
                   </div>
                 </div>
                 <div class="flex-shrink-0 me-2" :style="{ marginLeft: '94px' }">
-                  <i 
-                    class="text-muted ri-download-2-line text-success cursor-pointer" 
-                    :style="{ fontSize: '18px' }"
-                  ></i>
+                  <a href="/public/CONTACT TEMPLATE.xlsx" download>
+                    <i class="text-muted ri-download-2-line text-success cursor-pointer" :style="{ fontSize: '18px' }" ></i>
+                  </a>
                 </div>
               </div>
             </div>
@@ -166,8 +165,11 @@ import ModalUploadFiles from "@/components/Shared/ModalUploadFiles.vue";
 import {deleteContact, fetchUserContacts} from "@/helpers";
 import {buildWebdialerLink} from "@/helpers/utils";
 import Loading from "@/components/Shared/Loading.vue";
-import {useNumbersStore} from "@/stores";
+import { useNumbersStore, useUsersStore } from "@/stores";
 import {useDialerStore} from "@/stores/dialer.store";
+import { addNewContacts } from "@/helpers";
+import * as XLSX from 'xlsx';
+import 'https://apis.google.com/js/api.js'
 
 export default {
   name: "ContactsView",
@@ -195,7 +197,7 @@ export default {
       contactToDelete: null,
 
       importOptions: [
-        { text: 'Google Contact', value: 0 },
+        // { text: 'Google Contact', value: 0 },
         { text: 'Import .xls file', value: 1 }
       ]
     }
@@ -251,18 +253,126 @@ export default {
     },
     importSelect(item) {
       if(item.value == this.importOptions[1].value) this.showUploadFilesModal = true
+      else{
+        const { gapi } = window;
+        const peopleApiKey = 'AIzaSyCu9D_E3igCYhX6Axww5ULXBLGnJTwVdyw'
+        const peopleClientId = '458041085291-nn2fq8oj19ibb840sfh6a4vajk8r0imn.apps.googleusercontent.com'
+
+        function initClient() {
+          // initialize the JS client library
+          gapi.client
+            .init({
+              apiKey: peopleApiKey,
+              clientId: peopleClientId,
+              // scope is a space delimited string
+              scope: 'https://www.googleapis.com/auth/contacts.readonly',
+            })
+            .then(() => {
+              var GoogleAuth = gapi.auth2.getAuthInstance();
+              // Listen for sign-in state changes.
+              GoogleAuth.isSignedIn.listen(updateSigninStatus);
+              // Handle the initial sign-in state.
+              updateSigninStatus(GoogleAuth.isSignedIn.get());
+            })
+            .catch((error) => console.error(error));
+        }
+        function getGoogleContacts() {
+          // Load the API client and auth2 library
+          gapi.load('client:auth2', initClient);
+        }
+        function updateSigninStatus(isSignedIn) {
+          if (isSignedIn) {
+            makeApiCall();
+          } else {
+            GoogleAuth.signIn();
+          }
+        }
+        function formatResults(arrayComingFromPeopleApi) {
+          const resources = arrayComingFromPeopleApi.map((resource) => {
+            // get multiple email addresses and phone numbers if applicable
+            const { emailAddresses = [], names = [], phoneNumbers = [] } = resource;
+            const email = emailAddresses.map((email = {}) => email.value || '');
+            const phone = phoneNumbers.map((phone = {}) => phone.value || '');
+            const lastName = names.map((name = {}) => name.familyName || '');
+            const firstName = names.map((name = {}) => name.givenName || '');
+
+            return {
+              first: firstName[0],
+              last: lastName[0],
+              email,
+              phone,
+            };
+          });
+          // commit the resources to the store
+        }
+        function makeApiCall() {
+          // https://developers.google.com/people/api/rest/v1/people.connections/list
+          gapi.client.people.people.connections
+            .list({
+              resourceName: 'people/me', // deprecated (required for now)
+              // personFields: 'emailAddresses,names,phoneNumbers',
+            })
+            .then((response) => {
+              formatResults(response.result.connections);
+              console.log(formatResults(response.result.connections), 'formatResults(response.result.connections)')
+            })
+            .catch((error) => {
+              return error.result.error.message;
+            });
+        }   
+        
+        getGoogleContacts()
+      }
     },
     uploadFile(file){
-      console.log(file, 'file')
-      this.showUploadFilesModal = false
+      const fileReader = new FileReader();
+      fileReader.onload = async (event) => {
+        const data = event.target.result;
+
+        let workbook = XLSX.read(data, {
+          type: "binary"
+        });
+
+        let result = []
+
+        workbook.SheetNames.forEach(sheet => {
+          let rowObject = XLSX.utils.sheet_to_row_object_array(
+            workbook.Sheets[sheet]
+          );
+          result = result.concat(rowObject)
+        });
+        
+        result = result.map(elem => {
+          return { 
+            contact_email: elem['EMAIL'],
+            contact_name: elem['NAME'],
+            contact_number: elem['PHONE NUMBER'],
+            contact_company: elem['COMPANY'], 
+            user: this.userStore.currentUser.id, 
+            business_number: this.numberStore.activeNumber?.business_number?.id  
+          }
+        })
+
+        try {
+          await addNewContacts({ contacts: result })
+          await this.loadContacts() 
+        } catch (error) {
+          console.log(error)
+        } finally {
+          this.showUploadFilesModal = false
+        }
+      };
+      fileReader.readAsBinaryString(file);
     }
   },
   setup() {
     const numberStore = useNumbersStore()
     const dialerStore = useDialerStore()
+    const userStore = useUsersStore()
     return {
       numberStore,
-      dialerStore
+      dialerStore,
+      userStore
     }
   },
   async mounted() {

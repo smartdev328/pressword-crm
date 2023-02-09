@@ -46,6 +46,10 @@ export const deleteContact = async (id) => {
     return parseData(fetchWrapper.delete(`${BASE_API}/api/contacts/${id}/?business_id=${getActiveBusinessId()}`))
 }
 
+export const addNewContacts = async (payload) => {
+    return parseData(fetchWrapper.post(`${BASE_API}/api/contacts/upload_contacts/`, payload))
+}
+
 export const fetchCallNotes = async () => {
     return parseData(fetchWrapper.get(`${BASE_API}/api/call_notes/?business_id=${getActiveBusinessId()}`))
 }
