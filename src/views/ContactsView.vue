@@ -233,6 +233,7 @@ import Loading from "@/components/Shared/Loading.vue";
 import { useNumbersStore, useUsersStore } from "@/stores";
 import {useDialerStore} from "@/stores/dialer.store";
 import { addNewContacts } from "@/helpers";
+import { formatResults } from "@/helpers/utils";
 import * as XLSX from 'xlsx';
 import { gapi } from 'gapi-script';
 
@@ -266,6 +267,7 @@ export default {
         { text: 'Google Contact', value: 0 },
         { text: 'Import .xls file', value: 1 }
       ],
+      googleAuth: null,
       googleContacts: [],
       selectedGoogleContacts: [],
       loadingGoogleContacts: false,
@@ -323,99 +325,75 @@ export default {
     },
     importSelect(item) {
       if(item.value == this.importOptions[1].value) this.showUploadFilesModal = true
-      else{
-        const peopleApiKey = 'AIzaSyAnWR6g574x6CxuchBIErGeHr727RXRwMM'
-        const peopleClientId = '643444896887-pc0ibe388b7cb29gvnaqkp5tg5p39prt.apps.googleusercontent.com'
-        let GoogleAuth = null
-
-        function initClient() {
-          // initialize the JS client library
-          gapi.client
-            .init({
-              apiKey: peopleApiKey,
-              clientId: peopleClientId,
-              // scope is a space delimited string
-              scope: 'https://www.googleapis.com/auth/contacts.readonly',
-              discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/people/v1/rest']
-            })
-            .then(() => {
-              GoogleAuth = gapi.auth2.getAuthInstance();
-              // Listen for sign-in state changes.
-              GoogleAuth.isSignedIn.listen(updateSigninStatus);
-              // Handle the initial sign-in state.
-              updateSigninStatus(GoogleAuth.isSignedIn.get());
-            })
-            .catch((error) => console.error(error));
-        }
-        function getGoogleContacts() {
-          // Load the API client and auth2 library
-          gapi.load('client:auth2', initClient);
-        }
-        function updateSigninStatus(isSignedIn) {
-          if (isSignedIn) {
-            makeApiCall();
-          } else {
-            GoogleAuth.signIn();
-          }
-        }
-        function formatResults(arrayComingFromPeopleApi) {
-          const resources = arrayComingFromPeopleApi.map((resource) => {
-            // get multiple email addresses and phone numbers if applicable
-            const { emailAddresses = [], names = [], phoneNumbers = [], organizations = [] } = resource;
-            const email = emailAddresses.map((email = {}) => email.value || '');
-            const phone = phoneNumbers.map((phone = {}) => phone.value || '');
-            const lastName = names.map((name = {}) => name.familyName || '');
-            const firstName = names.map((name = {}) => name.givenName || '');
-            const organization = organizations.map((name = {}) => name.name || '');
-
-            return {
-              first: firstName[0],
-              last: lastName[0],
-              email,
-              phone,
-              organization
-            };
-          });
-          return resources
-          // commit the resources to the store
-        }
-        const makeApiCall = () => {
-          this.showGoogleContactsModal = true
-          this.loadingGoogleContacts = true
-
-          // https://developers.google.com/people/api/rest/v1/people.connections/list
-          gapi.client.people.people.connections
-            .list({
-              resourceName: 'people/me', // deprecated (required for now)
-              personFields: 'emailAddresses,names,phoneNumbers,organizations',
-            })
-            .then(async (response) => {
-              let peopleList = formatResults(response.result.connections)
-              peopleList = peopleList.filter(elem => elem.phone.length)
-
-              if(peopleList.length){
-                peopleList = peopleList.map(elem => {
-                  return {
-                    contact_email: elem.email[0] ? elem.email[0] : '',
-                    contact_name: `${elem.first} ${elem.last}`,
-                    contact_number: elem.phone[0],
-                    contact_company: elem.organization[0] ? elem.organization[0] : '', 
-                    user: this.userStore.currentUser.id, 
-                    business_number: this.numberStore.activeNumber?.business_number?.id  
-                  }
-                })
-                this.googleContacts = JSON.parse(JSON.stringify(peopleList))
-                this.loadingGoogleContacts = false
-              } else this.loadingGoogleContacts = false
-            })
-            .catch((error) => {
-              return error.result.error.message;
-            });
-        }   
-        
-        getGoogleContacts()
+      else this.getGoogleContacts()
+    },
+    getGoogleContacts() {
+      // Load the API client and auth2 library
+      gapi.load('client:auth2', this.initClient);
+    },
+    initClient() {
+      // const peopleApiKey = 'AIzaSyAnWR6g574x6CxuchBIErGeHr727RXRwMM'
+      const peopleApiKey = 'AIzaSyCu9D_E3igCYhX6Axww5ULXBLGnJTwVdyw'
+      // const peopleClientId = '643444896887-pc0ibe388b7cb29gvnaqkp5tg5p39prt.apps.googleusercontent.com'
+      const peopleClientId = '458041085291-nn2fq8oj19ibb840sfh6a4vajk8r0imn.apps.googleusercontent.com'
+      // initialize the JS client library
+      gapi.client
+        .init({
+          apiKey: peopleApiKey,
+          clientId: peopleClientId,
+          // scope is a space delimited string
+          scope: 'https://www.googleapis.com/auth/contacts.readonly',
+          discoveryDocs: ['https://www.googleapis.com/discovery/v1/apis/people/v1/rest']
+        })
+        .then(() => {
+          this.googleAuth = gapi.auth2.getAuthInstance();
+          // Listen for sign-in state changes.
+          this.googleAuth.isSignedIn.listen(this.updateSigninStatus);
+          // Handle the initial sign-in state.
+          this.updateSigninStatus(this.googleAuth.isSignedIn.get());
+        })
+        .catch((error) => console.error(error));
+    },
+    updateSigninStatus(isSignedIn) {
+      if (isSignedIn) {
+        this.makeApiCall();
+      } else {
+        this.googleAuth.signIn();
       }
     },
+    makeApiCall() {
+      this.showGoogleContactsModal = true
+      this.loadingGoogleContacts = true
+
+      // https://developers.google.com/people/api/rest/v1/people.connections/list
+      gapi.client.people.people.connections
+        .list({
+          resourceName: 'people/me', // deprecated (required for now)
+          personFields: 'emailAddresses,names,phoneNumbers,organizations',
+        })
+        .then(async (response) => {
+          let peopleList = formatResults(response.result.connections)
+          peopleList = peopleList.filter(elem => elem.phone.length)
+
+          if(peopleList.length){
+            peopleList = peopleList.map(elem => {
+              return {
+                contact_email: elem.email[0] ? elem.email[0] : '',
+                contact_name: `${elem.first} ${elem.last}`,
+                contact_number: elem.phone[0],
+                contact_company: elem.organization[0] ? elem.organization[0] : '', 
+                user: this.userStore.currentUser.id, 
+                business_number: this.numberStore.activeNumber?.business_number?.id  
+              }
+            })
+            this.googleContacts = JSON.parse(JSON.stringify(peopleList))
+            this.loadingGoogleContacts = false
+          } else this.loadingGoogleContacts = false
+        })
+        .catch((error) => {
+          return error.result.error.message;
+        });
+    },  
     uploadFile(file){
       const fileReader = new FileReader();
       fileReader.onload = async (event) => {

@@ -42,10 +42,14 @@
           <ul class="list-inline hstack gap-2 mb-0">
             <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top"
                 title="Play Recording">
-              <a href="#" class="text-muted d-inline-block" @click.prevent="playCall(call.recording)">
+              <button 
+                class="btn text-muted d-inline-block border-0 bg-transparent shadow-none p-0" 
+                @click.prevent="playCall(call.recording)"
+                :disabled="!call.recording.length"
+              >
                 <i class="ri-pause-circle-fill fs-20" v-if="currentlyPlayingUrl === call.recording && isPlayingAudio"></i>
                 <i class="ri-play-circle-line fs-20" v-else></i>
-              </a>
+              </button>
             </li>
             <li class="list-inline-item edit" data-bs-toggle="tooltip" data-bs-trigger="hover" data-bs-placement="top"
                 title="Call">
