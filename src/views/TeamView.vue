@@ -138,8 +138,42 @@
         </template>
         <TeamMemberForm
             @success="teamMemberFormSubmitted"
+            @addExtension="showAddExtension"
             :team-member-being-updated="teamMemberBeingUpdated"
         />
+      </Modal>
+      <Modal 
+        v-model="showAddExtensionModal" 
+        :showTitle="false"
+        id="add-extension-form-modal"
+      >
+        <div class="modal-body py-4 px-5">
+          <div class="avatar-lg bg-light rounded-circle mx-auto d-flex align-items-center justify-content-center mt-4">
+            <div class="airplay-wrap bg-info rounded-circle mx-auto d-flex align-items-center justify-content-center">
+              <i class="ri-airplay-line text-white" :style="{ fontSize: '33px' }"></i>
+            </div>
+          </div>
+          <h4 class="text-center fw-medium mt-4">Member Limit Exceeded</h4>
+          <p class="text-center text-muted mb-0 px-1">
+            Please note that adding more than 2 members in this plan would attract a charge of #500 for each person. Continue either way?
+          </p>
+        </div>
+        <div class="modal-footer justify-content-center gap-2 flex-nowrap pb-5 pt-2 px-5">
+          <button 
+            type="button" 
+            class="btn btn-light w-50 m-0"
+            @click="showAddExtensionModal = false"
+          >
+            Cancel
+          </button>
+          <button 
+            type="button" 
+            class="btn btn-primary w-50 m-0" 
+            @click="confirmAddExtensions"
+          >
+            Continue
+          </button>
+        </div>
       </Modal>
 
       <Modal
@@ -201,7 +235,8 @@ export default {
       isLoading: false,
       showViewTeamMemberModal: false,
       teamMemberBeingDeleted: null,
-      showConfirmDeleteTeamMember: false
+      showConfirmDeleteTeamMember: false,
+      showAddExtensionModal: false
     }
   },
   methods: {
@@ -248,6 +283,13 @@ export default {
     },
     memberPermissions(member) {
       return parseTeamMemberPermissionsAsStringArray(member)
+    },
+    showAddExtension(){
+      this.showTeamMemberFormModal = false
+      this.showAddExtensionModal = true
+    },
+    confirmAddExtensions(){
+      this.showAddExtensionModal = false
     }
   },
   async mounted() {
@@ -265,5 +307,8 @@ export default {
 </script>
 
 <style scoped>
-
+.airplay-wrap{
+  width: 53px;
+  height: 53px;
+}
 </style>
