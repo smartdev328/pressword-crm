@@ -214,6 +214,7 @@ import {useNumbersStore} from "@/stores";
 import { parseTeamMemberPermissionsAsStringArray } from "@/helpers/teamMembers";
 import { buildWebdialerLink } from "@/helpers/utils";
 import {useDialerStore} from "@/stores/dialer.store";
+import {notify} from "@kyvg/vue3-notification";
 
 export default {
   name: "TeamView",
@@ -289,7 +290,29 @@ export default {
       this.showAddExtensionModal = true
     },
     confirmAddExtensions(){
-      this.showAddExtensionModal = false
+      fetch('https://pressone-staging.herokuapp.com/api/buy_additional_number_extensions/', {
+        method: 'POST',
+        body: JSON.stringify({
+          "number": 1,
+          "units_to_add": 10
+        })
+      })
+      .then(async res => {
+        if(res.status != 200){
+          const { detail } = await res.json()
+          throw new Error(detail)
+        }
+      })
+      .catch(err => {
+        notify({
+          title: "Error",
+          text: err,
+          type: 'error'
+        })
+      })
+      .finally(() => {
+        this.showAddExtensionModal = false
+      });
     }
   },
   async mounted() {
