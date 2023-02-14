@@ -168,11 +168,10 @@ import {useUsersStore, useNumbersStore} from "@/stores";
 import ContactForm from "@/components/Shared/ContactForm.vue";
 import Notes from "@/components/Shared/Notes.vue";
 import UserProfile from "@/components/Home/UserProfile.vue";
-import {fetchCallNotes, fetchUserCalls} from "@/helpers";
+import { fetchCallNotes, fetchUserCalls, updateUserBalance } from "@/helpers";
 import NoResultsFound from "@/components/Shared/NoResultsFound.vue";
 import { userJustJoined } from "@/helpers/utils";
 import Loading from "@/components/Shared/Loading.vue";
-import ActiveCall from "@/components/Shared/ActiveCall.vue";
 
 export default {
   name: "HomeView",
@@ -236,6 +235,8 @@ export default {
     }finally{
       this.isLoadingNotes = false
     }
+
+    await this.userStore.updateUserBalance(this.currentUser.id)
   },
 };
 </script>

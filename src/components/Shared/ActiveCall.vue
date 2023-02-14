@@ -9,7 +9,8 @@
 </template>
 
 <script>
-import {useDialerStore} from "@/stores/dialer.store";
+import { useDialerStore } from "@/stores/dialer.store";
+import { useUsersStore } from "@/stores";
 import Loading from "@/components/Shared/Loading.vue";
 
 export default {
@@ -19,8 +20,10 @@ export default {
   },
   setup() {
     const dialerStore = useDialerStore()
+    const userStore = useUsersStore()
     return {
-      dialerStore
+      dialerStore,
+      userStore
     }
   },
   data() {
@@ -43,17 +46,21 @@ export default {
       this.dialerStore.initDialer()
     }, true)
 
-    window.addEventListener("message", message => {
-      if (message.source === this.$refs["active-call"].contentWindow) {
+    window.addEventListener("message", async message => {
+      if (this.$refs["active-call"] && message.source === this.$refs["active-call"].contentWindow) {
         switch (message.data) {
           case this.IFRAME_MSG.CALL_TERMINATED:
+            await this.userStore.updateUserBalance(this.userStore.currentUser.id)
+            break
           case this.IFRAME_MSG.CALL_CANCELED:
           case this.IFRAME_MSG.CALL_FAILED:
           case this.IFRAME_MSG.CALL_REJECTED:
             this.dialerStore.setIsDialerShowing(false)
+            await this.userStore.updateUserBalance(this.userStore.currentUser.id)
             break
           case this.IFRAME_MSG.CALL_INCOMING:
             this.dialerStore.setIsDialerShowing(true)
+            await this.userStore.updateUserBalance(this.userStore.currentUser.id)
             break
           case this.IFRAME_MSG.INIT_COMPLETE:
             this.dialerStore.initComplete()

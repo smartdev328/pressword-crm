@@ -81,3 +81,7 @@ export const updateTeamMemberAsPrimary = async (id) => {
 export const updateUserProfile = async (id, payload) => {
     return parseData(fetchWrapper.patch(`${BASE_API}/api/users/${id}/`, payload))
 }
+
+export const updateUserBalance = async (id) => {
+    return parseData(fetchWrapper.get(`${BASE_API}/api/users/${id}/balance/`))
+}
