@@ -71,6 +71,9 @@ File: Custom Css File
 .text-success, .link-success{
     color:#0E99D2 !important;
 }
+.text-green {
+    color: #30A059 !important;
+}
 .link-success:hover{
     color:#12698c !important;
 }

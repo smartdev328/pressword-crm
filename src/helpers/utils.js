@@ -109,3 +109,25 @@ export const buildWebdialerLink = (mobile_number, receiver_number_id) => {
     console.log((receiver_number_id).toString(16))
     return `${webdialerHost}/?s=${(receiver_number_id).toString(16)}.${formattedPhone.substring(1,)}`
 }
+
+export const formatResults = (arrayComingFromPeopleApi) => {
+    const resources = arrayComingFromPeopleApi.map((resource) => {
+      // get multiple email addresses and phone numbers if applicable
+      const { emailAddresses = [], names = [], phoneNumbers = [], organizations = [] } = resource;
+      const email = emailAddresses.map((email = {}) => email.value || '');
+      const phone = phoneNumbers.map((phone = {}) => phone.value || '');
+      const lastName = names.map((name = {}) => name.familyName || '');
+      const firstName = names.map((name = {}) => name.givenName || '');
+      const organization = organizations.map((name = {}) => name.name || '');
+
+      return {
+        first: firstName[0],
+        last: lastName[0],
+        email,
+        phone,
+        organization
+      };
+    });
+    return resources
+    // commit the resources to the store
+  }

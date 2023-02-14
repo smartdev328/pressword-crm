@@ -11,8 +11,11 @@
   >
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content border-0">
-        <div class="card-header align-items-center d-flex p-3">
-          <h4 class="card-title mb-0 flex-grow-1" :id="`${id}-header`">{{ props.title }}</h4>
+        <div class="modal-header bg-soft-info p-3">
+          <h5 class="modal-title" :id="`${id}-header`">
+            {{ props.title }}
+          </h5>
+          <button @click="closeModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" :id="`${id}-close-modal`"></button>
         </div>
         <div class="card-body p-3">
           <slot name="top-text"></slot>
@@ -51,7 +54,7 @@
                       <p class="fs-13 text-muted mb-0" data-dz-size>{{ (file.size / (1024*1024)).toFixed(2) }}MB</p>
                     </div>
                   </div>
-                  <div class="flex-shrink-0 ms-5">
+                  <div class="flex-shrink-0 ms-5"> 
                     <button data-dz-remove class="btn btn-sm btn-danger" @click="file = null">Delete</button>
                   </div>
                 </div>

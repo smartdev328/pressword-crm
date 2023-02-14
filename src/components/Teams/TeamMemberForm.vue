@@ -134,7 +134,7 @@ export default {
         mobile: "",
         user_display_name: "",
         role: "",
-        business_number: this.numberStore.numbers[0]?.id
+        business_number: this.numberStore.numbers[0]?.business_number?.id
       },
       teamMemberUpdatePayload: {
         receiver_name: ""
@@ -193,8 +193,14 @@ export default {
           await addNewTeamMember(this.teamMember)
         }
       } catch (e) {
-        this.errorMessage = String(e)
-        return
+        if(String(e).indexOf('Receiver number limit exceeded') != -1){
+          this.resetForm()
+          this.$emit("addExtension")
+          return
+        }else{
+          this.errorMessage = String(e)
+          return
+        }
       }
 
       this.resetForm()
