@@ -10,7 +10,7 @@
     <div class="vertical-overlay" v-if="isAuthenticated"></div> <!-- Vertical Overlay-->
 
     <div :class="[ isAuthenticated ? 'main-content' : '' ]">
-      <ActiveCall v-if="isAuthenticated"/>
+      <ActiveCall />
       <RouterView></RouterView> <!-- Child component is HomeView -->
 
       <footer class="footer" v-if="isAuthenticated">

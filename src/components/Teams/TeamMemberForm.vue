@@ -193,8 +193,7 @@ export default {
           await addNewTeamMember(this.teamMember)
         }
       } catch (e) {
-        console.log(e, 'error')
-        if(String(e) == 'Receiver number limit exceeded'){
+        if(String(e).indexOf('Receiver number limit exceeded') != -1){
           this.resetForm()
           this.$emit("addExtension")
           return
