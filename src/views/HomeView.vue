@@ -35,7 +35,13 @@
                       :animate-value="false"
                       icon-class="ri-exchange-dollar-line"
                       explanation="This is your call credit balance. You may top-up your balance at anytime."
-                  />
+                  >
+                    <template v-slot:button>
+                      <button class="btn btn-info add-btn ms-5" @click="topUpModal = true">
+                        Top Up Airtime
+                      </button>
+                    </template>
+                  </StatCard>
                 </div>
                 <!-- end col -->
                 <div class="col">
@@ -156,6 +162,77 @@
       </div>
       <!-- end row -->
     </div>
+
+    <Modal
+      v-model="topUpModal"
+      id="team-member-details-modal"
+    >
+      <template v-slot:title>
+        Top Up Airtime
+      </template>
+      <form @submit.prevent="topUpPayment">
+        <div class="modal-body py-4 px-3">
+          <div class="col-12 mb-4">
+            <label class="form-label">
+              Amount
+            </label>
+            <div class="input-group">
+              <span class="input-group-text" id="top-up-amount-aria">NGN</span>
+              <input 
+                v-model="topUpAmount"
+                type="number" 
+                step="1"
+                min="1"
+                class="form-control" 
+                placeholder="0.00" 
+                aria-label="0.00" 
+                aria-describedby="top-up-amount-aria"
+                required
+              >
+            </div>
+          </div>
+          <div class="col-12">
+            <label class="form-label">
+              Note
+            </label>
+            <p class="text-muted mb-0">
+              You will be directed to purchase airtime with your debit card. Please ensure you input the right details to complete purchase.
+            </p>
+          </div>
+        </div>
+
+        <div class="modal-footer justify-content-end gap-2 pb-3 px-3">
+          <button 
+            type="button" 
+            class="btn btn-light"
+            @click="topUpModal = false"
+          >
+            Cancel
+          </button>
+          <button 
+            type="submit" 
+            class="btn btn-primary"
+          >
+            Continue to Payment
+          </button>
+        
+        </div>
+      </form>
+    </Modal>
+
+    <ModalSuccess 
+      v-model="topUpModalSuccess"
+      id="charge-success"
+      title="Airtime Top Up Successful"
+      text="You have successfully topped up your airtime balance. Talk more with PressOne."
+    />
+    <ModalError
+      v-model="topUpModalError" 
+      id="charge-error"
+      title="Airtime Top Up Failed"
+      text="Your airtime top up failed due to an issue with your bank. Please contact your bank and try again."
+      btnText="Okay"
+    />
     <!-- container-fluid -->
   </div>
   <!-- End Page-content -->
@@ -168,10 +245,13 @@ import {useUsersStore, useNumbersStore} from "@/stores";
 import ContactForm from "@/components/Shared/ContactForm.vue";
 import Notes from "@/components/Shared/Notes.vue";
 import UserProfile from "@/components/Home/UserProfile.vue";
-import { fetchCallNotes, fetchUserCalls, updateUserBalance } from "@/helpers";
+import { fetchCallNotes, fetchUserCalls, isCardExsist, cargeCardAuth, cargeNewCard } from "@/helpers";
 import NoResultsFound from "@/components/Shared/NoResultsFound.vue";
 import { userJustJoined } from "@/helpers/utils";
 import Loading from "@/components/Shared/Loading.vue";
+import Modal from "@/components/Shared/Modal.vue";
+import ModalSuccess from "@/components/Shared/ModalSuccess.vue";
+import ModalError from "@/components/Shared/ModalError.vue";
 
 export default {
   name: "HomeView",
@@ -182,7 +262,10 @@ export default {
     ContactForm,
     Notes,
     NoResultsFound,
-    Loading
+    Loading,
+    Modal,
+    ModalSuccess,
+    ModalError
   },
   computed: {
     currentUser() {
@@ -195,9 +278,31 @@ export default {
       calls: null,
       isLoadingCalls: false,
       isLoadingNotes: false,
+      topUpModal: false,
+      topUpModalSuccess: false,
+      topUpModalError: false,
+      topUpAmount: null
     }
   },
-  methods: {},
+  methods: {
+    async topUpPayment(){
+      this.topUpModal = false
+      try {
+        const isExsistData = await isCardExsist(this.currentUser.id)
+        if(isExsistData && isExsistData.length){
+          await cargeCardAuth({ amount: this.topUpAmount })
+        }else{
+          await cargeNewCard({ amount: this.topUpAmount })
+        }
+        this.topUpModalSuccess = true
+      } catch (error) {
+        this.topUpModalError = true
+        console.log(error)
+      } finally{
+        this.topUpAmount = null
+      }
+    }
+  },
   setup() {
     const numbersStore = useNumbersStore()
     const userStore = useUsersStore()
