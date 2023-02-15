@@ -254,7 +254,7 @@ export default {
       contactToDelete: null,
 
       importOptions: [
-        { text: 'Google Contact', value: 0 },
+        // { text: 'Google Contact', value: 0 },
         { text: 'Import .xls file', value: 1 }
       ],
       googleAuth: null,
