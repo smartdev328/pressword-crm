@@ -34,7 +34,6 @@
                       :value="parseFloat(currentUser.balance)"
                       :animate-value="false"
                       icon-class="ri-exchange-dollar-line"
-                      explanation="This is your call credit balance. You may top-up your balance at anytime."
                   >
                     <!-- <template v-slot:button>
                       <button class="btn btn-info add-btn ms-5" @click="topUpModal = true">
@@ -52,7 +51,6 @@
                       :value="calls?.length || 0"
                       :animate-value="false"
                       icon-class="ri-contacts-book-line"
-                      explanation="Total number of calls dialed and received in the last 7 days. Does not include missed calls."
                   />
                 </div>
                 <!-- end col -->
@@ -64,7 +62,6 @@
                       :value="calls?.length || 0"
                       :animate-value="false"
                       icon-class="ri-team-line"
-                      explanation="Average number of calls per agent or employee"
                   />
                 </div>
                 <!-- end col -->
