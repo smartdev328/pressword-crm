@@ -27,6 +27,8 @@
 
 <script setup>
 import { ref } from 'vue'
+import * as Sentry from "@sentry/vue"
+
 import { useAuthStore } from "@/stores"
 import { useRoute } from 'vue-router'
 import { EVENTS, track } from "@/helpers"
@@ -72,6 +74,8 @@ const getOTP = (data) => {
     }).catch((err)=>{ // fetch-wrapper already extracted err as text
       authStore.loading = false
       phoneError.value = err
+      Sentry.captureMessage("Error in getOTP method, SignInView");
+      Sentry.captureException(err);
     });
 }
 const resendOTP = (data) =>{

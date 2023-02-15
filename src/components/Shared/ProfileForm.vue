@@ -90,6 +90,8 @@
 </template>
 
 <script>
+import * as Sentry from "@sentry/vue";
+
 import { useUsersStore } from "@/stores";
 import {updateUserProfile} from "@/helpers";
 import { storeToRefs } from "pinia";
@@ -120,6 +122,8 @@ export default {
           await updateUserProfile(this.userStore.currentUser.id, this.user)
       } catch (e) {
         this.errorMessage = String(e)
+        Sentry.captureMessage("Error in updateUserProfile method, ProfileForm component");
+        Sentry.captureException(e);
         return
       }
 

@@ -81,6 +81,8 @@
 </template>
 
 <script>
+import * as Sentry from "@sentry/vue";
+
 import {addNewContact, updateContact} from "@/helpers";
 import {useNumbersStore, useUsersStore} from "@/stores";
 
@@ -149,7 +151,9 @@ export default {
         this.$emit("success")
       }
       catch(e) {
-        this.errorMessage = e
+        this.errorMessage = e;
+        Sentry.captureMessage("Error in submitContact method, ContactForm component");
+        Sentry.captureException(e);
       }
     }
   },
