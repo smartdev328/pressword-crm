@@ -314,7 +314,7 @@ export default {
       this.dialerStore.beginCall(contact.contact_number)
     },
     importSelect(item) {
-      if(item.value == this.importOptions[1].value) this.showUploadFilesModal = true
+      if(item.value == 1) this.showUploadFilesModal = true
       else this.getGoogleContacts()
     },
     getGoogleContacts() {
@@ -322,10 +322,10 @@ export default {
       gapi.load('client:auth2', this.initClient);
     },
     initClient() {
-      // const peopleApiKey = 'AIzaSyAnWR6g574x6CxuchBIErGeHr727RXRwMM'
-      const peopleApiKey = 'AIzaSyCu9D_E3igCYhX6Axww5ULXBLGnJTwVdyw'
-      // const peopleClientId = '643444896887-pc0ibe388b7cb29gvnaqkp5tg5p39prt.apps.googleusercontent.com'
-      const peopleClientId = '458041085291-nn2fq8oj19ibb840sfh6a4vajk8r0imn.apps.googleusercontent.com'
+      const peopleApiKey = 'AIzaSyAnWR6g574x6CxuchBIErGeHr727RXRwMM'
+      // const peopleApiKey = 'AIzaSyCu9D_E3igCYhX6Axww5ULXBLGnJTwVdyw'
+      const peopleClientId = '643444896887-pc0ibe388b7cb29gvnaqkp5tg5p39prt.apps.googleusercontent.com'
+      // const peopleClientId = '458041085291-nn2fq8oj19ibb840sfh6a4vajk8r0imn.apps.googleusercontent.com'
       // initialize the JS client library
       gapi.client
         .init({
