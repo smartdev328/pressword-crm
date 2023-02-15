@@ -196,25 +196,13 @@
         </div>
       <!-- </div> -->
     </Modal>
-    <Modal 
+
+    <ModalSuccess 
       v-model="importContactsFinished" 
       id="google-contact-form-modal-done"
-      :showTitle="false"
-    >
-      <!-- <div class="card card-height-100 mb-0"> -->
-        <div class="modal-body p-4">
-          <div class="avatar-lg bg-light rounded-circle mx-auto d-flex align-items-center justify-content-center mt-4">
-            <i class="ri-checkbox-circle-fill text-green" :style="{ fontSize: '60px' }"></i>
-          </div>
-          <h4 class="text-center fw-medium mt-4">Contacts added !</h4>
-          <p class="text-center text-muted mb-0">You have successfully uploaded your contacts.</p>
-
-          <button type="button" class="btn btn-primary w-100 mt-4" @click="importContactsFinished = false">
-            Done
-          </button>
-        </div>
-      <!-- </div> -->
-    </Modal>
+      title="Contacts added !"
+      text="You have successfully uploaded your contacts."
+    />
   </div>
 </template>
 
@@ -227,6 +215,7 @@ import ConfirmationModal from "@/components/Shared/ConfirmationModal.vue";
 import dropdown from "@/components/form-items/dropdown.vue";
 import Modal from "@/components/Shared/Modal.vue";
 import ModalUploadFiles from "@/components/Shared/ModalUploadFiles.vue";
+import ModalSuccess from "@/components/Shared/ModalSuccess.vue";
 import {deleteContact, fetchUserContacts} from "@/helpers";
 import {buildWebdialerLink} from "@/helpers/utils";
 import Loading from "@/components/Shared/Loading.vue";
@@ -248,7 +237,8 @@ export default {
     Modal,
     Loading,
     dropdown,
-    ModalUploadFiles
+    ModalUploadFiles,
+    ModalSuccess
   },
   data () {
     return {

@@ -1,5 +1,5 @@
-import {fetchWrapper} from "@/helpers/fetch-wrapper";
-import {BASE_API} from "@/helpers/constants";
+import { fetchWrapper } from "@/helpers/fetch-wrapper";
+import { BASE_API } from "@/helpers/constants";
 import {useNumbersStore} from "@/stores";
 
 const getActiveBusinessId = () => {
@@ -84,4 +84,14 @@ export const updateUserProfile = async (id, payload) => {
 
 export const updateUserBalance = async (id) => {
     return parseData(fetchWrapper.get(`${BASE_API}/api/users/${id}/balance/`))
+}
+
+export const isCardExsist = async (id) => {
+    return parseData(fetchWrapper.get(`${BASE_API}/api/users/${id}/cards/`))
+}
+export const cargeCardAuth = async (payload) => {
+    return parseData(fetchWrapper.post(`${BASE_API}/api/top_up/charge_card_authorization/`, payload))
+}
+export const cargeNewCard = async (payload) => {
+    return parseData(fetchWrapper.post(`${BASE_API}/api/top_up/charge_new_card/`, payload))
 }
