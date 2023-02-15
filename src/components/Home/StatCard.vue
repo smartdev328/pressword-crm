@@ -3,11 +3,6 @@
     <div class="d-inline-block">
       <h5 class="d-flex align-items-center text-muted text-uppercase fs-13">
         {{title}}
-        <i
-          class="ri-information-fill fs-18 align-middle ms-2"
-          :title=explanation
-          data-bs-toggle="tooltip" data-bs-placement="bottom"
-        ></i>
       </h5>
       <div class="d-flex align-items-center">
         <div class="flex-shrink-0">
@@ -36,8 +31,7 @@ export default {
     valuePrefix: String,
     value: Number,
     animateValue: Boolean,
-    iconClass: String,
-    explanation: String
+    iconClass: String
   }
 }
 </script>
