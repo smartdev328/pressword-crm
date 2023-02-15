@@ -207,6 +207,8 @@
 </template>
 
 <script>
+import * as Sentry from "@sentry/vue";
+
 import ContactsTable from "@/components/Shared/ContactsTable.vue";
 import ContactForm from "@/components/Shared/ContactForm.vue";
 import NoResultsFound from "@/components/Shared/NoResultsFound.vue";
@@ -289,6 +291,8 @@ export default {
         this.contacts.page = page
       } catch (error) {
         console.log(error)
+        Sentry.captureMessage("Error in loadContacts method of ContactsView");
+        Sentry.captureException(error);
       } finally{
         this.isLoading = false
       }
@@ -342,7 +346,11 @@ export default {
           // Handle the initial sign-in state.
           this.updateSigninStatus(this.googleAuth.isSignedIn.get());
         })
-        .catch((error) => console.error(error));
+        .catch((error) => {
+          console.error(error)
+          Sentry.captureMessage("Error in gapi init method of ContactsView");
+          Sentry.captureException(error);
+        });
     },
     updateSigninStatus(isSignedIn) {
       if (isSignedIn) {
@@ -381,6 +389,8 @@ export default {
           } else this.loadingGoogleContacts = false
         })
         .catch((error) => {
+          Sentry.captureMessage("Error in google contacts list method of ContactsView");
+          Sentry.captureException(error);
           return error.result.error.message;
         });
     },  
@@ -422,6 +432,8 @@ export default {
             this.importContactsFinished = true
           } catch (error) {
             console.log(error)
+            Sentry.captureMessage("Error in file reader method of ContactsView");
+            Sentry.captureException(error);
           } finally {
             this.showUploadFilesModal = false
           }
@@ -439,7 +451,9 @@ export default {
         await this.loadContacts() 
         this.importContactsFinished = true
       } catch (error) {
-        console.log(error)
+        console.log(error);
+        Sentry.captureMessage("Error in saveGoogleContacts method of ContactsView");
+        Sentry.captureException(error);
       } finally{
         this.closeGoogleContactsModal()
       }

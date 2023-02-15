@@ -255,6 +255,8 @@
 </template>
 
 <script>
+import * as Sentry from "@sentry/vue";
+
 import { buildPaymentLink } from "@/helpers/utils";
 import {useNumbersStore, useUsersStore, useAuthStore} from "@/stores";
 import { EVENTS, track } from "@/helpers";
@@ -375,8 +377,10 @@ export default {
   mounted() {
     try {
       track(EVENTS.VIEWED_PRICING, this.currentUser)
-    }catch (e) {
+    } catch (e) {
       //do nothing
+      Sentry.captureMessage("Error in track method, PricingPlanView");
+      Sentry.captureException(e);
     }
   }
 }
