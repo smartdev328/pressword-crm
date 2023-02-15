@@ -36,11 +36,11 @@
                       icon-class="ri-exchange-dollar-line"
                       explanation="This is your call credit balance. You may top-up your balance at anytime."
                   >
-                    <template v-slot:button>
+                    <!-- <template v-slot:button>
                       <button class="btn btn-info add-btn ms-5" @click="topUpModal = true">
                         Top Up Airtime
                       </button>
-                    </template>
+                    </template> -->
                   </StatCard>
                 </div>
                 <!-- end col -->
