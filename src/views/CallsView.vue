@@ -43,15 +43,20 @@
             </div>
             <div class="card-body">
               <div v-if="!isLoading">
-                <CallsTable
-                  :calls="calls"
-                  v-if="calls?.length"
-                />
+                <template v-if="callsResponse.results?.length">
+                  <CallsTable :calls="callsResponse.results"/>
+                  <PaginationControl
+                    :is-next-enabled="!!callsResponse?.next"
+                    :is-previous-enabled="!!callsResponse?.previous"
+                    :on-next="onNextPage"
+                    :on-previous="onPreviousPage"
+                  />
+                </template>
+
                 <NoResultsFound
-                    v-else
+                  v-else
                   description="Once you make a call or receive one, it would show up here. 😄"
                 />
-                
               </div>
               <Loading v-else/>
             </div>
@@ -73,18 +78,20 @@ import NoResultsFound from "@/components/Shared/NoResultsFound.vue";
 import {fetchUserCalls} from "@/helpers";
 import {useNumbersStore} from "@/stores";
 import Loading from "@/components/Shared/Loading.vue";
+import PaginationControl from "@/components/Shared/PaginationControl.vue";
 
 export default {
   name: "CallsView",
   components: {
     NoResultsFound,
     CallsTable,
-    Loading
+    Loading,
+    PaginationControl
   },
   data() {
     return {
-      calls: null,
       isLoading: false,
+      callsResponse: {}
     }
   },
   setup() {
@@ -93,15 +100,26 @@ export default {
       numbersStore
     }
   },
-  async mounted() {
-    try {
-      this.isLoading = true
-      this.calls = await fetchUserCalls()
-    } catch (error) {
-      console.log(error)
-    } finally{
-      this.isLoading = false
+  methods: {
+    async onNextPage(){
+      await this.getCalls(this.callsResponse.next)
+    },
+    async onPreviousPage(){
+      await this.getCalls(this.callsResponse.previous)
+    },
+    async getCalls(link){
+      try {
+        this.isLoading = true
+        this.callsResponse = await fetchUserCalls(link)
+      } catch (error) {
+        console.log(error)
+      } finally{
+        this.isLoading = false
+      }
     }
+  },  
+  async mounted() {
+    await this.getCalls()
   }
 }
 </script>

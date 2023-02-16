@@ -26,8 +26,12 @@ export const getUserDetailsByPhone = async (mobile_phone) => {
     return parseData(fetchWrapper.get(`${BASE_API}/api/users/by_mobile/?mobile=${mobile_phone}`, null))
 }
 
-export const fetchUserCalls = async () => {
-    return parseData(fetchWrapper.get(`${BASE_API}/api/crm_calls/?business_id=${getActiveBusinessId()}`, null))
+export const fetchUserCalls = async (link) => {
+    if(link){
+        return parseData(fetchWrapper.get(link, null))
+    }else{
+        return parseData(fetchWrapper.get(`${BASE_API}/api/v2/crm_calls/?business_id=${getActiveBusinessId()}`, null))
+    }
 }
 
 export const fetchUserContacts = async (page = 1) => {
