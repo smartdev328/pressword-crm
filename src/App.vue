@@ -30,5 +30,7 @@ window.onscroll = () => scrollFunction()
 </script>
 
 <style scoped>
-
+#back-to-top {
+  bottom: 50px;
+}
 </style>
