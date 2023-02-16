@@ -93,5 +93,8 @@ export const cargeCardAuth = async (payload) => {
     return parseData(fetchWrapper.post(`${BASE_API}/api/top_up/charge_card_authorization/`, payload))
 }
 export const cargeNewCard = async (payload) => {
-    return parseData(fetchWrapper.post(`${BASE_API}/api/top_up/charge_new_card/`, payload))
+    return parseData(fetchWrapper.post(`${BASE_API}/api/top_up/charge/`, { ...payload, "payment_mode": 'CARD' }))
+}
+export const verifyTopUpPayment = async (ref) => {
+    return parseData(fetchWrapper.get(`${BASE_API}/api/purchase/status/${ref}/`))
 }

@@ -35,11 +35,11 @@
                       :animate-value="false"
                       icon-class="ri-exchange-dollar-line"
                   >
-                    <!-- <template v-slot:button>
+                    <template v-slot:button>
                       <button class="btn btn-info add-btn ms-5" @click="topUpModal = true">
                         Top Up Airtime
                       </button>
-                    </template> -->
+                    </template>
                   </StatCard>
                 </div>
                 <!-- end col -->
@@ -242,7 +242,7 @@ import {useUsersStore, useNumbersStore} from "@/stores";
 import ContactForm from "@/components/Shared/ContactForm.vue";
 import Notes from "@/components/Shared/Notes.vue";
 import UserProfile from "@/components/Home/UserProfile.vue";
-import { fetchCallNotes, fetchUserCalls, isCardExsist, cargeCardAuth, cargeNewCard } from "@/helpers";
+import { fetchCallNotes, fetchUserCalls, isCardExsist, cargeCardAuth, cargeNewCard, verifyTopUpPayment } from "@/helpers";
 import NoResultsFound from "@/components/Shared/NoResultsFound.vue";
 import { userJustJoined } from "@/helpers/utils";
 import Loading from "@/components/Shared/Loading.vue";
@@ -286,18 +286,29 @@ export default {
       this.topUpModal = false
       try {
         const isExsistData = await isCardExsist(this.currentUser.id)
+        let response = null
         if(isExsistData && isExsistData.length){
-          await cargeCardAuth({ amount: this.topUpAmount })
+          response = await cargeCardAuth({ amount: this.topUpAmount })
         }else{
-          await cargeNewCard({ amount: this.topUpAmount })
+          response = await cargeNewCard({ amount: this.topUpAmount })
         }
-        this.topUpModalSuccess = true
+        window.open(response.temp_authorization_url, '_blank')
+        this.checkPaymentStatus(response.ref)
       } catch (error) {
-        this.topUpModalError = true
         console.log(error)
       } finally{
         this.topUpAmount = null
       }
+    },
+    checkPaymentStatus(ref){
+      const interval = setInterval(async () => {
+        const response = await verifyTopUpPayment(ref)
+        if(response.staus == 'SUCCESSFUL') this.topUpModalSuccess = true
+        else if(response.staus == 'FAILED') this.topUpModalError = true
+        if(response.staus == 'SUCCESSFUL' || response.staus == 'FAILED') clearInterval(interval)
+
+        console.log(response, 'checkPaymentStatus')
+      }, 1000);
     }
   },
   setup() {
