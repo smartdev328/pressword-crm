@@ -361,7 +361,7 @@ export default {
       this.isLoadingNotes = false
     }
 
-    await this.userStore.updateUserBalance(this.currentUser.id)
+    if(this.currentUser?.id) await this.userStore.updateUserBalance(this.currentUser.id)
   },
 };
 </script>
