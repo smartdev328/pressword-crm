@@ -48,7 +48,7 @@ export const useAuthStore = defineStore({
                 const userStore = useUsersStore();
                 await userStore.loadCurrentUser(this.mobile_number);
                 this.loading = false;
-                identify_tracked_user(userStore.currentUser.id)
+                identify_tracked_user(userStore.currentUser.personal_email)
                 register(userStore.currentUser)
                 track(EVENTS.SIGNED_IN,{})
                 // redirect to previous url or default to home page

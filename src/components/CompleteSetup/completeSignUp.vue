@@ -98,7 +98,7 @@ const submitProfile = async () => {
   errorMessage.value = ""
   try {
     try {
-      register(user.value, user.value)
+      register(user.value)
       track(EVENTS.SIGNED_UP, user.value)
     }catch (e) {
       //do nothing

@@ -17,9 +17,9 @@ export function track(event, prop) {
   mixpanel.track(event, prop)
 }
 
-export function identify_tracked_user(id){
+export function identify_tracked_user(email){
   mixpanel.init(_MIXPANEL_TOKEN, {debug: _DEBUG});
-  mixpanel.identify(id);
+  mixpanel.identify(email);
 }
 
 export function track_error(event, error) {
@@ -30,18 +30,36 @@ export function track_error(event, error) {
 /**
  *
  * @param user CurrentUser object from UsersStore
- * @param user_data [Optional ]Actual user data to register. If not passed, we extract user data from user object
  */
-export function register(user, user_data=null) {
-  if(!user_data){
+export function register(user) {
+  //first identity user
+  try{ identify_tracked_user(user.personal_email) } catch (e) {/*do nothing*/}
+
+  // build user data from User object, and register
+  mixpanel.init(_MIXPANEL_TOKEN, {debug: _DEBUG});
+  let user_data = {}
+  user_data = {
+    'email': user.personal_email,
+    'phone': user.mobile,
+    'first_name': user.first_name,
+    'last_name': user.last_name,
+  }
+  try{
+    if (user.team_size) user_data['team_size'] = user.team_size;
+    if (user.business_name) user_data['business_name'] = user.business_name;
+  }catch (e) {/*do nothing*/}
+ 
+  mixpanel.register(user_data)
+
+  // Set People profile. Untested Code. Put in try block
+  try{
     user_data = {
       '$email': user.personal_email,
       '$phone': user.mobile,
       '$first_name': user.first_name,
-      '$last_name': user.last_name,
+      '$last_name': user.last_name
     }
+    mixpanel.people.set(user_data)
   }
-  user_data['$distinct_id'] = user.id
-  mixpanel.init(_MIXPANEL_TOKEN, {debug: _DEBUG});
-  mixpanel.register(user_data)
+  catch (e) {/*do nothing*/}
 }
