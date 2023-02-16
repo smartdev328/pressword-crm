@@ -350,7 +350,8 @@ export default {
     this.isLoadingNotes = true
 
     try {
-      this.calls = await fetchUserCalls()
+      const { results } = await fetchUserCalls()
+      this.calls = results
     } catch (error) {
       console.log(error)
       Sentry.captureMessage("Error in fetching users, HomeView");
