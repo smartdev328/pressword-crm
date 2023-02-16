@@ -203,6 +203,8 @@
 </template>
 
 <script>
+import * as Sentry from "@sentry/vue"
+
 import TeamMemberForm from "@/components/Teams/TeamMemberForm.vue";
 import Modal from "@/components/Shared/Modal.vue";
 import {deleteTeamMember, fetchTeamMembers, updateTeamMemberAsPrimary} from "@/helpers";
@@ -309,6 +311,8 @@ export default {
           text: err,
           type: 'error'
         })
+        Sentry.captureMessage("Error in confirmAddExtensions method, TeamView");
+        Sentry.captureException(err);
       })
       .finally(() => {
         this.showAddExtensionModal = false

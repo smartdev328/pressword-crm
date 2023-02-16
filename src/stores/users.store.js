@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import * as Sentry from "@sentry/vue";
 
 import { fetchWrapper, BASE_API, getUserDetailsByPhone, PINIA_PERSIST_OPTIONS, updateUserBalance } from "@/helpers";
 
@@ -16,6 +17,8 @@ export const useUsersStore = defineStore({
                 this.users = await fetchWrapper.get(BASE_API);
             } catch (error) {
                 this.users = { error };
+                Sentry.captureMessage("Error in fetching users method, users actions");
+                Sentry.captureException(error);
             }
         },
         async loadCurrentUser(mobile_number) {
@@ -29,6 +32,8 @@ export const useUsersStore = defineStore({
                 this.currentUser.balance = data.balance
             } catch (error) {
                 console.log(error)
+                Sentry.captureMessage("Error in updateUserBalance method, users actions");
+                Sentry.captureException(error);
             }
         },
     },

@@ -73,6 +73,8 @@
 </template>
 
 <script>
+import * as Sentry from "@sentry/vue";
+
 import CallsTable from "@/components/Shared/CallsTable.vue";
 import NoResultsFound from "@/components/Shared/NoResultsFound.vue";
 import {fetchUserCalls} from "@/helpers";
@@ -113,6 +115,8 @@ export default {
         this.callsResponse = await fetchUserCalls(link)
       } catch (error) {
         console.log(error)
+        Sentry.captureMessage("Error in CallsView");
+        Sentry.captureException(error);
       } finally{
         this.isLoading = false
       }

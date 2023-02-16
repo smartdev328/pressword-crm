@@ -72,6 +72,8 @@
 
 <script setup>
 import { ref } from 'vue'
+import * as Sentry from "@sentry/vue"
+
 import { useAuthStore } from '@/stores';
 import { updateUserProfile, track, EVENTS, register, getUserDetailsByPhone, verifyLoginToken } from "@/helpers"
 import { validateMobile} from "@/helpers/utils";
@@ -96,10 +98,12 @@ const submitProfile = async () => {
   errorMessage.value = ""
   try {
     try {
-      register(user.value, user.value)
+      register(user.value)
       track(EVENTS.SIGNED_UP, user.value)
     }catch (e) {
       //do nothing
+      Sentry.captureMessage("Error in register method, CompleteSignUp component");
+      Sentry.captureException(e);
     }
     const { data } = await verifyLoginToken(validateMobile(props.userData.mobile), props.userData.otp, props.userData.rememberMe);
     authStore.token = data.token;
@@ -108,6 +112,8 @@ const submitProfile = async () => {
     await updateUserProfile(currentUser.id, user.value)
   } catch (e) {
     errorMessage.value = String(e)
+    Sentry.captureMessage("Error in verifyLoginToken or getUserDetailsByPhone method, CompleteSignUp component");
+    Sentry.captureException(e);
     return
   }
 

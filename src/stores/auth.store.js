@@ -13,6 +13,7 @@ import { router } from '@/router';
 import { useAlertStore, useNumbersStore, useUsersStore } from "@/stores";
 import { validateMobile} from "@/helpers/utils";
 import { getActivePinia } from "pinia";
+import * as Sentry from "@sentry/vue";
 
 export const useAuthStore = defineStore({
     id: 'auth',
@@ -47,10 +48,13 @@ export const useAuthStore = defineStore({
                 const userStore = useUsersStore();
                 await userStore.loadCurrentUser(this.mobile_number);
                 this.loading = false;
-                identify_tracked_user(userStore.currentUser.id)
+                identify_tracked_user(userStore.currentUser.personal_email)
                 register(userStore.currentUser)
                 track(EVENTS.SIGNED_IN,{})
                 // redirect to previous url or default to home page
+                Sentry.configureScope(function(scope) {
+                    scope.setUser({ email: userStore.currentUser.email })
+                })
                 router.push(this.returnUrl || '/');
             } catch (error) {
                 error = "There was a problem validating your token, please try again"
@@ -59,6 +63,8 @@ export const useAuthStore = defineStore({
                 const alertStore = useAlertStore();
                 alertStore.error(error);
                 this.authError = error;
+                Sentry.captureMessage("Error in login method, auth store actions");
+                Sentry.captureException(error);
             }
         },
         clearStores(){
@@ -78,6 +84,7 @@ export const useAuthStore = defineStore({
             this.mobile_number = null;
             this.clearStores();
             router.push('/sign-in');
+            Sentry.setUser(null);
         }
     },
     persist: PINIA_PERSIST_OPTIONS

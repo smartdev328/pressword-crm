@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import * as Sentry from '@sentry/vue'
 import SignInView from "@/views/SignInView.vue";
 import SignUpView from "@/views/SignUpView.vue";
 import HomeView from "@/views/HomeView.vue";
@@ -63,6 +64,8 @@ export const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
+  Sentry.configureScope((scope) => scope.setTransactionName(to?.meta?.label));
+
   // clear alert on route change
   const alertStore = useAlertStore();
   alertStore.clear();
@@ -76,4 +79,5 @@ router.beforeEach(async (to) => {
     authStore.returnUrl = to.fullPath;
     return '/sign-in';
   }
+
 });

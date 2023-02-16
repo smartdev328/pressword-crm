@@ -3,6 +3,7 @@ import {getWebdialerHost} from "@/helpers/utils";
 import {useNumbersStore} from "@/stores/numbers.store";
 import {notify} from "@kyvg/vue3-notification";
 import {useAuthStore} from "@/stores/auth.store";
+import {validateMobile} from "@/helpers/utils";
 
 export const useDialerStore = defineStore({
     id: 'dialer',
@@ -50,7 +51,7 @@ export const useDialerStore = defineStore({
                 this.setIsDialerShowing(true)
                 this.iframeEl.contentWindow.postMessage(JSON.stringify({
                     event: "START_CALL",
-                    phone_number: phoneNumber
+                    phone_number: validateMobile(phoneNumber)
                 }), "*")
             } else {
                 this.initDialer()

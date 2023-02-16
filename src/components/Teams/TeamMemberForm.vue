@@ -116,6 +116,8 @@
 <!--TODO: Question why we have different payload names for adding and editing-->
 
 <script>
+import * as Sentry from "@sentry/vue";
+
 import {useNumbersStore} from "@/stores";
 import {addNewTeamMember, updateTeamMember} from "@/helpers";
 import NoResultsFound from "@/components/Shared/NoResultsFound.vue";
@@ -199,6 +201,8 @@ export default {
           return
         }else{
           this.errorMessage = String(e)
+          Sentry.captureMessage("Error in submitTeamMember method, TeamMemberForm component");
+          Sentry.captureException(e);
           return
         }
       }

@@ -2,6 +2,8 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import Notifications from '@kyvg/vue3-notification'
+import * as Sentry from '@sentry/vue'
+import { BrowserTracing } from '@sentry/tracing'
 
 import App from './App.vue'
 import { router } from "./router";
@@ -29,5 +31,20 @@ pinia.use(piniaPluginPersistedstate)
 app.use(pinia)
 app.use(router)
 app.use(Notifications)
+
+Sentry.init({
+  app,
+  dsn: "https://02725da36f4b46fca348ac6db569403b@o1125524.ingest.sentry.io/4504681683484672",
+  integrations: [
+    new BrowserTracing({
+      routingInstrumentation: Sentry.vueRouterInstrumentation(router),
+      tracePropagationTargets: ["localhost", "web.pressone.africa", /^\//],
+    }),
+  ],
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+});
 
 app.mount('#app')

@@ -236,6 +236,8 @@
 </template>
 
 <script>
+import * as Sentry from "@sentry/vue";
+
 import StatCard from "@/components/Home/StatCard.vue";
 import CallsTable from "@/components/Shared/CallsTable.vue";
 import {useUsersStore, useNumbersStore} from "@/stores";
@@ -305,6 +307,8 @@ export default {
       } catch (error) {
         this.topUpModalError = true
         console.log(error)
+        Sentry.captureMessage("Error in carging card, HomeView");
+        Sentry.captureException(error);
       } finally{
         this.topUpAmount = null
       }
@@ -350,6 +354,8 @@ export default {
       this.calls = results
     } catch (error) {
       console.log(error)
+      Sentry.captureMessage("Error in fetching users, HomeView");
+      Sentry.captureException(error);
     }finally{
       this.isLoadingCalls = false
     }
@@ -358,6 +364,8 @@ export default {
       this.notes = await fetchCallNotes()
     } catch (error) {
       console.log(error)
+      Sentry.captureMessage("Error in fetching call notes, HomeView");
+      Sentry.captureException(error);
     }finally{
       this.isLoadingNotes = false
     }
