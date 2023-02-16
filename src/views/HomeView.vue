@@ -291,12 +291,21 @@ export default {
         let response = null
         if(isExsistData && isExsistData.length){
           response = await cargeCardAuth({ amount: this.topUpAmount })
+          if(response.status.toUpperCase() == 'SUCCESSFUL') {
+            this.topUpModalSuccess = true
+            setTimeout(async () => {
+              await this.userStore.updateUserBalance(this.currentUser.id)
+            }, 1000);
+          }else{
+            this.topUpModalError = true
+          }
         }else{
           response = await cargeNewCard({ amount: this.topUpAmount })
+          window.open(response.temp_authorization_url, '_blank')
+          this.checkPaymentStatus(response.ref)
         }
-        window.open(response.temp_authorization_url, '_blank')
-        this.checkPaymentStatus(response.ref)
       } catch (error) {
+        this.topUpModalError = true
         console.log(error)
         Sentry.captureMessage("Error in carging card, HomeView");
         Sentry.captureException(error);
@@ -307,11 +316,14 @@ export default {
     checkPaymentStatus(ref){
       const interval = setInterval(async () => {
         const response = await verifyTopUpPayment(ref)
-        if(response.staus == 'SUCCESSFUL') this.topUpModalSuccess = true
+        if(response.staus == 'SUCCESSFUL'){
+          this.topUpModalSuccess = true
+          setTimeout(async () => {
+            await this.userStore.updateUserBalance(this.currentUser.id)
+          }, 1000);
+        }
         else if(response.staus == 'FAILED') this.topUpModalError = true
         if(response.staus == 'SUCCESSFUL' || response.staus == 'FAILED') clearInterval(interval)
-
-        console.log(response, 'checkPaymentStatus')
       }, 1000);
     }
   },
