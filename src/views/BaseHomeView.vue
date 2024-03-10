@@ -18,7 +18,7 @@
           <div class="row">
             <div class="col-sm-6">
               {{ new Date().getFullYear() }}
-              © PressOne Africa. Crafted with <i class="mdi mdi-coffee text-black white"></i>
+              © PressWorld Africa. Crafted with <i class="mdi mdi-coffee text-black white"></i>
             </div>
           </div>
         </div>

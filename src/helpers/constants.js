@@ -1,4 +1,4 @@
-export const BASE_API = 'https://api.pressone.co';
+export const BASE_API = 'https://api.PressWorld.co';
 
 export const AUTH_EXCLUDE_LIST = [
     '/api/login/',

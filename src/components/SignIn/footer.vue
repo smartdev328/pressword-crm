@@ -6,7 +6,7 @@
         <div class="text-center">
           <p class="mb-0">
             {{ new Date().getFullYear() }}
-            © PressOne Africa. Crafted with <i class="mdi mdi-coffee text-success mdi-18px white"></i>
+            © PressWorld Africa. Crafted with <i class="mdi mdi-coffee text-success mdi-18px white"></i>
           </p>
         </div>
       </div>

@@ -1,7 +1,7 @@
 <template>
   <form class="form-wrap bg-white" @submit.prevent="submit">
     <p class="font-urbanist-md text-base text-sub-heding mb-0">
-      What do you want PressOne to do for you?
+      What do you want PressWorld to do for you?
     </p>
 
     <radioBtn 

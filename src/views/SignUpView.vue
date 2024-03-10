@@ -17,7 +17,7 @@
         :isSignIn="false"
         :otpSent="otpSent"
         :phoneError="phoneError"
-        subHead="To sign up on PressOne, start by entering your phone number."
+        subHead="To sign up on PressWorld, start by entering your phone number."
         btnText="Register"
         footerHead="Already have an account?"
         footerLinkText="Sign in"

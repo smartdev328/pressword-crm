@@ -292,7 +292,7 @@ export default {
       this.showAddExtensionModal = true
     },
     confirmAddExtensions(){
-      fetch('https://pressone-staging.herokuapp.com/api/buy_additional_number_extensions/', {
+      fetch('https://PressWorld-staging.herokuapp.com/api/buy_additional_number_extensions/', {
         method: 'POST',
         body: JSON.stringify({
           "number": 1,

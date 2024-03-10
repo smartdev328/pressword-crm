@@ -4,7 +4,7 @@
   <div class="position-relative h-100 d-flex flex-column">
     <div class="mb-4">
       <a href="#" class="d-block">
-        <img src="@/assets/images/pressone-full-whitetext-logo.png" alt="" height="18">
+        <img src="@/assets/images/PressWorld-full-whitetext-logo.png" alt="" height="18">
       </a>
     </div>
 

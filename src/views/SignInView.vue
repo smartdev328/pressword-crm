@@ -8,7 +8,7 @@
     <SignInForm
       :otpSent="otpSent"
       :phoneError="phoneError"
-      subHead="Sign in to continue to PressOne."
+      subHead="Sign in to continue to PressWorld."
       btnText="Sign In"
       footerHead="Don't have an account ?"
       footerLinkText="Sign up"

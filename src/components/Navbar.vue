@@ -87,7 +87,7 @@
             ></i>
             <span class="align-middle">Profile</span></a
           >
-          <a class="dropdown-item" href="https://pressone.freshdesk.com/support/home" target="_blank"
+          <a class="dropdown-item" href="https://PressWorld.freshdesk.com/support/home" target="_blank"
             ><i class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i>
             <span class="align-middle">Help</span></a
           >

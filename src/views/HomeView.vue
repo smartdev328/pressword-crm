@@ -221,7 +221,7 @@
       v-model="topUpModalSuccess"
       id="charge-success"
       title="Airtime Top Up Successful"
-      text="You have successfully topped up your airtime balance. Talk more with PressOne."
+      text="You have successfully topped up your airtime balance. Talk more with PressWorld."
     />
     <ModalError
       v-model="topUpModalError" 

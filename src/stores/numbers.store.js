@@ -12,7 +12,7 @@ export const useNumbersStore = defineStore({
         activeNumber: null //Receiver object
     }),
     getters: {
-        activeNumberLabel: (state) => state.activeNumber ? formatPhoneNumber(state.activeNumber.business_number.phone_number) : "PressOne",
+        activeNumberLabel: (state) => state.activeNumber ? formatPhoneNumber(state.activeNumber.business_number.phone_number) : "PressWorld",
         currentUserReceiver() {
             const userStore = useUsersStore();
             return this.activeNumber.id;

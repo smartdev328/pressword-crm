@@ -174,7 +174,7 @@
                 </h2>
                 <div id="genques-collapseOne" class="accordion-collapse collapse show" aria-labelledby="genques-headingOne" data-bs-parent="#genques-accordion">
                   <div class="accordion-body">
-                    Your PressOne service is attached to one phone number. You are paying for that service monthly. Depending on the plan you choose, one phone number may allow you add more users who can make and receive calls with that number.
+                    Your PressWorld service is attached to one phone number. You are paying for that service monthly. Depending on the plan you choose, one phone number may allow you add more users who can make and receive calls with that number.
                     <br/><br/>
                     You may purchase as many phone numbers as you want, and you pay for each monthly. Users can make or receive calls through the web or mobile app.
                   </div>
@@ -227,7 +227,7 @@
                 </h2>
                 <div id="genques-collapseFour" class="accordion-collapse collapse" aria-labelledby="genques-headingFour" data-bs-parent="#genques-accordion">
                   <div class="accordion-body">
-                    Yes, you pay for calls. PressOne is not internet to internet call like WhatsApp. You may be calling through the internet, but your customers are getting the call on their normal phones. You will pay the standard carrier fees for making the call connection to your customer.
+                    Yes, you pay for calls. PressWorld is not internet to internet call like WhatsApp. You may be calling through the internet, but your customers are getting the call on their normal phones. You will pay the standard carrier fees for making the call connection to your customer.
                   </div>
                 </div>
               </div>

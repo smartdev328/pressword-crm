@@ -38,7 +38,7 @@ Sentry.init({
   integrations: [
     new BrowserTracing({
       routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-      tracePropagationTargets: ["localhost", "web.pressone.africa", /^\//],
+      tracePropagationTargets: ["localhost", "web.PressWorld.africa", /^\//],
     }),
   ],
   // Set tracesSampleRate to 1.0 to capture 100%

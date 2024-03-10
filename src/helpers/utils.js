@@ -55,13 +55,13 @@ export const buildPaymentLink = (currentUser, planAmount) => {
 
     switch (planAmount){
         case 1499:
-            payment_link = "https://paystack.com/pay/pressone-base-monthly"
+            payment_link = "https://paystack.com/pay/PressWorld-base-monthly"
             break;
         case 4999:
-            payment_link = "https://paystack.com/pay/pressone-professional-monthly"
+            payment_link = "https://paystack.com/pay/PressWorld-professional-monthly"
             break;
         case 9999:
-            payment_link = "https://paystack.com/pay/pressone-international-monthly"
+            payment_link = "https://paystack.com/pay/PressWorld-international-monthly"
             break;
         default: //if no plan is specified, then this is a top up
             payment_link = "https://paystack.com/pay/53f90o5uy-"
@@ -79,7 +79,7 @@ export const buildPaymentLink = (currentUser, planAmount) => {
 }
 
 /**
- * Determine if a user just joined PressOne and needs to complete their profile
+ * Determine if a user just joined PressWorld and needs to complete their profile
  * @param first_name
  * @param last_name
  * @param date_joined
@@ -89,16 +89,16 @@ export const userJustJoined = (first_name, last_name, date_joined) => {
     function _containsNumbers(str) {
         return /\d/.test(str);
     }
-    if(_containsNumbers(first_name) && _containsNumbers(last_name)) //by default PressOne sets your first name and last name to the phone number you signed up with
+    if(_containsNumbers(first_name) && _containsNumbers(last_name)) //by default PressWorld sets your first name and last name to the phone number you signed up with
         return true
     return false;
 }
 
 export const getWebdialerHost = () => {
     const currentHost = window.location.hostname
-    let webdialerHost = "https://webdialer.pressone.co"
-    if (currentHost.includes("pressone.africa")) {
-        webdialerHost = "https://dialer.pressone.africa"
+    let webdialerHost = "https://webdialer.PressWorld.co"
+    if (currentHost.includes("PressWorld.africa")) {
+        webdialerHost = "https://dialer.PressWorld.africa"
     }
     return webdialerHost
 }

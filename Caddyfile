@@ -1,7 +1,0 @@
-crm-app.pressone.co, web.pressone.africa {
-    root * /var/www/html/dist
-    encode gzip
-    try_files {path} {file} /index.html
-    tls pressone-crm@pressone.co
-    file_server
-}
